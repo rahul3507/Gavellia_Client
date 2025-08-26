@@ -15,7 +15,7 @@ import { FaX, FaXTwitter } from "react-icons/fa6";
 const Footer = () => {
   return (
     <footer className="bg-card-bg mt-16">
-      <div className="w-full  px-8 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 py-12">
+      <div className="w-full  px-8 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 pt-12">
         <div className="w-full grid  grid-cols-2 md:grid-cols-5 gap-8 ">
           <div className="">
             <h3 className="text-sm text-primary mb-4">Marketplace</h3>
@@ -145,7 +145,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-[#e9e9e9] mt-6 pt-4 flex justify-between items-center">
-          <div className="text-base text-primary/70 gap-8">
+          <div className="text-sm md:text-base text-primary/70 gap-8">
             © 2024 Vendra Inc.{" "}
             <a href="#" className="text-link hover:text-link ml-2 underline">
               Terms of Service
@@ -172,8 +172,10 @@ const Footer = () => {
       </div>
 
       {/* Large Gavellia Logo */}
-      <div className="text-center py-16">
-        <h1 className="text-8xl font-serif text-[#1c1c1c]">Gavellia</h1>
+      <div className="text-center mt-2 ">
+        <h1 className="text-5xl md:text-9xl lg:text-[270px] xl:text-[300px] 2xl:text-[330px] font-serif text-primary ">
+          Gavellia
+        </h1>
       </div>
     </footer>
   );
