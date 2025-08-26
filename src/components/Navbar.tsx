@@ -1,14 +1,9 @@
 /** @format */
 "use client";
-import {
-  MessageCircle,
-  Search,
-  ShoppingBag,
-  User,
-  UserRound,
-} from "lucide-react";
+import { Search, ShoppingBag, UserRound } from "lucide-react";
 import React from "react";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 const Navbar = () => {
   return (
@@ -16,16 +11,19 @@ const Navbar = () => {
       <div className="w-full  px-8 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-8">
-            <h1 className="text-4xl font-bold font-serif text-primary">
+            <Link
+              href="/"
+              className="text-4xl font-bold font-serif text-primary"
+            >
               Gavellia
-            </h1>
+            </Link>
             <nav className="hidden md:flex space-x-6">
-              <a
-                href="#"
+              <Link
+                href="/home"
                 className="text-primary hover:text-primary/80 text-sm font-semibold"
               >
                 Browse auction
-              </a>
+              </Link>
               <a
                 href="#"
                 className="text-primary hover:text-primary/80 text-sm font-semibold"
