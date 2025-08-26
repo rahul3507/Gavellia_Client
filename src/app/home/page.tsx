@@ -9,7 +9,7 @@ const HomePage = () => {
   return (
     <div className="px-2 md:px-4 xl:px-6">
       {/* this is top banner */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-2">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2">
         {/* Art Auction */}
         <div className="relative bg-card-bg  overflow-hidden h-80 md:h-[455px]  col-span-1 md:col-span-1">
           <div className="absolute inset-0">
@@ -102,6 +102,53 @@ const HomePage = () => {
             >
               FULLY INSPECTED COLLECTOR CARS
             </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom CTA Section */}
+      <div className="relative bg-[#1c1c1c] rounded-lg overflow-hidden h-64">
+        <div className="absolute inset-0 flex">
+          <div className="w-1/2 p-8 flex flex-col justify-center">
+            <h2 className="text-white text-3xl font-serif mb-4">
+              Find Highly Sought After With Lower Price
+            </h2>
+            <p className="text-white/80 text-sm mb-6">
+              Browse thousands of live auction ancient materials
+            </p>
+            <button className="text-white text-sm underline self-start">
+              PARTICIPATE LIVE AUCTION
+            </button>
+          </div>
+          <div className="w-1/2 grid grid-cols-2 gap-2 p-4">
+            <Image
+              src="/luxury-leather-handbag-brown-designer.png"
+              alt="Luxury handbag"
+              width={300}
+              height={300}
+              className="w-full h-full object-cover rounded"
+            />
+            <Image
+              src="/gold-jewelry-necklace-luxury.png"
+              alt="Gold jewelry"
+              width={300}
+              height={300}
+              className="w-full h-full object-cover rounded"
+            />
+            <Image
+              src="/vintage-leather-wallet-accessories.png"
+              alt="Leather accessories"
+              width={300}
+              height={300}
+              className="w-full h-full object-cover rounded"
+            />
+            <Image
+              src="/luxury-sunglasses-designer-accessories.png"
+              alt="Designer sunglasses"
+              width={300}
+              height={300}
+              className="w-full h-full object-cover rounded"
+            />
           </div>
         </div>
       </div>
