@@ -9,7 +9,7 @@ const HomePage = () => {
   return (
     <div className="px-2 md:px-4 xl:px-6">
       {/* this is top banner */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-2">
         {/* Art Auction */}
         <div className="relative bg-card-bg  overflow-hidden h-80 md:h-[455px]  col-span-1 md:col-span-1">
           <div className="absolute inset-0">
@@ -75,6 +75,32 @@ const HomePage = () => {
               className="text-primary font-semibold hover:text-primary/70 hover:underline text-xs md:text-sm underline"
             >
               VIEW WATCH COLLECTION
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Automotive Hero */}
+      <div className="relative bg-card-bg  overflow-hidden h-96 md:h-[455px] mb-8">
+        <div className="absolute inset-0">
+          <Image
+            src="/AutomationBanner.jpg"
+            alt="Classic vintage car"
+            fill
+            className="w-full h-full object-cover"
+            priority
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#040d08]/80 to-transparent">
+          <div className="absolute bottom-6 left-0 right-0 flex flex-col items-center text-center">
+            <h2 className="text-white text-base md:text-lg font-semibold mb-2">
+              ICONIC AUTOMOTIVE LEGENDS
+            </h2>
+            <Link
+              href="#"
+              className="text-white/90 text-xs md:text-sm mb-4 underline"
+            >
+              FULLY INSPECTED COLLECTOR CARS
             </Link>
           </div>
         </div>

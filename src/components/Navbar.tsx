@@ -7,17 +7,17 @@ import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <div className="border-b  bg-white">
+    <div className="mb-12 md:mb-3  bg-white">
       <div className="w-full  px-8 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center space-x-8">
+        <div className="flex flex-col md:flex-row items-center justify-between h-16 space-y-2">
+          <div className="flex flex-col md:flex-row items-center space-x-8">
             <Link
               href="/"
               className="text-4xl font-bold font-serif text-primary"
             >
               Gavellia
             </Link>
-            <nav className="hidden md:flex space-x-6">
+            <nav className=" flex space-x-6">
               <Link
                 href="/home"
                 className="text-primary hover:text-primary/80 text-sm font-semibold"
