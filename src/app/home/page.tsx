@@ -35,7 +35,7 @@ const HomePage = () => {
               </div>
               <Link
                 href="#"
-                className="text-primary bg-transparent hover:text-primary/70 hover:underline text-xs md:text-sm  self-start"
+                className="text-primary  bg-transparent hover:text-primary/70 hover:underline text-xs md:text-sm  self-start"
               >
                 EXPLORE ART AUCTION
               </Link>
@@ -98,7 +98,7 @@ const HomePage = () => {
             </h2>
             <Link
               href="#"
-              className="text-white/90 text-xs md:text-sm mb-4 underline"
+              className="text-white hover:text-white/80 text-xs md:text-sm mb-4 underline"
             >
               FULLY INSPECTED COLLECTOR CARS
             </Link>
@@ -107,36 +107,39 @@ const HomePage = () => {
       </div>
 
       {/* Bottom CTA Section */}
-      <div className="relative bg-[#1c1c1c] rounded-lg overflow-hidden h-64">
-        <div className="absolute inset-0 flex">
-          <div className="w-1/2 p-8 flex flex-col justify-center">
-            <h2 className="text-white text-3xl font-serif mb-4">
+      <div className=" bg-primary  overflow-hidden ">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="border-2 border-amber-600 col-span-1 md:col-span-2 p-8 flex flex-col justify-center h-72 md:h-[360px]">
+            <h2 className="text-white text-2xl md:text-3xl xl:text-5xl font-serif mb-4">
               Find Highly Sought After With Lower Price
             </h2>
-            <p className="text-white/80 text-sm mb-6">
+            <p className="text-white  text-sm md:text-base mb-2">
               Browse thousands of live auction ancient materials
             </p>
-            <button className="text-white text-sm underline self-start">
+            <Link
+              href="#"
+              className="text-white text-xs md:text-sm hover:text-white/80 underline self-start"
+            >
               PARTICIPATE LIVE AUCTION
-            </button>
+            </Link>
           </div>
-          <div className="w-1/2 grid grid-cols-2 gap-2 p-4">
+          <div className="col-span-1 md:col-span-3 grid grid-cols-2 gap-2 p-4">
             <Image
-              src="/luxury-leather-handbag-brown-designer.png"
+              src="/LiveAucBanner-1.jpg"
               alt="Luxury handbag"
               width={300}
               height={300}
               className="w-full h-full object-cover rounded"
             />
             <Image
-              src="/gold-jewelry-necklace-luxury.png"
+              src="/LiveAucBanner-2.jpg"
               alt="Gold jewelry"
               width={300}
               height={300}
               className="w-full h-full object-cover rounded"
             />
             <Image
-              src="/vintage-leather-wallet-accessories.png"
+              src="/LiveAucBanner-3.jpg"
               alt="Leather accessories"
               width={300}
               height={300}
