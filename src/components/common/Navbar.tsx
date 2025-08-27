@@ -2,8 +2,9 @@
 "use client";
 import { Search, ShoppingBag, UserRound } from "lucide-react";
 import React from "react";
-import { Button } from "./ui/button";
+
 import Link from "next/link";
+import { Button } from "../ui/button";
 
 const Navbar = () => {
   return (
