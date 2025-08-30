@@ -73,9 +73,6 @@ const Products = () => {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-4">
-          <h1 className="text-2xl font-bold text-primary">Browse Auction</h1>
-        </div>
-        <div className="flex items-center gap-4">
           <span className="text-sm text-gray-600">Sort By:</span>
           <select className="border border-gray-300 rounded px-3 py-1 text-sm">
             <option>New Arrival</option>
@@ -95,14 +92,21 @@ const Products = () => {
       </div>
 
       {/* Category Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
-        <TabsList className="grid w-full grid-cols-10 bg-gray-100">
-          <TabsTrigger value="all" className="text-xs">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8 ">
+        <TabsList className="flex bg-transparent gap-1 ">
+          <TabsTrigger
+            value="all"
+            className="text-xs border border-gray-200 rounded-none px-3"
+          >
             ALL
           </TabsTrigger>
-          <TabsTrigger value="bags" className="text-xs">
-            BAGS
+          <TabsTrigger value="men" className="text-xs">
+            MEN
           </TabsTrigger>
+          <TabsTrigger value="wqomen" className="text-xs">
+            WOMEN
+          </TabsTrigger>
+
           <TabsTrigger value="art" className="text-xs">
             ART
           </TabsTrigger>
@@ -121,11 +125,14 @@ const Products = () => {
           <TabsTrigger value="fashion" className="text-xs">
             FASHION
           </TabsTrigger>
+          <TabsTrigger value="antiques" className="text-xs">
+            ANTIQUES
+          </TabsTrigger>
           <TabsTrigger value="shoes" className="text-xs">
             SHOES
           </TabsTrigger>
-          <TabsTrigger value="more" className="text-xs">
-            MORE
+          <TabsTrigger value="bags" className="text-xs">
+            BAGS
           </TabsTrigger>
         </TabsList>
 
