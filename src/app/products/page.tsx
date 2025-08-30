@@ -15,6 +15,31 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PiSlidersLight } from "react-icons/pi";
+import { Search } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { FilterState } from "@/types/allTypes";
+
+const categories = [
+  "ART",
+  "WATCHES",
+  "CARS",
+  "JEWELLERY",
+  "COLLECTIBLES",
+  "FASHION",
+  "ANTIQUES",
+];
+
+const auctionHouses = [
+  "Key Date Coins",
+  "Gold Standard Auction",
+  "Timeline Auctions Limited",
+  "Auction at Showplace",
+  "Richard L. Edwards Auctioneering",
+];
 
 const PRODUCTS_PER_PAGE = 20;
 
@@ -78,19 +103,48 @@ const Products = () => {
     return pages;
   };
 
+  const [filters, setFilters] = useState<FilterState>({
+    auctionType: "timed",
+    priceRange: [700],
+    location: "usa",
+    categories: [],
+    condition: ["restored"],
+    auctionHouses: ["Timeline Auctions Limited"],
+    searchQuery: "",
+  });
+
+  const updateFilter = <K extends keyof FilterState>(
+    key: K,
+    value: FilterState[K]
+  ) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const toggleArrayFilter = (
+    key: "categories" | "condition" | "auctionHouses",
+    value: string
+  ) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: prev[key].includes(value)
+        ? prev[key].filter((item) => item !== value)
+        : [...prev[key], value],
+    }));
+  };
+
   return (
     <div className="px-2 md:px-4 xl:px-6 relative">
       {/* Filter Sidebar Overlay */}
       {isFilterOpen && (
         <div
-          className="fixed inset-0 bg-black/30  z-40"
+          className=" inset-0 bg-black/30  z-40"
           onClick={() => setIsFilterOpen(false)}
         />
       )}
 
       {/* Filter Sidebar */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
+        className={`fixed px-6 top-0 right-0 h-full w-80 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
           isFilterOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -106,116 +160,233 @@ const Products = () => {
             </Button>
           </div>
 
-          {/* Price Range Filter */}
-          <div className="mb-6">
-            <h3 className="font-medium mb-3">Price Range</h3>
-            <div className="space-y-2">
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">Under £100</span>
-              </label>
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">£100 - £500</span>
-              </label>
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">£500 - £1000</span>
-              </label>
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">Over £1000</span>
-              </label>
-            </div>
+          <div className="py-3">
+            <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+              AUCTION TYPE
+            </span>
           </div>
-
-          {/* Condition Filter */}
-          <div className="mb-6">
-            <h3 className="font-medium mb-3">Condition</h3>
-            <div className="space-y-2">
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">New</span>
-              </label>
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">Like New</span>
-              </label>
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">Very Good</span>
-              </label>
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">Good</span>
-              </label>
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">Fair</span>
-              </label>
-            </div>
-          </div>
-
-          {/* Time Left Filter */}
-          <div className="mb-6">
-            <h3 className="font-medium mb-3">Time Left</h3>
-            <div className="space-y-2">
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">Ending Today</span>
-              </label>
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">Ending This Week</span>
-              </label>
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">More Than 1 Week</span>
-              </label>
-            </div>
-          </div>
-
-          {/* Brand Filter */}
-          <div className="mb-6">
-            <h3 className="font-medium mb-3">Brand</h3>
-            <div className="space-y-2">
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">Louis Vuitton</span>
-              </label>
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">Rolex</span>
-              </label>
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">Apple</span>
-              </label>
-              <label className="flex items-center">
-                <input type="checkbox" className="mr-2" />
-                <span className="text-sm">Nike</span>
-              </label>
-            </div>
-          </div>
-
-          {/* Filter Actions */}
-          <div className="flex space-x-3 mt-8">
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={() => setIsFilterOpen(false)}
+          <div className="space-y-3">
+            <RadioGroup
+              value={filters.auctionType}
+              onValueChange={(value) => updateFilter("auctionType", value)}
             >
-              Clear All
-            </Button>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="live" id="live" />
+                <Label htmlFor="live" className="text-sm font-medium">
+                  LIVE
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="upcoming" id="upcoming" />
+                <Label htmlFor="upcoming" className="text-sm font-medium">
+                  Upcoming
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="timed" id="timed" />
+                <Label htmlFor="timed" className="text-sm font-medium">
+                  Timed
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="buynow" id="buynow" />
+                <Label htmlFor="buynow" className="text-sm font-medium">
+                  Buy Now
+                </Label>
+              </div>
+            </RadioGroup>
+          </div>
+        </div>
+
+        {/* Price Range */}
+        <div className="pb-6 border-t border-gray-100">
+          <div className="py-3">
+            <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+              PRICE RANGE
+            </span>
+          </div>
+          <div className="space-y-4">
+            <div className="text-center">
+              <span className="text-lg font-semibold">
+                £ {filters.priceRange[0]}
+              </span>
+            </div>
+            <Slider
+              value={filters.priceRange}
+              onValueChange={(value) => updateFilter("priceRange", value)}
+              max={10000}
+              min={0}
+              step={50}
+              className="w-full"
+            />
+            <div className="flex justify-between text-sm text-gray-500">
+              <span>Min £0</span>
+              <span>£10k Max</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Location */}
+        <div className="pb-6 border-t border-gray-100">
+          <div className="py-3">
+            <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+              LOCATION
+            </span>
+          </div>
+          <Select
+            value={filters.location}
+            onValueChange={(value) => updateFilter("location", value)}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue>
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-3 bg-red-500 relative">
+                    <div className="absolute inset-0 bg-gradient-to-b from-red-500 via-white to-red-500 bg-[length:100%_20%] bg-repeat-y"></div>
+                    <div className="absolute top-0 left-0 w-2 h-2 bg-blue-600"></div>
+                  </div>
+                  <span>USA</span>
+                </div>
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="usa">
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-3 bg-red-500 relative">
+                    <div className="absolute inset-0 bg-gradient-to-b from-red-500 via-white to-red-500 bg-[length:100%_20%] bg-repeat-y"></div>
+                    <div className="absolute top-0 left-0 w-2 h-2 bg-blue-600"></div>
+                  </div>
+                  <span>USA</span>
+                </div>
+              </SelectItem>
+              <SelectItem value="uk">UK</SelectItem>
+              <SelectItem value="eu">Europe</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Categories */}
+        <div className="pb-6 border-t border-gray-100">
+          <div className="py-3">
+            <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+              CATEGORIES
+            </span>
+          </div>
+          <div className="space-y-3">
+            <div className="flex flex-wrap gap-2">
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  variant={
+                    filters.categories.includes(category)
+                      ? "default"
+                      : "outline"
+                  }
+                  size="sm"
+                  className="text-xs h-8"
+                  onClick={() => toggleArrayFilter("categories", category)}
+                >
+                  {category}
+                </Button>
+              ))}
+            </div>
             <Button
-              className="flex-1 bg-primary hover:bg-primary/90"
-              onClick={() => setIsFilterOpen(false)}
+              variant="link"
+              className="text-sm p-0 h-auto font-normal underline"
             >
-              Apply Filters
+              VIEW ALL 12 CATEGORIES
             </Button>
           </div>
         </div>
+
+        {/* Condition */}
+        <div className="pb-6 border-t border-gray-100">
+          <div className="py-3">
+            <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+              CONDITION
+            </span>
+          </div>
+          <div className="space-y-3">
+            {["New", "Used", "Restored", "For Parts"].map((condition) => (
+              <div key={condition} className="flex items-center space-x-2">
+                <Checkbox
+                  id={condition.toLowerCase().replace(" ", "")}
+                  checked={filters.condition.includes(
+                    condition.toLowerCase().replace(" ", "")
+                  )}
+                  onCheckedChange={() =>
+                    toggleArrayFilter(
+                      "condition",
+                      condition.toLowerCase().replace(" ", "")
+                    )
+                  }
+                />
+                <Label
+                  htmlFor={condition.toLowerCase().replace(" ", "")}
+                  className="text-sm font-medium"
+                >
+                  {condition}
+                </Label>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Auction Houses */}
+        <div className="pb-6 border-t border-gray-100">
+          <div className="py-3">
+            <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+              AUCTION HOUSES
+            </span>
+          </div>
+          <div className="space-y-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                placeholder="SEARCH"
+                value={filters.searchQuery}
+                onChange={(e) => updateFilter("searchQuery", e.target.value)}
+                className="pl-10 text-sm"
+              />
+            </div>
+            <div className="space-y-3">
+              {auctionHouses.map((house) => (
+                <div key={house} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={house.toLowerCase().replace(/\s+/g, "")}
+                    checked={filters.auctionHouses.includes(house)}
+                    onCheckedChange={() =>
+                      toggleArrayFilter("auctionHouses", house)
+                    }
+                  />
+                  <Label
+                    htmlFor={house.toLowerCase().replace(/\s+/g, "")}
+                    className="text-sm font-medium"
+                  >
+                    {house}
+                  </Label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* Filter Actions */}
+        <div className="flex space-x-3 mt-8">
+          <Button
+            variant="outline"
+            className="flex-1"
+            onClick={() => setIsFilterOpen(false)}
+          >
+            Clear All
+          </Button>
+          <Button
+            className="flex-1 bg-primary hover:bg-primary/90"
+            onClick={() => setIsFilterOpen(false)}
+          >
+            Apply Filters
+          </Button>
+        </div>
       </div>
+
       {/* Header */}
 
       {/* Category Tabs */}

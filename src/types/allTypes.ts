@@ -15,3 +15,13 @@ export interface ProductData {
   highestBid: number;
   img: string;
 }
+
+export interface FilterState {
+  auctionType: string;
+  priceRange: number[];
+  location: string;
+  categories: string[];
+  condition: string[];
+  auctionHouses: string[];
+  searchQuery: string;
+}
