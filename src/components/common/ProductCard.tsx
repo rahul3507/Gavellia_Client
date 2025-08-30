@@ -1,10 +1,17 @@
 /** @format */
-
+"use client";
 import { ProductData } from "@/types/allTypes";
 import { Heart } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 interface ProductCardProps {
   productData: ProductData;
@@ -15,6 +22,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
   productData,
   className = "",
 }) => {
+  const [selectedBid, setSelectedBid] = useState<string>("");
+
+  // Generate 5 bid options starting from highest bid + 10, incrementing by 10
+  const generateBidOptions = () => {
+    const startingBid = productData.highestBid + 10;
+    return Array.from({ length: 5 }, (_, index) => startingBid + index * 10);
+  };
+
+  const bidOptions = generateBidOptions();
   return (
     <div className={`overflow-hidden min-h-[490px] border-2 ${className}`}>
       <div className="relative bg-card-bg h-[300px]">
@@ -50,11 +66,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         </div>
 
-        <div className="w-full flex justify-between  space-x-2">
-          <input
-            placeholder="£ Enter Amount"
-            className="text-sm h-9 min-w-16"
-          />
+        <div className="w-full flex justify-between space-x-2">
+          <Select value={selectedBid} onValueChange={setSelectedBid}>
+            <SelectTrigger className="text-sm h-9 min-w-16 border border-gray-300">
+              <SelectValue placeholder="£ Enter Amount" />
+            </SelectTrigger>
+            <SelectContent>
+              {bidOptions.map((bidAmount) => (
+                <SelectItem key={bidAmount} value={bidAmount.toString()}>
+                  £{bidAmount}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           <Button className="bg-primary hover:bg-primary/70 text-white text-sm h-9 px-3 rounded-none">
             REQUEST TO BID
           </Button>
