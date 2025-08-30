@@ -69,74 +69,109 @@ const Products = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 ">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-600">Sort By:</span>
-          <select className="border border-gray-300 rounded px-3 py-1 text-sm">
-            <option>New Arrival</option>
-            <option>Price: Low to High</option>
-            <option>Price: High to Low</option>
-            <option>Ending Soon</option>
-          </select>
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2"
-          >
-            <Filter className="w-4 h-4" />
-            Filters
-          </Button>
-        </div>
-      </div>
 
       {/* Category Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8 ">
         <TabsList className="flex bg-transparent gap-1 ">
           <TabsTrigger
             value="all"
-            className="text-xs border border-gray-200 rounded-none px-3"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
           >
             ALL
           </TabsTrigger>
-          <TabsTrigger value="men" className="text-xs">
+          <TabsTrigger
+            value="men"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+          >
             MEN
           </TabsTrigger>
-          <TabsTrigger value="wqomen" className="text-xs">
+          <TabsTrigger
+            value="women"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+          >
             WOMEN
           </TabsTrigger>
 
-          <TabsTrigger value="art" className="text-xs">
+          <TabsTrigger
+            value="art"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+          >
             ART
           </TabsTrigger>
-          <TabsTrigger value="watches" className="text-xs">
+          <TabsTrigger
+            value="watches"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+          >
             WATCHES
           </TabsTrigger>
-          <TabsTrigger value="cars" className="text-xs">
+          <TabsTrigger
+            value="cars"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+          >
             CARS
           </TabsTrigger>
-          <TabsTrigger value="jewellery" className="text-xs">
+          <TabsTrigger
+            value="jewellery"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+          >
             JEWELLERY
           </TabsTrigger>
-          <TabsTrigger value="collectibles" className="text-xs">
+          <TabsTrigger
+            value="collectibles"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+          >
             COLLECTIBLES
           </TabsTrigger>
-          <TabsTrigger value="fashion" className="text-xs">
+          <TabsTrigger
+            value="fashion"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+          >
             FASHION
           </TabsTrigger>
-          <TabsTrigger value="antiques" className="text-xs">
+          <TabsTrigger
+            value="antiques"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+          >
             ANTIQUES
           </TabsTrigger>
-          <TabsTrigger value="shoes" className="text-xs">
+          <TabsTrigger
+            value="shoes"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+          >
             SHOES
           </TabsTrigger>
-          <TabsTrigger value="bags" className="text-xs">
+          <TabsTrigger
+            value="bags"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+          >
             BAGS
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value={activeTab} className="mt-6">
+        <TabsContent value={activeTab} className="">
+          <div className="flex justify-between items-center mb-6">
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-gray-600">Sort By:</span>
+              <select className="border border-gray-300 rounded px-3 py-1 text-sm">
+                <option>New Arrival</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+                <option>Ending Soon</option>
+              </select>
+            </div>
+            <div>
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2"
+              >
+                <Filter className="w-4 h-4" />
+                Filters
+              </Button>
+            </div>
+          </div>
           {/* Products Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
             {currentProducts.map((productItem, index) => (
