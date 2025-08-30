@@ -28,7 +28,7 @@ const HomePage = () => {
         <div className="flex justify-between items-center mb-6">
           <div></div>
           <Link
-            href="#"
+            href="/products"
             className="text-primary hover:text-primary/70 text-xs md:text-sm underline cursor-pointer "
           >
             SHOW ALL
