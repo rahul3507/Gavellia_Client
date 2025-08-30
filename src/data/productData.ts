@@ -23,7 +23,7 @@ export const product = [
     starting: 1050,
     bids: 14,
     highestBid: 2400,
-    img: "/productImage/Boot.png",
+    img: "/productImage/Boot_women.png",
   },
   {
     title: "LOUIS VUITTON x Yayoi Kusama",
@@ -31,7 +31,7 @@ export const product = [
     starting: 750,
     bids: 10,
     highestBid: 890,
-    img: "/productImage/LUIS_VUITTON.png",
+    img: "/productImage/LOUIS_VUITTON.png",
   },
   {
     title: "Limited Edition Sneakers",

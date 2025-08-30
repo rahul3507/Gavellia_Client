@@ -6,3 +6,12 @@ export interface SlideData {
   price: number;
   planfor: string;
 }
+
+export interface ProductData {
+  title: string;
+  time: string;
+  starting: number;
+  bids: number;
+  highestBid: number;
+  img: string;
+}
