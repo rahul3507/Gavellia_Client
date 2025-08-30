@@ -68,10 +68,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
         <div className="w-full flex justify-between space-x-2">
           <Select value={selectedBid} onValueChange={setSelectedBid}>
-            <SelectTrigger className="text-sm h-9 min-w-16 border border-gray-300">
+            <SelectTrigger className="text-sm h-9 min-w-16 border ">
               <SelectValue placeholder="£ Enter Amount" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent side="top">
               {bidOptions.map((bidAmount) => (
                 <SelectItem key={bidAmount} value={bidAmount.toString()}>
                   £{bidAmount}
