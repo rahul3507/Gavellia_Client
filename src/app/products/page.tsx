@@ -7,12 +7,20 @@ import { Filter } from "lucide-react";
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const PRODUCTS_PER_PAGE = 20;
 
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState("all");
+  const [sortBy, setSortBy] = useState("new-arrival");
 
   // Filter products based on active tab
   const getFilteredProducts = () => {
@@ -69,7 +77,7 @@ const Products = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 ">
+    <div className="px-2 md:px-4 xl:px-6">
       {/* Header */}
 
       {/* Category Tabs */}
@@ -77,74 +85,74 @@ const Products = () => {
         <TabsList className="flex bg-transparent gap-1 ">
           <TabsTrigger
             value="all"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
           >
             ALL
           </TabsTrigger>
           <TabsTrigger
             value="men"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
           >
             MEN
           </TabsTrigger>
           <TabsTrigger
             value="women"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
           >
             WOMEN
           </TabsTrigger>
 
           <TabsTrigger
             value="art"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
           >
             ART
           </TabsTrigger>
           <TabsTrigger
             value="watches"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
           >
             WATCHES
           </TabsTrigger>
           <TabsTrigger
             value="cars"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
           >
             CARS
           </TabsTrigger>
           <TabsTrigger
             value="jewellery"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
           >
             JEWELLERY
           </TabsTrigger>
           <TabsTrigger
             value="collectibles"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
           >
             COLLECTIBLES
           </TabsTrigger>
           <TabsTrigger
             value="fashion"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
           >
             FASHION
           </TabsTrigger>
           <TabsTrigger
             value="antiques"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
           >
             ANTIQUES
           </TabsTrigger>
           <TabsTrigger
             value="shoes"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
           >
             SHOES
           </TabsTrigger>
           <TabsTrigger
             value="bags"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer"
+            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
           >
             BAGS
           </TabsTrigger>
@@ -154,12 +162,21 @@ const Products = () => {
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-4">
               <span className="text-sm text-gray-600">Sort By:</span>
-              <select className="border border-gray-300 rounded px-3 py-1 text-sm">
-                <option>New Arrival</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>Ending Soon</option>
-              </select>
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="w-48 text-sm">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="new-arrival">New Arrival</SelectItem>
+                  <SelectItem value="price-low-high">
+                    Price: Low to High
+                  </SelectItem>
+                  <SelectItem value="price-high-low">
+                    Price: High to Low
+                  </SelectItem>
+                  <SelectItem value="ending-soon">Ending Soon</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div>
               <Button
