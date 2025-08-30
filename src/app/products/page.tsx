@@ -3,7 +3,7 @@
 
 import ProductCard from "@/components/common/ProductCard";
 import { product } from "@/data/productData";
-import { Filter } from "lucide-react";
+
 import React, { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState("all");
   const [sortBy, setSortBy] = useState("new-arrival");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   // Filter products based on active tab
   const getFilteredProducts = () => {
@@ -78,7 +79,143 @@ const Products = () => {
   };
 
   return (
-    <div className="px-2 md:px-4 xl:px-6">
+    <div className="px-2 md:px-4 xl:px-6 relative">
+      {/* Filter Sidebar Overlay */}
+      {isFilterOpen && (
+        <div
+          className="fixed inset-0 bg-black/30  z-40"
+          onClick={() => setIsFilterOpen(false)}
+        />
+      )}
+
+      {/* Filter Sidebar */}
+      <div
+        className={`fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
+          isFilterOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="p-6">
+          {/* Filter Header */}
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-lg font-semibold">Filters</h2>
+            <Button
+              onClick={() => setIsFilterOpen(false)}
+              className="text-gray-500 hover:text-gray-700 bg-white"
+            >
+              ✕
+            </Button>
+          </div>
+
+          {/* Price Range Filter */}
+          <div className="mb-6">
+            <h3 className="font-medium mb-3">Price Range</h3>
+            <div className="space-y-2">
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">Under £100</span>
+              </label>
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">£100 - £500</span>
+              </label>
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">£500 - £1000</span>
+              </label>
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">Over £1000</span>
+              </label>
+            </div>
+          </div>
+
+          {/* Condition Filter */}
+          <div className="mb-6">
+            <h3 className="font-medium mb-3">Condition</h3>
+            <div className="space-y-2">
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">New</span>
+              </label>
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">Like New</span>
+              </label>
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">Very Good</span>
+              </label>
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">Good</span>
+              </label>
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">Fair</span>
+              </label>
+            </div>
+          </div>
+
+          {/* Time Left Filter */}
+          <div className="mb-6">
+            <h3 className="font-medium mb-3">Time Left</h3>
+            <div className="space-y-2">
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">Ending Today</span>
+              </label>
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">Ending This Week</span>
+              </label>
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">More Than 1 Week</span>
+              </label>
+            </div>
+          </div>
+
+          {/* Brand Filter */}
+          <div className="mb-6">
+            <h3 className="font-medium mb-3">Brand</h3>
+            <div className="space-y-2">
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">Louis Vuitton</span>
+              </label>
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">Rolex</span>
+              </label>
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">Apple</span>
+              </label>
+              <label className="flex items-center">
+                <input type="checkbox" className="mr-2" />
+                <span className="text-sm">Nike</span>
+              </label>
+            </div>
+          </div>
+
+          {/* Filter Actions */}
+          <div className="flex space-x-3 mt-8">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={() => setIsFilterOpen(false)}
+            >
+              Clear All
+            </Button>
+            <Button
+              className="flex-1 bg-primary hover:bg-primary/90"
+              onClick={() => setIsFilterOpen(false)}
+            >
+              Apply Filters
+            </Button>
+          </div>
+        </div>
+      </div>
       {/* Header */}
 
       {/* Category Tabs */}
@@ -188,6 +325,7 @@ const Products = () => {
                 variant="outline"
                 size="sm"
                 className="flex items-center gap-2 border-none focus:ring-0 focus:ring-offset-0 shadow-none"
+                onClick={() => setIsFilterOpen(true)}
               >
                 <PiSlidersLight className="w-4 h-4" />
                 Filters
