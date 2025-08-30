@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PiSlidersLight } from "react-icons/pi";
 
 const PRODUCTS_PER_PAGE = 20;
 
@@ -163,18 +164,22 @@ const Products = () => {
             <div className="flex items-center gap-4">
               <span className="text-sm text-gray-600">Sort By:</span>
               <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-48 text-sm">
+                <SelectTrigger className="w-48 text-sm cursor-pointer">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="new-arrival">New Arrival</SelectItem>
-                  <SelectItem value="price-low-high">
+                  <SelectItem value="new-arrival" className="cursor-pointer">
+                    New Arrival
+                  </SelectItem>
+                  <SelectItem value="price-low-high" className="cursor-pointer">
                     Price: Low to High
                   </SelectItem>
-                  <SelectItem value="price-high-low">
+                  <SelectItem value="price-high-low" className="cursor-pointer">
                     Price: High to Low
                   </SelectItem>
-                  <SelectItem value="ending-soon">Ending Soon</SelectItem>
+                  <SelectItem value="ending-soon" className="cursor-pointer">
+                    Ending Soon
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -182,9 +187,9 @@ const Products = () => {
               <Button
                 variant="outline"
                 size="sm"
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 border-none focus:ring-0 focus:ring-offset-0 shadow-none"
               >
-                <Filter className="w-4 h-4" />
+                <PiSlidersLight className="w-4 h-4" />
                 Filters
               </Button>
             </div>
