@@ -35,10 +35,35 @@ const HomePage = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-1">
-          {product.slice(0, 5).map((productItem, index) => (
-            <ProductCard key={index} productData={productItem} />
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1">
+          {product.slice(0, 5).map((productItem, index) => {
+            let visibilityClass = "";
+
+            if (index === 0) {
+              // Always show first product
+              visibilityClass = "";
+            } else if (index === 1) {
+              // Show second product from sm breakpoint
+              visibilityClass = "hidden sm:block";
+            } else if (index === 2) {
+              // Show third product from md breakpoint
+              visibilityClass = "hidden md:block";
+            } else if (index === 3) {
+              // Show fourth product from lg breakpoint
+              visibilityClass = "hidden xl:block";
+            } else if (index === 4) {
+              // Show fifth product from 2xl breakpoint
+              visibilityClass = "hidden 2xl:block";
+            }
+
+            return (
+              <ProductCard
+                key={index}
+                productData={productItem}
+                className={visibilityClass}
+              />
+            );
+          })}
         </div>
       </div>
 

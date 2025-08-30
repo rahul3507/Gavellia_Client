@@ -8,11 +8,15 @@ import { Button } from "../ui/button";
 
 interface ProductCardProps {
   productData: ProductData;
+  className?: string;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  productData,
+  className = "",
+}) => {
   return (
-    <div className="  overflow-hidden min-h-[490px] border-2">
+    <div className={`overflow-hidden min-h-[490px] border-2 ${className}`}>
       <div className="relative bg-card-bg h-[300px]">
         <Image
           src={productData.img}
@@ -31,7 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
           <span className="w-2 h-2 bg-[#ff4646] rounded-full mr-2"></span>
           {productData.time} left
         </div>
-        <div className="flex justify-between items-center text-sm mb-3">
+        <div className="flex gap-5 items-center text-sm mb-3">
           <div className="flex flex-col">
             <span className="text-tertiary">Current</span>
             <span className="font-semibold">£{productData.starting}</span>
@@ -46,12 +50,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ productData }) => {
           </div>
         </div>
 
-        <div className="flex space-x-2">
+        <div className="w-full flex justify-between  space-x-2">
           <input
             placeholder="£ Enter Amount"
-            className="text-xs h-10 min-w-16"
+            className="text-sm h-9 min-w-16"
           />
-          <Button className="bg-primary hover:bg-primary/70 text-white text-sm h-10 px-3 rounded-none">
+          <Button className="bg-primary hover:bg-primary/70 text-white text-sm h-9 px-3 rounded-none">
             REQUEST TO BID
           </Button>
         </div>
