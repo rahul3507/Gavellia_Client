@@ -35,8 +35,8 @@ const HomePage = () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {product.slice(0, 6).map((productItem, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-1">
+          {product.slice(0, 5).map((productItem, index) => (
             <ProductCard key={index} productData={productItem} />
           ))}
         </div>
