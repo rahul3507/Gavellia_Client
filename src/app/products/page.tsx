@@ -15,13 +15,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PiSlidersLight } from "react-icons/pi";
-import { Search } from "lucide-react";
+import { ChevronDown, ChevronUp, Search } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { FilterState } from "@/types/allTypes";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
+import { CollapsibleTrigger } from "@radix-ui/react-collapsible";
 
 const categories = [
   "ART",
@@ -120,6 +122,19 @@ const Products = () => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
+  const [openSections, setOpenSections] = useState({
+    auctionType: true,
+    priceRange: true,
+    location: true,
+    categories: true,
+    condition: true,
+    auctionHouses: true,
+  });
+
+  const toggleSection = (section: keyof typeof openSections) => {
+    setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }));
+  };
+
   const toggleArrayFilter = (
     key: "categories" | "condition" | "auctionHouses",
     value: string
@@ -159,13 +174,24 @@ const Products = () => {
               ✕
             </Button>
           </div>
+        </div>
 
-          <div className="py-3">
+        {/* Auction Type */}
+        <Collapsible
+          open={openSections.auctionType}
+          onOpenChange={() => toggleSection("auctionType")}
+        >
+          <CollapsibleTrigger className="flex items-center justify-between w-full py-3">
             <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               AUCTION TYPE
             </span>
-          </div>
-          <div className="space-y-3">
+            {openSections.auctionType ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </CollapsibleTrigger>
+          <CollapsibleContent className="space-y-3 pb-6">
             <RadioGroup
               value={filters.auctionType}
               onValueChange={(value) => updateFilter("auctionType", value)}
@@ -195,17 +221,25 @@ const Products = () => {
                 </Label>
               </div>
             </RadioGroup>
-          </div>
-        </div>
+          </CollapsibleContent>
+        </Collapsible>
 
         {/* Price Range */}
-        <div className="pb-6 border-t border-gray-100">
-          <div className="py-3">
+        <Collapsible
+          open={openSections.priceRange}
+          onOpenChange={() => toggleSection("priceRange")}
+        >
+          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100">
             <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               PRICE RANGE
             </span>
-          </div>
-          <div className="space-y-4">
+            {openSections.priceRange ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </CollapsibleTrigger>
+          <CollapsibleContent className="space-y-4 pb-6">
             <div className="text-center">
               <span className="text-lg font-semibold">
                 £ {filters.priceRange[0]}
@@ -223,55 +257,73 @@ const Products = () => {
               <span>Min £0</span>
               <span>£10k Max</span>
             </div>
-          </div>
-        </div>
+          </CollapsibleContent>
+        </Collapsible>
 
         {/* Location */}
-        <div className="pb-6 border-t border-gray-100">
-          <div className="py-3">
+        <Collapsible
+          open={openSections.location}
+          onOpenChange={() => toggleSection("location")}
+        >
+          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100">
             <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               LOCATION
             </span>
-          </div>
-          <Select
-            value={filters.location}
-            onValueChange={(value) => updateFilter("location", value)}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue>
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-3 bg-red-500 relative">
-                    <div className="absolute inset-0 bg-gradient-to-b from-red-500 via-white to-red-500 bg-[length:100%_20%] bg-repeat-y"></div>
-                    <div className="absolute top-0 left-0 w-2 h-2 bg-blue-600"></div>
+            {openSections.location ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </CollapsibleTrigger>
+          <CollapsibleContent className="pb-6">
+            <Select
+              value={filters.location}
+              onValueChange={(value) => updateFilter("location", value)}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue>
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-3 bg-red-500 relative">
+                      <div className="absolute inset-0 bg-gradient-to-b from-red-500 via-white to-red-500 bg-[length:100%_20%] bg-repeat-y"></div>
+                      <div className="absolute top-0 left-0 w-2 h-2 bg-blue-600"></div>
+                    </div>
+                    <span>USA</span>
                   </div>
-                  <span>USA</span>
-                </div>
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="usa">
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-3 bg-red-500 relative">
-                    <div className="absolute inset-0 bg-gradient-to-b from-red-500 via-white to-red-500 bg-[length:100%_20%] bg-repeat-y"></div>
-                    <div className="absolute top-0 left-0 w-2 h-2 bg-blue-600"></div>
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="usa">
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-3 bg-red-500 relative">
+                      <div className="absolute inset-0 bg-gradient-to-b from-red-500 via-white to-red-500 bg-[length:100%_20%] bg-repeat-y"></div>
+                      <div className="absolute top-0 left-0 w-2 h-2 bg-blue-600"></div>
+                    </div>
+                    <span>USA</span>
                   </div>
-                  <span>USA</span>
-                </div>
-              </SelectItem>
-              <SelectItem value="uk">UK</SelectItem>
-              <SelectItem value="eu">Europe</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+                </SelectItem>
+                <SelectItem value="uk">UK</SelectItem>
+                <SelectItem value="eu">Europe</SelectItem>
+              </SelectContent>
+            </Select>
+          </CollapsibleContent>
+        </Collapsible>
 
         {/* Categories */}
-        <div className="pb-6 border-t border-gray-100">
-          <div className="py-3">
+        <Collapsible
+          open={openSections.categories}
+          onOpenChange={() => toggleSection("categories")}
+        >
+          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100">
             <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               CATEGORIES
             </span>
-          </div>
-          <div className="space-y-3">
+            {openSections.categories ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </CollapsibleTrigger>
+          <CollapsibleContent className="space-y-3 pb-6">
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
                 <Button
@@ -295,17 +347,25 @@ const Products = () => {
             >
               VIEW ALL 12 CATEGORIES
             </Button>
-          </div>
-        </div>
+          </CollapsibleContent>
+        </Collapsible>
 
         {/* Condition */}
-        <div className="pb-6 border-t border-gray-100">
-          <div className="py-3">
+        <Collapsible
+          open={openSections.condition}
+          onOpenChange={() => toggleSection("condition")}
+        >
+          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100">
             <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               CONDITION
             </span>
-          </div>
-          <div className="space-y-3">
+            {openSections.condition ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </CollapsibleTrigger>
+          <CollapsibleContent className="space-y-3 pb-6">
             {["New", "Used", "Restored", "For Parts"].map((condition) => (
               <div key={condition} className="flex items-center space-x-2">
                 <Checkbox
@@ -328,17 +388,25 @@ const Products = () => {
                 </Label>
               </div>
             ))}
-          </div>
-        </div>
+          </CollapsibleContent>
+        </Collapsible>
 
         {/* Auction Houses */}
-        <div className="pb-6 border-t border-gray-100">
-          <div className="py-3">
+        <Collapsible
+          open={openSections.auctionHouses}
+          onOpenChange={() => toggleSection("auctionHouses")}
+        >
+          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100">
             <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               AUCTION HOUSES
             </span>
-          </div>
-          <div className="space-y-3">
+            {openSections.auctionHouses ? (
+              <ChevronUp className="h-4 w-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4" />
+            )}
+          </CollapsibleTrigger>
+          <CollapsibleContent className="space-y-3 pb-6">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
@@ -367,8 +435,8 @@ const Products = () => {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
+          </CollapsibleContent>
+        </Collapsible>
         {/* Filter Actions */}
         <div className="flex space-x-3 mt-8">
           <Button
