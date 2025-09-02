@@ -163,9 +163,9 @@ const Products = () => {
           isFilterOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="p-6">
+        <div className="pt-4 px-0">
           {/* Filter Header */}
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-0">
             <h2 className="text-lg font-semibold">Filters</h2>
             <Button
               onClick={() => setIsFilterOpen(false)}
@@ -181,8 +181,8 @@ const Products = () => {
           open={openSections.auctionType}
           onOpenChange={() => toggleSection("auctionType")}
         >
-          <CollapsibleTrigger className="flex items-center justify-between w-full py-3">
-            <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 cursor-pointer">
+            <span className="text-xs font-medium text-primary/50 uppercase tracking-wide">
               AUCTION TYPE
             </span>
             {openSections.auctionType ? (
@@ -191,32 +191,48 @@ const Products = () => {
               <ChevronDown className="h-4 w-4" />
             )}
           </CollapsibleTrigger>
-          <CollapsibleContent className="space-y-3 pb-6">
+          <CollapsibleContent className="space-y-0 pb-4 text-primary ">
             <RadioGroup
               value={filters.auctionType}
               onValueChange={(value) => updateFilter("auctionType", value)}
             >
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="live" id="live" />
-                <Label htmlFor="live" className="text-sm font-medium">
+                <RadioGroupItem
+                  value="live"
+                  id="live"
+                  className="cursor-pointer"
+                />
+                <Label htmlFor="live" className="text-sm font-normal">
                   LIVE
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="upcoming" id="upcoming" />
-                <Label htmlFor="upcoming" className="text-sm font-medium">
+                <RadioGroupItem
+                  value="upcoming"
+                  id="upcoming"
+                  className="cursor-pointer"
+                />
+                <Label htmlFor="upcoming" className="text-sm font-normal">
                   Upcoming
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="timed" id="timed" />
-                <Label htmlFor="timed" className="text-sm font-medium">
+                <RadioGroupItem
+                  value="timed"
+                  id="timed"
+                  className="cursor-pointer"
+                />
+                <Label htmlFor="timed" className="text-sm font-normal">
                   Timed
                 </Label>
               </div>
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="buynow" id="buynow" />
-                <Label htmlFor="buynow" className="text-sm font-medium">
+                <RadioGroupItem
+                  value="buynow"
+                  id="buynow"
+                  className="cursor-pointer"
+                />
+                <Label htmlFor="buynow" className="text-sm font-normal">
                   Buy Now
                 </Label>
               </div>
@@ -229,8 +245,8 @@ const Products = () => {
           open={openSections.priceRange}
           onOpenChange={() => toggleSection("priceRange")}
         >
-          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100">
-            <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100 cursor-pointer">
+            <span className="text-xs font-medium text-primary/50 uppercase tracking-wide">
               PRICE RANGE
             </span>
             {openSections.priceRange ? (
@@ -239,22 +255,23 @@ const Products = () => {
               <ChevronDown className="h-4 w-4" />
             )}
           </CollapsibleTrigger>
-          <CollapsibleContent className="space-y-4 pb-6">
+          <CollapsibleContent className="space-y-4 pb-4">
             <div className="text-center">
               <span className="text-lg font-semibold">
                 £ {filters.priceRange[0]}
               </span>
             </div>
-            <Slider
-              value={filters.priceRange}
-              onValueChange={(value) => updateFilter("priceRange", value)}
-              max={10000}
-              min={0}
-              step={50}
-              className="w-full"
-            />
+
             <div className="flex justify-between text-sm text-gray-500">
               <span>Min £0</span>
+              <Slider
+                value={filters.priceRange}
+                onValueChange={(value) => updateFilter("priceRange", value)}
+                max={10000}
+                min={0}
+                step={50}
+                className="w-36"
+              />
               <span>£10k Max</span>
             </div>
           </CollapsibleContent>
@@ -265,8 +282,8 @@ const Products = () => {
           open={openSections.location}
           onOpenChange={() => toggleSection("location")}
         >
-          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100">
-            <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+          <CollapsibleTrigger className="flex items-center justify  -between w-full py-3 border-t border-gray-100 cursor-pointer">
+            <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
               LOCATION
             </span>
             {openSections.location ? (
@@ -313,7 +330,7 @@ const Products = () => {
           open={openSections.categories}
           onOpenChange={() => toggleSection("categories")}
         >
-          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100">
+          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100 cursor-pointer">
             <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               CATEGORIES
             </span>
@@ -355,7 +372,7 @@ const Products = () => {
           open={openSections.condition}
           onOpenChange={() => toggleSection("condition")}
         >
-          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100">
+          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100 cursor-pointer">
             <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               CONDITION
             </span>
@@ -396,7 +413,7 @@ const Products = () => {
           open={openSections.auctionHouses}
           onOpenChange={() => toggleSection("auctionHouses")}
         >
-          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100">
+          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100 cursor-pointer">
             <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               AUCTION HOUSES
             </span>
