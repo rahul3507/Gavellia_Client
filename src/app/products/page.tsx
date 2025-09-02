@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -24,6 +25,7 @@ import { Input } from "@/components/ui/input";
 import { FilterState } from "@/types/allTypes";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { CollapsibleTrigger } from "@radix-ui/react-collapsible";
+import Image from "next/image";
 
 const categories = [
   "ART",
@@ -159,7 +161,7 @@ const Products = () => {
 
       {/* Filter Sidebar */}
       <div
-        className={`fixed px-6 top-0 right-0 h-full w-80 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
+        className={`fixed px-6 top-0 right-0 h-full w-80 bg-white shadow-lg z-50 transform transition-transform duration-300 overflow-auto scrollbar-thin  ${
           isFilterOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -282,8 +284,8 @@ const Products = () => {
           open={openSections.location}
           onOpenChange={() => toggleSection("location")}
         >
-          <CollapsibleTrigger className="flex items-center justify  -between w-full py-3 border-t border-gray-100 cursor-pointer">
-            <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+          <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100 cursor-pointer">
+            <span className="text-xs font-medium text-primary/50 uppercase tracking-wide">
               LOCATION
             </span>
             {openSections.location ? (
@@ -292,34 +294,60 @@ const Products = () => {
               <ChevronDown className="h-4 w-4" />
             )}
           </CollapsibleTrigger>
-          <CollapsibleContent className="pb-6">
+          <CollapsibleContent className="pb-4">
             <Select
               value={filters.location}
               onValueChange={(value) => updateFilter("location", value)}
             >
-              <SelectTrigger className="w-full">
-                <SelectValue>
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-3 bg-red-500 relative">
-                      <div className="absolute inset-0 bg-gradient-to-b from-red-500 via-white to-red-500 bg-[length:100%_20%] bg-repeat-y"></div>
-                      <div className="absolute top-0 left-0 w-2 h-2 bg-blue-600"></div>
-                    </div>
-                    <span>USA</span>
-                  </div>
-                </SelectValue>
+              <SelectTrigger className="w-full cursor-pointer">
+                <SelectValue placeholder="Select a location" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="usa">
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-3 bg-red-500 relative">
-                      <div className="absolute inset-0 bg-gradient-to-b from-red-500 via-white to-red-500 bg-[length:100%_20%] bg-repeat-y"></div>
-                      <div className="absolute top-0 left-0 w-2 h-2 bg-blue-600"></div>
+                <SelectGroup>
+                  <SelectItem value="usa" className="cursor-pointer">
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 h-3 bg-red-500 relative rounded-full">
+                        <Image
+                          src="/united-states.png"
+                          alt="USA Flag  "
+                          className="w-full h-full object-cover"
+                          width={500}
+                          height={500}
+                        />
+                      </div>
+                      <span>USA</span>
                     </div>
-                    <span>USA</span>
-                  </div>
-                </SelectItem>
-                <SelectItem value="uk">UK</SelectItem>
-                <SelectItem value="eu">Europe</SelectItem>
+                  </SelectItem>
+
+                  <SelectItem value="uk" className="cursor-pointer">
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 h-3 bg-red-500 relative rounded-full">
+                        <Image
+                          src="/united-kingdom.png"
+                          alt="UK Flag  "
+                          className="w-full h-full object-cover"
+                          width={500}
+                          height={500}
+                        />
+                      </div>
+                      <span>UK</span>
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="europe" className="cursor-pointer">
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 h-3 bg-red-500 relative rounded-full">
+                        <Image
+                          src="/european-union.png"
+                          alt="EU Flag"
+                          className="w-full h-full object-cover"
+                          width={500}
+                          height={500}
+                        />
+                      </div>
+                      <span>Europe</span>
+                    </div>
+                  </SelectItem>
+                </SelectGroup>
               </SelectContent>
             </Select>
           </CollapsibleContent>
@@ -331,7 +359,7 @@ const Products = () => {
           onOpenChange={() => toggleSection("categories")}
         >
           <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100 cursor-pointer">
-            <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+            <span className="text-xs font-medium text-primary/50 uppercase tracking-wide">
               CATEGORIES
             </span>
             {openSections.categories ? (
@@ -340,7 +368,7 @@ const Products = () => {
               <ChevronDown className="h-4 w-4" />
             )}
           </CollapsibleTrigger>
-          <CollapsibleContent className="space-y-3 pb-6">
+          <CollapsibleContent className="space-y-3 pb-4">
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
                 <Button
@@ -351,7 +379,7 @@ const Products = () => {
                       : "outline"
                   }
                   size="sm"
-                  className="text-xs h-8"
+                  className="text-xs h-8 rounded-none"
                   onClick={() => toggleArrayFilter("categories", category)}
                 >
                   {category}
@@ -373,7 +401,7 @@ const Products = () => {
           onOpenChange={() => toggleSection("condition")}
         >
           <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100 cursor-pointer">
-            <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+            <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
               CONDITION
             </span>
             {openSections.condition ? (
@@ -399,7 +427,7 @@ const Products = () => {
                 />
                 <Label
                   htmlFor={condition.toLowerCase().replace(" ", "")}
-                  className="text-sm font-medium"
+                  className="text-sm  font-normal"
                 >
                   {condition}
                 </Label>
@@ -414,7 +442,7 @@ const Products = () => {
           onOpenChange={() => toggleSection("auctionHouses")}
         >
           <CollapsibleTrigger className="flex items-center justify-between w-full py-3 border-t border-gray-100 cursor-pointer">
-            <span className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+            <span className="text-xs font-medium text-primary/50 uppercase tracking-wide">
               AUCTION HOUSES
             </span>
             {openSections.auctionHouses ? (
@@ -423,7 +451,7 @@ const Products = () => {
               <ChevronDown className="h-4 w-4" />
             )}
           </CollapsibleTrigger>
-          <CollapsibleContent className="space-y-3 pb-6">
+          <CollapsibleContent className="space-y-2 pb-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
@@ -433,7 +461,7 @@ const Products = () => {
                 className="pl-10 text-sm"
               />
             </div>
-            <div className="space-y-3">
+            <div className="space-y-2">
               {auctionHouses.map((house) => (
                 <div key={house} className="flex items-center space-x-2">
                   <Checkbox
@@ -445,7 +473,7 @@ const Products = () => {
                   />
                   <Label
                     htmlFor={house.toLowerCase().replace(/\s+/g, "")}
-                    className="text-sm font-medium"
+                    className="text-sm font-normal"
                   >
                     {house}
                   </Label>

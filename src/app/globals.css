@@ -137,3 +137,6 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Removed invalid module.exports block. 
+   If you need to configure Tailwind, put this in tailwind.config.js, not in your CSS file. */
