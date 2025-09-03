@@ -245,7 +245,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
                   </SelectTrigger>
                   <SelectContent>
                     {bidOptions.map((bidAmount) => (
-                      <SelectItem key={bidAmount} value={bidAmount.toString()}>
+                      <SelectItem
+                        key={bidAmount}
+                        value={bidAmount.toString()}
+                        className="cursor-pointer"
+                      >
                         £{bidAmount}
                       </SelectItem>
                     ))}
@@ -259,8 +263,10 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
 
             {/* Description */}
             <div className="space-y-3 ">
-              <h3 className="text-lg font-medium text-primary">Description</h3>
-              <p className="text-primary/50 text-sm leading-relaxed">
+              <h3 className="text-sm md:text-lg font-medium text-primary">
+                Description
+              </h3>
+              <p className="text-primary/50 text-xs md:text-sm leading-relaxed">
                 This exceptional vintage leather motorcycle jacket from the
                 1980s showcases premium black cowhide with a beautifully
                 developed natural patina. The jacket retains all its original
