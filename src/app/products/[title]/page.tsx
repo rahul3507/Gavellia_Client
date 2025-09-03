@@ -1,7 +1,7 @@
 /** @format */
 "use client";
 import { product } from "@/data/productData";
-import { Check, Eye, Heart, Package, Plane, Tag, Truck } from "lucide-react";
+import { Check, Eye, Package, Plane, Tag } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import React, { useState, useEffect } from "react";
@@ -21,6 +21,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { type CarouselApi } from "@/components/ui/carousel";
+import ProductCard from "@/components/common/ProductCard";
 
 interface ProductDetailsProps {
   params: {
@@ -68,7 +69,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
   const totalImages = productData.img.length;
 
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex flex-col justify-center">
       <div className=" py-2 md:py-4  m-10 md:m-0 md:mr-24 lg:mr-28 xl:mr-48">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
           {/* Left Column - Image Carousel */}
@@ -281,14 +282,22 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
             </div>
 
             {/* Auction House Info */}
-            <div className=" p-4 ">
+            <div className="  ">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center border">
-                  <span className="font-bold text-sm">KH</span>
+                <div className="w-14 h-14 bg-white rounded-lg flex items-center justify-center border">
+                  <Image
+                    src="/playstore.png"
+                    alt="Kubli Haus"
+                    width={48}
+                    height={48}
+                    className="w-8 h-8"
+                  />
                 </div>
                 <div>
-                  <h4 className="font-semibold">Kubli Haus</h4>
-                  <p className="text-sm text-gray-600">
+                  <h4 className="font-medium text-xl text-primary">
+                    Kubli Haus
+                  </h4>
+                  <p className="text-sm text-primary/50">
                     New York, NY, United States
                   </p>
                 </div>
@@ -297,6 +306,43 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
           </div>
         </div>
       </div>
+
+      {/* You Might Be Interested Section */}
+      <div className="mt-16 px-4 md:px-8 lg:px-12">
+        <h2 className="text-2xl font-bold text-primary mb-8">
+          You Might Interest
+        </h2>
+
+        <div className="relative">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: false,
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {product
+                .filter((item) => item.title !== productData.title) // Exclude current product
+                .slice(0, 8) // Show only 8 products
+                .map((productItem, index) => (
+                  <CarouselItem
+                    key={index}
+                    className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+                  >
+                    <ProductCard productData={productItem} />
+                  </CarouselItem>
+                ))}
+            </CarouselContent>
+
+            {/* Navigation Buttons */}
+            <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white hover:bg-gray-50 border shadow-md" />
+            <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white hover:bg-gray-50 border shadow-md" />
+          </Carousel>
+        </div>
+      </div>
+
+      <div></div>
     </div>
   );
 };
