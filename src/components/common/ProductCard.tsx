@@ -3,6 +3,7 @@
 import { ProductData } from "@/types/allTypes";
 import { Heart } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import {
@@ -31,18 +32,24 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   const bidOptions = generateBidOptions();
+
+  // Generate URL-friendly title
+  const urlTitle = productData.title.toLowerCase().replace(/\s+/g, "-");
+
   return (
     <div className={`overflow-hidden min-h-[490px] border-2 ${className}`}>
-      <div className="relative bg-card-bg h-[300px]">
-        <Image
-          src={productData.img[0]}
-          alt={productData.title}
-          className="w-full h-full object-cover"
-          width={500}
-          height={500}
-        />
-        <Heart className="absolute top-3 right-3 w-5 h-5 text-[#d9d9d9]" />
-      </div>
+      <Link href={`/products/${urlTitle}`}>
+        <div className="relative bg-card-bg h-[300px] cursor-pointer hover:opacity-90 transition-opacity">
+          <Image
+            src={productData.img[0]}
+            alt={productData.title}
+            className="w-full h-full object-cover"
+            width={500}
+            height={500}
+          />
+          <Heart className="absolute top-3 right-3 w-5 h-5 text-[#d9d9d9]" />
+        </div>
+      </Link>
       <div className="p-4">
         <h3 className="font-medium text-primary mb-1 text-sm ">
           {productData.title.toUpperCase()}
