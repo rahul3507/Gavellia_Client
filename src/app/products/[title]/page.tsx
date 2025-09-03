@@ -29,6 +29,7 @@ interface ProductDetailsProps {
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
   const [selectedBid, setSelectedBid] = useState<string>("");
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
 
   // Decode the URL title and find the matching product
   const decodedTitle = decodeURIComponent(params.title);
@@ -49,37 +50,75 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
   };
 
   const bidOptions = generateBidOptions();
+  const totalImages = productData.img.length;
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left Column - Image Carousel */}
         <div className="space-y-4">
-          <Carousel className="w-full">
-            <CarouselContent>
-              {productData.img.map((image, index) => (
-                <CarouselItem key={index}>
-                  <div className="relative aspect-square bg-gray-50 rounded-lg overflow-hidden">
-                    <Image
-                      src={image}
-                      alt={`${productData.title} - Image ${index + 1}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="left-4" />
-            <CarouselNext className="right-4" />
-          </Carousel>
+          <div className="relative">
+            <Carousel
+              className="w-full"
+              onSelect={(index) => setCurrentSlide(index || 0)}
+            >
+              <CarouselContent>
+                {productData.img.map((image, index) => (
+                  <CarouselItem key={index}>
+                    <div className="relative aspect-square bg-gray-50 rounded-lg overflow-hidden">
+                      <Image
+                        src={image}
+                        alt={`${productData.title} - Image ${index + 1}`}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+
+              {/* Custom positioned navigation buttons and counter */}
+              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center space-x-4">
+                <CarouselPrevious className="static translate-y-0 translate-x-0 bg-white/80 hover:bg-white border-0 shadow-md" />
+                <div className="flex items-center space-x-1">
+                  <span className="text-black text-sm font-medium bg-white/90 px-3 py-1 rounded-full shadow-sm">
+                    {currentSlide + 1}/{totalImages}
+                  </span>
+                </div>
+                <CarouselNext className="static translate-y-0 translate-x-0 bg-white/80 hover:bg-white border-0 shadow-md" />
+              </div>
+            </Carousel>
+
+            {/* Progress line with segments */}
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-300">
+              {/* Individual segments for each image */}
+              <div className="flex h-full">
+                {Array.from({ length: totalImages }).map((_, index) => (
+                  <div
+                    key={index}
+                    className={`flex-1 h-full transition-all duration-300 ease-in-out ${
+                      index <= currentSlide ? "bg-black" : "bg-transparent"
+                    }`}
+                    style={{
+                      marginRight: index < totalImages - 1 ? "1px" : "0",
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
 
           {/* Thumbnail Navigation */}
           <div className="flex gap-2 justify-center">
             {productData.img.slice(0, 4).map((image, index) => (
               <div
                 key={index}
-                className="w-16 h-16 rounded-lg overflow-hidden border-2 border-gray-200 cursor-pointer hover:border-blue-500"
+                className={`w-16 h-16 rounded-lg overflow-hidden border-2 cursor-pointer transition-colors ${
+                  currentSlide === index
+                    ? "border-blue-500"
+                    : "border-gray-200 hover:border-blue-500"
+                }`}
+                onClick={() => setCurrentSlide(index)}
               >
                 <Image
                   src={image}
