@@ -236,7 +236,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
             </div>
 
             {/* Bidding Section */}
-            <div className="space-y-4">
+            <div className="space-y-4 pb-5  border-b">
               <div className="flex space-x-3">
                 <Select value={selectedBid} onValueChange={setSelectedBid}>
                   <SelectTrigger className="flex-1 h-12">
@@ -250,24 +250,16 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
                     ))}
                   </SelectContent>
                 </Select>
-                <Button className="bg-black hover:bg-gray-800 text-white h-12 px-8">
+                <Button className="bg-primary hover:bg-primary/90 rounded-none text-white  px-8">
                   REQUEST TO BID
                 </Button>
               </div>
-
-              <Button
-                variant="outline"
-                className="w-full h-12 border-gray-300 hover:bg-gray-50"
-              >
-                <Heart className="w-4 h-4 mr-2" />
-                Add to Watchlist
-              </Button>
             </div>
 
             {/* Description */}
-            <div className="space-y-3">
-              <h3 className="text-lg font-semibold">Description</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+            <div className="space-y-3 ">
+              <h3 className="text-lg font-medium text-primary">Description</h3>
+              <p className="text-primary/50 text-sm leading-relaxed">
                 This exceptional vintage leather motorcycle jacket from the
                 1980s showcases premium black cowhide with a beautifully
                 developed natural patina. The jacket retains all its original
@@ -289,7 +281,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
             </div>
 
             {/* Auction House Info */}
-            <div className="bg-gray-50 p-4 rounded-lg">
+            <div className=" p-4 ">
               <div className="flex items-center space-x-3">
                 <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center border">
                   <span className="font-bold text-sm">KH</span>
