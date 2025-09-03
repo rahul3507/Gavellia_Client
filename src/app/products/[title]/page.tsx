@@ -308,10 +308,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
       </div>
 
       {/* You Might Be Interested Section */}
-      <div className="mt-16 px-4 md:px-8 lg:px-12">
-        <h2 className="text-2xl font-bold text-primary mb-8">
-          You Might Interest
-        </h2>
+      <div className="mt-0 md:mt-8 px-4 md:px-8 lg:px-12">
+        <h2 className="text-sm  text-primary mb-2">You Might Interest</h2>
 
         <div className="relative">
           <Carousel
@@ -321,10 +319,10 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
             }}
             className="w-full"
           >
-            <CarouselContent className="-ml-2 md:-ml-4">
+            <CarouselContent className="-ml-2 md:-ml-4 mb-12">
               {product
                 .filter((item) => item.title !== productData.title) // Exclude current product
-                .slice(0, 8) // Show only 8 products
+                // Show only 8 products
                 .map((productItem, index) => (
                   <CarouselItem
                     key={index}
@@ -336,8 +334,10 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
             </CarouselContent>
 
             {/* Navigation Buttons */}
-            <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white hover:bg-gray-50 border shadow-md" />
-            <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white hover:bg-gray-50 border shadow-md" />
+            <div className="absolute mr-[-32px]  bottom-3 right-0 transform -translate-x-1/2 flex items-center space-x-4">
+              <CarouselPrevious className="static translate-y-0 translate-x-0 bg-white/80 hover:bg-white border-0 shadow-md" />
+              <CarouselNext className="static translate-y-0 translate-x-0 bg-white/80 hover:bg-white border-0 shadow-md" />
+            </div>
           </Carousel>
         </div>
       </div>
