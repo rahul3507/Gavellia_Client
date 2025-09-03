@@ -192,22 +192,22 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
 
             {/* Product Info Tags */}
             <div className="grid grid-cols-3">
-              <div className="flex  flex-col space-y-2 text-primary bg-card-bg p-5">
+              <div className="flex  flex-col space-y-2 text-primary bg-card-bg p-2 md:p-5 justify-center items-start">
                 <Tag className="w-4 h-4 " />
-                <span className="text-sm ">Used Condition</span>
+                <span className="text-xs md:text-sm ">Used Condition</span>
               </div>
-              <div className="flex  flex-col space-y-2 text-primary bg-card-bg p-5  border-l-2 border-r-2">
+              <div className="flex  flex-col space-y-2 text-primary bg-card-bg p-2 md:p-5 border-l-2 border-r-2 justify-center items-start">
                 <Eye className="w-4 h-4 " />
-                <span className="text-sm ">Black Color</span>
+                <span className="text-xs md:text-sm ">Black Color</span>
               </div>
-              <div className="flex  flex-col space-y-2 text-primary bg-card-bg p-5">
+              <div className="flex  flex-col space-y-2 text-primary bg-card-bg p-2 md:p-5 justify-center items-start">
                 <Plane className="w-4 h-4 " />
-                <span className="text-sm ">Ship from USA</span>
+                <span className="text-xs md:text-sm ">Ship from USA</span>
               </div>
             </div>
 
             {/* Timer */}
-            <div className="flex items-center text-sm font-semibold text-primary/50">
+            <div className="flex items-center text-xs md:text-sm font-semibold text-primary/50">
               <span className="w-3 h-3 bg-red-500 rounded-full mr-2 animate-pulse"></span>
               {productData.time} left
             </div>
@@ -215,22 +215,26 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
             {/* Bid Information */}
             <div className="flex  gap-6  ">
               <div>
-                <span className="text-sm text-primary/50 block">Starting</span>
-                <span className="text-md font-medium text-primary">
+                <span className="text-xs md:text-sm text-primary/50 block">
+                  Starting
+                </span>
+                <span className="text-sm md:text-base font-medium text-primary">
                   £{productData.starting}
                 </span>
               </div>
               <div>
-                <span className="text-sm text-primary/50 block">Bids</span>
-                <span className="text-md font-medium text-primary">
+                <span className="text-xs md:text-sm text-primary/50 block">
+                  Bids
+                </span>
+                <span className="text-sm md:text-base font-medium text-primary">
                   {productData.bids} bidder
                 </span>
               </div>
               <div>
-                <span className="text-sm text-primary/50 block">
+                <span className="text-xs md:text-sm text-primary/50 block">
                   Highest bid
                 </span>
-                <span className="text-md font-medium text-primary">
+                <span className="text-sm md:text-base font-medium text-primary">
                   £{productData.highestBid}
                 </span>
               </div>
