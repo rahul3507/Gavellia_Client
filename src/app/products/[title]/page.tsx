@@ -4,7 +4,7 @@ import { product } from "@/data/productData";
 import { Heart, Package, Truck } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -20,6 +20,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { type CarouselApi } from "@/components/ui/carousel";
 
 interface ProductDetailsProps {
   params: {
@@ -30,6 +31,7 @@ interface ProductDetailsProps {
 const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
   const [selectedBid, setSelectedBid] = useState<string>("");
   const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const [api, setApi] = useState<CarouselApi>();
 
   // Decode the URL title and find the matching product
   const decodedTitle = decodeURIComponent(params.title);
@@ -42,6 +44,19 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
   if (!productData) {
     notFound();
   }
+
+  // Track carousel changes
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCurrentSlide(api.selectedScrollSnap());
+
+    api.on("select", () => {
+      setCurrentSlide(api.selectedScrollSnap());
+    });
+  }, [api]);
 
   // Generate 5 bid options starting from highest bid + 10, incrementing by 10
   const generateBidOptions = () => {
@@ -58,10 +73,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
         {/* Left Column - Image Carousel */}
         <div className="space-y-4">
           <div className="relative">
-            <Carousel
-              className="w-full"
-              onSelect={(index) => setCurrentSlide(index || 0)}
-            >
+            <Carousel className="w-full" setApi={setApi}>
               <CarouselContent>
                 {productData.img.map((image, index) => (
                   <CarouselItem key={index}>
@@ -89,8 +101,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
               </div>
             </Carousel>
 
-            {/* Progress line with segments */}
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-300">
+            {/* Progress line with segments - constrained width */}
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-0.5 bg-gray-300">
               {/* Individual segments for each image */}
               <div className="flex h-full">
                 {Array.from({ length: totalImages }).map((_, index) => (
@@ -118,7 +130,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
                     ? "border-blue-500"
                     : "border-gray-200 hover:border-blue-500"
                 }`}
-                onClick={() => setCurrentSlide(index)}
+                onClick={() => {
+                  if (api) {
+                    api.scrollTo(index);
+                  }
+                }}
               >
                 <Image
                   src={image}
