@@ -240,7 +240,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
             <div className="space-y-4 pb-5  border-b">
               <div className="flex space-x-3">
                 <Select value={selectedBid} onValueChange={setSelectedBid}>
-                  <SelectTrigger className="flex-1 h-12">
+                  <SelectTrigger className="flex-1 h-12 cursor-pointer">
                     <SelectValue placeholder="£ Enter Amount" />
                   </SelectTrigger>
                   <SelectContent>
