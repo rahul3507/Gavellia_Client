@@ -35,7 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     <div className={`overflow-hidden min-h-[490px] border-2 ${className}`}>
       <div className="relative bg-card-bg h-[300px]">
         <Image
-          src={productData.img}
+          src={productData.img[0]}
           alt={productData.title}
           className="w-full h-full object-cover"
           width={500}

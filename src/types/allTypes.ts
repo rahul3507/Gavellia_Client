@@ -13,7 +13,7 @@ export interface ProductData {
   starting: number;
   bids: number;
   highestBid: number;
-  img: string;
+  img: string[];
 }
 
 export interface FilterState {
