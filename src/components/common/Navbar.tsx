@@ -2,11 +2,27 @@
 "use client";
 import { Search, ShoppingBag, UserRound } from "lucide-react";
 import React from "react";
-
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { switchToBuyer, switchToSeller } from "@/redux/feature/userRoleSlice";
 
 const Navbar = () => {
+  const userRole = useAppSelector((state) => state.userRole.role);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  const handleSwitchToSelling = () => {
+    dispatch(switchToSeller());
+    router.push("/");
+  };
+
+  const handleSwitchToBuying = () => {
+    dispatch(switchToBuyer());
+    router.push("/");
+  };
+
   return (
     <div className="mb-12 md:mb-3  bg-white">
       <div className="w-full  px-8 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
@@ -54,10 +70,24 @@ const Navbar = () => {
                 START SELLING
               </Button>
             </div>
+
+            {/* Role Switch Buttons */}
             <div className="flex items-center space-x-2">
-              <Button className=" text-primary bg-card-bg hover:bg-card-bg/90  text-sm px-4 py-2 rounded-none cursor-pointer">
-                Switch to selling
-              </Button>
+              {userRole === "buyer" ? (
+                <Button
+                  onClick={handleSwitchToSelling}
+                  className=" text-primary bg-card-bg hover:bg-card-bg/90  text-sm px-4 py-2 rounded-none cursor-pointer"
+                >
+                  SWITCH TO SELLING
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleSwitchToBuying}
+                  className=" text-primary bg-card-bg hover:bg-card-bg/90  text-sm px-4 py-2 rounded-none cursor-pointer"
+                >
+                  SWITCH TO BUYING
+                </Button>
+              )}
             </div>
           </div>
         </div>
