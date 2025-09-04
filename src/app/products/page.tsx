@@ -36,6 +36,11 @@ const categories = [
   "COLLECTIBLES",
   "FASHION",
   "ANTIQUES",
+  "SHOES",
+  "BAGS",
+  "MEN",
+  "WOMEN",
+  "ALL",
 ];
 
 const auctionHouses = [
@@ -53,6 +58,7 @@ const Products = () => {
   const [activeTab, setActiveTab] = useState("all");
   const [sortBy, setSortBy] = useState("new-arrival");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [showAllCategories, setShowAllCategories] = useState(false);
 
   // Filter products based on active tab
   const getFilteredProducts = () => {
@@ -372,27 +378,32 @@ const Products = () => {
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-3 pb-4">
               <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <Button
-                    key={category}
-                    variant={
-                      filters.categories.includes(category)
-                        ? "default"
-                        : "outline"
-                    }
-                    size="sm"
-                    className="text-xs h-8 rounded-none"
-                    onClick={() => toggleArrayFilter("categories", category)}
-                  >
-                    {category}
-                  </Button>
-                ))}
+                {(showAllCategories ? categories : categories.slice(0, 7)).map(
+                  (category) => (
+                    <Button
+                      key={category}
+                      variant={
+                        filters.categories.includes(category)
+                          ? "default"
+                          : "outline"
+                      }
+                      size="sm"
+                      className="text-xs h-8 rounded-none"
+                      onClick={() => toggleArrayFilter("categories", category)}
+                    >
+                      {category}
+                    </Button>
+                  )
+                )}
               </div>
               <Button
                 variant="link"
-                className="text-sm p-0 h-auto font-normal underline"
+                className="text-sm p-0 h-auto font-normal underline cursor-pointer"
+                onClick={() => setShowAllCategories(!showAllCategories)}
               >
-                VIEW ALL 12 CATEGORIES
+                {showAllCategories
+                  ? "SHOW LESS"
+                  : `VIEW ALL ${categories.length} CATEGORIES`}
               </Button>
             </CollapsibleContent>
           </Collapsible>

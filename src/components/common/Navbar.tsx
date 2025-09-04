@@ -46,12 +46,19 @@ const Navbar = () => {
               <UserRound className="w-5 h-5 text-primary" />
             </div>
 
-            <Button className="bg-primary hover:bg-primary/90 text-white text-sm px-4 py-2 rounded-none cursor-pointer">
-              JOIN AS BUYER
-            </Button>
-            <Button className=" text-primary bg-card-bg hover:bg-card-bg/90  text-sm px-4 py-2 rounded-none cursor-pointer">
-              START SELLING
-            </Button>
+            <div className="flex items-center space-x-2">
+              <Button className="bg-primary hover:bg-primary/90 text-white text-sm px-4 py-2 rounded-none cursor-pointer">
+                JOIN AS BUYER
+              </Button>
+              <Button className=" text-primary bg-card-bg hover:bg-card-bg/90  text-sm px-4 py-2 rounded-none cursor-pointer">
+                START SELLING
+              </Button>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Button className=" text-primary bg-card-bg hover:bg-card-bg/90  text-sm px-4 py-2 rounded-none cursor-pointer">
+                Switch to selling
+              </Button>
+            </div>
           </div>
         </div>
       </div>
