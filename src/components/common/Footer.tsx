@@ -9,7 +9,7 @@ import { Button } from "../ui/button";
 
 const Footer = () => {
   return (
-    <footer className="bg-card-bg mt-16">
+    <footer className="bg-card-bg ">
       <div className="w-full  px-8 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 pt-12">
         <div className="w-full grid  grid-cols-2 md:grid-cols-5 gap-8 ">
           <div className="">

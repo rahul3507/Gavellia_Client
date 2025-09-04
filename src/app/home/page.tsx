@@ -11,7 +11,7 @@ import React from "react";
 
 const HomePage = () => {
   return (
-    <div className="px-2 md:px-4 xl:px-6">
+    <div className="px-2 md:px-4 xl:px-6 mb-12">
       {/* this is top banner */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2">
         {/* Art Auction */}
