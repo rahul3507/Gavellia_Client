@@ -4,7 +4,7 @@ import { product } from "@/data/productData";
 import { Check, Eye, Package, Plane, Tag } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -24,18 +24,19 @@ import { type CarouselApi } from "@/components/ui/carousel";
 import ProductCard from "@/components/common/ProductCard";
 
 interface ProductDetailsProps {
-  params: {
+  params: Promise<{
     title: string;
-  };
+  }>;
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
+  const resolvedParams = use(params);
   const [selectedBid, setSelectedBid] = useState<string>("");
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [api, setApi] = useState<CarouselApi>();
 
   // Decode the URL title and find the matching product
-  const decodedTitle = decodeURIComponent(params.title);
+  const decodedTitle = decodeURIComponent(resolvedParams.title);
   const productData = product.find(
     (item) =>
       item.title.toLowerCase().replace(/\s+/g, "-") ===
