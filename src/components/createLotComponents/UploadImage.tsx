@@ -130,14 +130,18 @@ const UploadImage: React.FC<UploadImageProps> = ({
         )}
       </div>
 
-      <div className="flex justify-between mt-8">
-        <Button onClick={onBack} variant="outline" className="px-6 py-2">
+      <div className="flex justify-end gap-2 mt-8">
+        <Button
+          onClick={onBack}
+          variant="outline"
+          className="px-6 py-2 bg-gray-100 hover:bg-gray-200 rounded-none"
+        >
           BACK
         </Button>
         <Button
           onClick={onNext}
           disabled={!canContinue}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2"
+          className="bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-none"
         >
           CONTINUE
         </Button>
