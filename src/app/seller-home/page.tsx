@@ -1,12 +1,21 @@
 /** @format */
 
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { PiCoatHanger } from "react-icons/pi";
 
 const SellerHome = () => {
+  const router = useRouter();
+
+  const handleStartCreating = () => {
+    router.push("/create-lot");
+  };
+
   return (
     <div className="w-full h-screen grid grid-cols-1 md:grid-cols-2 ">
       {/* Left Side - Hero Image */}
@@ -58,7 +67,10 @@ const SellerHome = () => {
             </p>
 
             {/* CTA Button */}
-            <Button className="bg-primary hover:bg-primary/90 rounded-none text-white font-medium px-8 py-3 text-sm tracking-wide">
+            <Button
+              onClick={handleStartCreating}
+              className="bg-primary hover:bg-primary/90 rounded-none text-white font-medium px-8 py-3 text-sm tracking-wide"
+            >
               START CREATING
             </Button>
           </div>
