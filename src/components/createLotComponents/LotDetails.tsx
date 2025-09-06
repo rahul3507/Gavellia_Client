@@ -38,24 +38,22 @@ const LotDetails: React.FC<LotDetailsProps> = ({
     setFeatures([...features, ""]);
   };
 
-  const removeFeature = (index: number) => {
-    if (features.length > 3) {
-      const newFeatures = features.filter((_, i) => i !== index);
-      setFeatures(newFeatures);
-    }
-  };
-
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-2">Lot Details</h2>
-      <p className="text-gray-600 mb-8">
+      <h2 className="text-xl md:text-2xl  font-medium  text-primary mb-2">
+        Lot Details
+      </h2>
+      <p className="text-primary/50 text-xs md:text-sm mb-8">
         Enter your lot&apos;s title, core features and essential description.
       </p>
 
-      <div className="space-y-6">
+      <div className="space-y-6 text-primary">
         {/* Lot Title */}
         <div>
-          <Label htmlFor="lot-title" className="text-sm font-medium mb-2 block">
+          <Label
+            htmlFor="lot-title"
+            className="text-xs md:text-sm font-medium mb-2 block"
+          >
             Lot Title*
           </Label>
           <Input
@@ -64,48 +62,32 @@ const LotDetails: React.FC<LotDetailsProps> = ({
             placeholder="Enter your lot title"
             value={lotTitle}
             onChange={(e) => setLotTitle(e.target.value)}
-            className="w-full"
+            className="w-full text-primary text-sm "
           />
         </div>
 
         {/* Features */}
         <div>
-          <Label className="text-sm font-medium mb-2 block">
-            Features & Highlights*
-          </Label>
+          <div className="flex items-center justify-between mb-2">
+            <label className="block text-xs md:text-sm font-medium text-gray-700">
+              Special feature (Optional)
+            </label>
+            <button
+              onClick={addNewFeature}
+              className="text-primary text-sm font-medium hover:text-primary/70 cursor-pointer flex items-center"
+            >
+              + New
+            </button>
+          </div>
           <div className="space-y-3">
             {features.map((feature, index) => (
-              <div key={index} className="flex items-center space-x-2">
-                <Input
-                  type="text"
-                  placeholder={`Feature ${index + 1}`}
-                  value={feature}
-                  onChange={(e) => handleFeatureChange(index, e.target.value)}
-                  className="flex-1"
-                />
-                {features.length > 3 && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => removeFeature(index)}
-                    className="p-2"
-                  >
-                    <X className="w-4 h-4" />
-                  </Button>
-                )}
-              </div>
+              <Input
+                key={index}
+                placeholder={`Feature ${index + 1}`}
+                value={feature}
+                onChange={(e) => handleFeatureChange(index, e.target.value)}
+              />
             ))}
-            {features.length < 10 && (
-              <Button
-                type="button"
-                variant="outline"
-                onClick={addNewFeature}
-                className="w-full border-dashed"
-              >
-                + Add another feature
-              </Button>
-            )}
           </div>
         </div>
 
@@ -113,7 +95,7 @@ const LotDetails: React.FC<LotDetailsProps> = ({
         <div>
           <Label
             htmlFor="description"
-            className="text-sm font-medium mb-2 block"
+            className="text-xs md:text-sm font-medium mb-2 block"
           >
             Description*
           </Label>
@@ -122,7 +104,7 @@ const LotDetails: React.FC<LotDetailsProps> = ({
             placeholder="Describe your lot in detail..."
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full min-h-32"
+            className="w-full min-h-32 text-sm"
           />
         </div>
       </div>
@@ -131,7 +113,7 @@ const LotDetails: React.FC<LotDetailsProps> = ({
         <Button
           onClick={onNext}
           disabled={!canContinue}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2"
+          className="bg-primary hover:bg-primary/70 text-white px-6 py-2 rounded-none"
         >
           CONTINUE
         </Button>
