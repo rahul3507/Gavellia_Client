@@ -3,7 +3,7 @@
 import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "../ui/progress";
-import { Upload, Check, Trash2, X } from "lucide-react";
+import { Upload, Check, Trash2 } from "lucide-react";
 import { CiImageOn } from "react-icons/ci";
 import {
   Dialog,
@@ -70,7 +70,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
       // Create a synthetic event for the onFileUpload handler
       const syntheticEvent = {
         target: { files: imageFiles },
-      } as React.ChangeEvent<HTMLInputElement>;
+      } as unknown as React.ChangeEvent<HTMLInputElement>;
       onFileUpload(syntheticEvent);
     }
   };
