@@ -1,16 +1,25 @@
 /** @format */
 
-import React from "react";
+import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "../ui/progress";
-import { Upload, Check, Trash2 } from "lucide-react";
+import { Upload, Check, Trash2, X } from "lucide-react";
 import { CiImageOn } from "react-icons/ci";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import Image from "next/image";
 
 interface FileUpload {
   name: string;
   size: number;
   progress: number;
   complete: boolean;
+  file?: File;
+  previewUrl?: string;
 }
 
 interface UploadImageProps {
@@ -32,6 +41,50 @@ const UploadImage: React.FC<UploadImageProps> = ({
   canContinue,
   formatFileSize,
 }) => {
+  const [isDragOver, setIsDragOver] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Handle drag events
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+
+    const droppedFiles = Array.from(e.dataTransfer.files);
+    const imageFiles = droppedFiles.filter((file) =>
+      file.type.startsWith("image/")
+    );
+
+    if (imageFiles.length > 0) {
+      // Create a synthetic event for the onFileUpload handler
+      const syntheticEvent = {
+        target: { files: imageFiles },
+      } as React.ChangeEvent<HTMLInputElement>;
+      onFileUpload(syntheticEvent);
+    }
+  };
+
+  const handleImageView = (file: FileUpload) => {
+    if (file.previewUrl) {
+      setSelectedImage(file.previewUrl);
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleUploadAreaClick = () => {
+    fileInputRef.current?.click();
+  };
   return (
     <div>
       <h2 className="text-xl md:text-2xl  font-medium  text-primary mb-2">
@@ -43,22 +96,28 @@ const UploadImage: React.FC<UploadImageProps> = ({
 
       <div className="space-y-6">
         {/* Upload Area */}
-        <div className="border-2 border-dashed border-[#007AFF] bg-[#1C1C1C0F] rounded-none p-2 text-center">
+        <div
+          className={`border-2 border-dashed ${
+            isDragOver
+              ? "border-[#007AFF] bg-blue-50"
+              : "border-[#007AFF] bg-[#1C1C1C0F]"
+          } rounded-none p-2 text-center transition-colors cursor-pointer`}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
+          onClick={handleUploadAreaClick}
+        >
           <div className="flex flex-col items-center">
-            <label htmlFor="file-upload" className="cursor-pointer">
-              <Upload className="w-8 h-8 text-[#007AFF] mb-4" />
-            </label>
+            <Upload className="w-8 h-8 text-[#007AFF] mb-4" />
 
             <p className="text-primary/70 mb-4">
-              <label
-                htmlFor="file-upload"
-                className="text-[#007AFF] cursor-pointer"
-              >
+              <span className="text-[#007AFF] cursor-pointer">
                 Click to Upload
-              </label>{" "}
+              </span>{" "}
               or drag and drop
             </p>
             <input
+              ref={fileInputRef}
               type="file"
               multiple
               accept="image/*"
@@ -88,12 +147,20 @@ const UploadImage: React.FC<UploadImageProps> = ({
                       <h5 className="text-sm  font-medium text-primary/70">
                         lot photo {index + 1}
                       </h5>
+                      {file.complete && (
+                        <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                          <Check className="w-3 h-3 text-white" />
+                        </div>
+                      )}
                     </div>
 
                     <p className="text-xs text-primary/70 mt-1">{file.name}</p>
 
                     {file.complete ? (
-                      <button className="text-xs text-primary mt-1 hover:underline">
+                      <button
+                        className="text-xs text-primary mt-1 hover:underline cursor-pointer"
+                        onClick={() => handleImageView(file)}
+                      >
                         CLICK TO VIEW
                       </button>
                     ) : (
@@ -146,6 +213,27 @@ const UploadImage: React.FC<UploadImageProps> = ({
           CONTINUE
         </Button>
       </div>
+
+      {/* Image View Modal */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] p-0">
+          <DialogHeader className="p-6 pb-0">
+            <DialogTitle className="text-xl font-medium text-primary"></DialogTitle>
+          </DialogHeader>
+          <div className="p-6 pt-4">
+            {selectedImage && (
+              <div className="relative w-full h-96">
+                <Image
+                  src={selectedImage}
+                  alt="Full size preview"
+                  fill
+                  className="object-contain rounded-lg"
+                />
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

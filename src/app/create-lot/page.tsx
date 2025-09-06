@@ -2,7 +2,7 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Check } from "lucide-react";
 import LotDetails from "@/components/createLotComponents/LotDetails";
 import UploadImage from "@/components/createLotComponents/UploadImage";
@@ -15,6 +15,8 @@ interface FileUpload {
   size: number;
   progress: number;
   complete: boolean;
+  file?: File;
+  previewUrl?: string;
 }
 
 const CreateLot = () => {
@@ -32,6 +34,17 @@ const CreateLot = () => {
     "LOT" + Math.random().toString(36).substr(2, 9).toUpperCase()
   );
 
+  // Cleanup object URLs on component unmount
+  useEffect(() => {
+    return () => {
+      files.forEach((file) => {
+        if (file.previewUrl) {
+          URL.revokeObjectURL(file.previewUrl);
+        }
+      });
+    };
+  }, [files]);
+
   const steps = [
     { number: 1, title: "Lot Details", active: currentStep === 1 },
     { number: 2, title: "Upload Lot Images", active: currentStep === 2 },
@@ -48,6 +61,8 @@ const CreateLot = () => {
         size: file.size,
         progress: 0,
         complete: false,
+        file: file,
+        previewUrl: URL.createObjectURL(file),
       }));
 
       setFiles((prev) => [...prev, ...newFiles]);
@@ -78,6 +93,10 @@ const CreateLot = () => {
   };
 
   const removeFile = (index: number) => {
+    const fileToRemove = files[index];
+    if (fileToRemove?.previewUrl) {
+      URL.revokeObjectURL(fileToRemove.previewUrl);
+    }
     setFiles(files.filter((_, i) => i !== index));
   };
 
