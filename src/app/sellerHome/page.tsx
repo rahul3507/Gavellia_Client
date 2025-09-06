@@ -19,7 +19,7 @@ const SellerHome = () => {
           height={800}
         />
 
-        {/* Success Notification Overlay */}
+        {/* Success Notification Overlay  */}
         <div className="absolute top-1/2 left-24 bg-white/20 backdrop-blur-md border border-white/30 shadow-lg p-4 flex items-center space-x-3 max-w-xs rounded-lg">
           <div className="w-8 h-8 bg-[#4caf50] rounded-full flex items-center justify-center">
             <Check className="w-5 h-5 text-white" />
