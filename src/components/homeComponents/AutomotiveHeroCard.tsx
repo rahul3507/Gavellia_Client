@@ -22,7 +22,7 @@ const AutomotiveHeroCard = () => {
             ICONIC AUTOMOTIVE LEGENDS
           </h2>
           <Link
-            href="#"
+            href="/products"
             className="text-white hover:text-white/80 text-xs md:text-sm mb-4 underline"
           >
             FULLY INSPECTED COLLECTOR CARS

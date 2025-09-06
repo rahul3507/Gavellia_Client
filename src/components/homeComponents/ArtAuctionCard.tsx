@@ -29,7 +29,7 @@ const ArtAuctionCard = () => {
             </p>
           </div>
           <Link
-            href="#"
+            href="/products"
             className="text-primary  bg-transparent hover:text-primary/70 hover:underline text-xs md:text-sm  self-start"
           >
             EXPLORE ART AUCTION

@@ -16,7 +16,7 @@ const BottomCTACard = () => {
             Browse thousands of live auction ancient materials
           </p>
           <Link
-            href="#"
+            href="/products"
             className="text-white text-xs md:text-sm hover:text-white/80 underline self-start"
           >
             PARTICIPATE LIVE AUCTION

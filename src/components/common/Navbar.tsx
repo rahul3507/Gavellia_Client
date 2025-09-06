@@ -36,7 +36,7 @@ const Navbar = () => {
             </Link>
             <nav className=" flex space-x-6">
               <Link
-                href="/home"
+                href="/products"
                 className="text-primary hover:text-primary/80 text-sm font-semibold"
               >
                 Browse auction
