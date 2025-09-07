@@ -26,13 +26,10 @@ const CreateLot = () => {
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState<FileUpload[]>([]);
   const [auctionType, setAuctionType] = useState("");
-  const [startingPrice, setStartingPrice] = useState("");
-  const [estimatedValue, setEstimatedValue] = useState("");
-  const [auctionDuration, setAuctionDuration] = useState("");
+  const [startingPrice, setStartingPrice] = useState<number | undefined>();
   const [startDate, setStartDate] = useState("");
-  const [lotId] = useState(
-    "LOT" + Math.random().toString(36).substr(2, 9).toUpperCase()
-  );
+  const [startTime, setStartTime] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   // Cleanup object URLs on component unmount
   useEffect(() => {
@@ -109,19 +106,6 @@ const CreateLot = () => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
   };
 
-  const getAuctionTypeName = (type: string) => {
-    switch (type) {
-      case "english":
-        return "English Auction";
-      case "dutch":
-        return "Dutch Auction";
-      case "reserve":
-        return "Reserve Auction";
-      default:
-        return type;
-    }
-  };
-
   // Validation functions
   const canContinueStep1 = () => {
     return lotTitle.trim() !== "" && description.trim() !== "";
@@ -132,13 +116,15 @@ const CreateLot = () => {
   };
 
   const canContinueStep3 = () => {
-    return (
-      auctionType !== "" &&
-      startingPrice.trim() !== "" &&
-      estimatedValue.trim() !== "" &&
-      auctionDuration !== "" &&
-      startDate !== ""
-    );
+    if (!auctionType || startingPrice === undefined || startingPrice <= 0)
+      return false;
+    if (auctionType === "LIVE") {
+      return startDate !== "" && startTime !== "";
+    }
+    if (auctionType === "TIMED") {
+      return startDate !== "" && endDate !== "";
+    }
+    return false;
   };
 
   // Navigation handlers
@@ -159,27 +145,8 @@ const CreateLot = () => {
     setCurrentStep(5); // Show success screen
   };
 
-  // Success screen handlers
-  const handleCreateAnother = () => {
-    // Reset all form data
-    setCurrentStep(1);
-    setLotTitle("");
-    setFeatures(["", "", ""]);
-    setDescription("");
-    setFiles([]);
-    setAuctionType("");
-    setStartingPrice("");
-    setEstimatedValue("");
-    setAuctionDuration("");
-    setStartDate("");
-  };
-
-  const handleViewLot = () => {
-    window.open(`/lot/${lotId}`, "_blank");
-  };
-
   const handleGoToDashboard = () => {
-    window.location.href = "/seller-dashboard";
+    window.location.href = "/";
   };
 
   const renderStepIndicator = () => (
@@ -220,18 +187,7 @@ const CreateLot = () => {
 
   // Success screen
   if (currentStep === 5) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg shadow-lg max-w-2xl w-full p-8">
-          <Success
-            lotId={lotId}
-            onCreateAnother={handleCreateAnother}
-            onViewLot={handleViewLot}
-            onGoToDashboard={handleGoToDashboard}
-          />
-        </div>
-      </div>
-    );
+    return <Success onGoToDashboard={handleGoToDashboard} />;
   }
 
   return (
@@ -275,12 +231,12 @@ const CreateLot = () => {
               onAuctionTypeChange={setAuctionType}
               startingPrice={startingPrice}
               onStartingPriceChange={setStartingPrice}
-              estimatedValue={estimatedValue}
-              onEstimatedValueChange={setEstimatedValue}
-              auctionDuration={auctionDuration}
-              onAuctionDurationChange={setAuctionDuration}
               startDate={startDate}
               onStartDateChange={setStartDate}
+              startTime={startTime}
+              onStartTimeChange={setStartTime}
+              endDate={endDate}
+              onEndDateChange={setEndDate}
               onNext={handleNext}
               onBack={handleBack}
               canContinue={canContinueStep3()}
@@ -289,21 +245,7 @@ const CreateLot = () => {
 
           {/* Step 4: Publish */}
           {currentStep === 4 && (
-            <Publish
-              title={lotTitle}
-              description={description}
-              features={features.filter((f) => f.trim() !== "")}
-              files={files}
-              auctionType={auctionType}
-              startingPrice={startingPrice}
-              estimatedValue={estimatedValue}
-              auctionDuration={auctionDuration}
-              startDate={startDate}
-              onPublish={handlePublish}
-              onBack={handleBack}
-              formatFileSize={formatFileSize}
-              getAuctionTypeName={getAuctionTypeName}
-            />
+            <Publish onPublish={handlePublish} onBack={handleBack} />
           )}
         </div>
       </div>

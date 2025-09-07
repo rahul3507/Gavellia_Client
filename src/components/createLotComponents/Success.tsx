@@ -2,137 +2,48 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, Calendar, Share2, Eye } from "lucide-react";
+
+import Image from "next/image";
 
 interface SuccessProps {
-  lotId: string;
-  onCreateAnother: () => void;
-  onViewLot: () => void;
   onGoToDashboard: () => void;
 }
 
-const Success: React.FC<SuccessProps> = ({
-  lotId,
-  onCreateAnother,
-  onViewLot,
-  onGoToDashboard,
-}) => {
-  const shareUrl = `${window.location.origin}/lot/${lotId}`;
-
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "Check out my auction lot",
-          url: shareUrl,
-        });
-      } catch {
-        // User cancelled sharing
-      }
-    } else {
-      // Fallback: copy to clipboard
-      navigator.clipboard.writeText(shareUrl);
-      // You could show a toast notification here
-    }
-  };
-
+const Success: React.FC<SuccessProps> = ({ onGoToDashboard }) => {
   return (
-    <div className="text-center">
-      <div className="flex justify-center mb-6">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-          <CheckCircle className="w-8 h-8 text-green-600" />
+    <div className="min-h-screen md:min-h-[700px]  flex flex-col items-center mt-36 px-2 md:px-0 space-y-4">
+      <div className="">
+        <Image
+          src="/success_banner.png"
+          alt="Placeholder"
+          width={128}
+          height={96}
+          className="rounded-lg max-w-56 max-h-32"
+        />
+        <h2 className="text-base md:text-lg font-semibold text-primary ">
+          You&apos;re done!
+        </h2>
+      </div>
+      <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-8 ">
+        <div className="mb-6">
+          <h3 className=" text-primary text-sm md:text-base font-medium mb-2">
+            Your lot is in under review
+          </h3>
+          <p className="text-xs md:text-sm text-primary/70 mb-2">
+            Thank you for submitting your lot. You&apos;ll get an email once
+            we&apos;re done reviewing.
+          </p>
+          <p className="text-sm text-gray-600">
+            <strong>Review time: 48 hours</strong>
+          </p>
         </div>
       </div>
-
-      <h2 className="text-2xl font-bold text-gray-900 mb-2">
-        Lot Successfully Created!
-      </h2>
-      <p className="text-gray-600 mb-8">
-        Your lot has been published and is now live for bidding.
-      </p>
-
-      <div className="bg-gray-50 rounded-lg p-6 mb-8">
-        <h3 className="font-medium text-gray-900 mb-4">Lot Details</h3>
-        <div className="space-y-3 text-sm">
-          <div className="flex justify-between">
-            <span className="text-gray-600">Lot ID:</span>
-            <span className="font-medium text-gray-900">#{lotId}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-600">Status:</span>
-            <span className="text-green-600 font-medium">Active</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-600">Created:</span>
-            <span className="font-medium text-gray-900">
-              {new Date().toLocaleDateString()}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-4 mb-8">
-        <h3 className="font-medium text-gray-900">What&apos;s Next?</h3>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-          <div className="p-4 border border-gray-200 rounded-lg">
-            <Calendar className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-            <h4 className="font-medium text-gray-900 mb-1">Monitor Activity</h4>
-            <p className="text-gray-600">
-              Track bids and engagement on your lot
-            </p>
-          </div>
-
-          <div className="p-4 border border-gray-200 rounded-lg">
-            <Share2 className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-            <h4 className="font-medium text-gray-900 mb-1">Share Your Lot</h4>
-            <p className="text-gray-600">
-              Promote your auction to increase visibility
-            </p>
-          </div>
-
-          <div className="p-4 border border-gray-200 rounded-lg">
-            <Eye className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-            <h4 className="font-medium text-gray-900 mb-1">Manage Auction</h4>
-            <p className="text-gray-600">
-              Update details and respond to questions
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex flex-col sm:flex-row gap-4 justify-center">
-        <Button
-          onClick={onViewLot}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2"
-        >
-          <Eye className="w-4 h-4 mr-2" />
-          View Lot
-        </Button>
-
-        <Button onClick={handleShare} variant="outline" className="px-6 py-2">
-          <Share2 className="w-4 h-4 mr-2" />
-          Share Lot
-        </Button>
-
-        <Button
-          onClick={onCreateAnother}
-          variant="outline"
-          className="px-6 py-2"
-        >
-          Create Another Lot
-        </Button>
-      </div>
-
-      <div className="mt-8 pt-8 border-t border-gray-200">
-        <Button
-          onClick={onGoToDashboard}
-          variant="ghost"
-          className="text-gray-600 hover:text-gray-900"
-        >
-          Go to Seller Dashboard
-        </Button>
-      </div>
+      <Button
+        onClick={onGoToDashboard}
+        className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2"
+      >
+        RETURN HOME
+      </Button>
     </div>
   );
 };

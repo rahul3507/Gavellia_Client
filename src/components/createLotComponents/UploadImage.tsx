@@ -3,7 +3,7 @@
 import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "../ui/progress";
-import { Upload, Check, Trash2 } from "lucide-react";
+import { Upload, Trash2 } from "lucide-react";
 import { CiImageOn } from "react-icons/ci";
 import {
   Dialog,
@@ -147,11 +147,6 @@ const UploadImage: React.FC<UploadImageProps> = ({
                       <h5 className="text-sm  font-medium text-primary/70">
                         lot photo {index + 1}
                       </h5>
-                      {file.complete && (
-                        <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-                          <Check className="w-3 h-3 text-white" />
-                        </div>
-                      )}
                     </div>
 
                     <p className="text-xs text-primary/70 mt-1">{file.name}</p>
