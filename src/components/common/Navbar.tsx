@@ -5,6 +5,8 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { useState } from "react";
+import AuthDialog from "./AuthDialog";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { switchToBuyer, switchToSeller } from "@/redux/feature/userRoleSlice";
 
@@ -12,6 +14,16 @@ const Navbar = () => {
   const userRole = useAppSelector((state) => state.userRole.role);
   const dispatch = useAppDispatch();
   const router = useRouter();
+
+  const [open, setOpen] = useState(false);
+
+  const handleSellingSignup = () => {
+    setOpen(true);
+  };
+
+  const handleBuyerSignup = () => {
+    setOpen(true);
+  };
 
   const handleSwitchToSelling = () => {
     dispatch(switchToSeller());
@@ -63,12 +75,19 @@ const Navbar = () => {
             </div>
 
             <div className="flex items-center space-x-2">
-              <Button className="bg-primary hover:bg-primary/90 text-white text-sm px-4 py-2 rounded-none cursor-pointer">
+              <Button
+                onClick={handleBuyerSignup}
+                className="bg-primary hover:bg-primary/90 text-white text-sm px-4 py-2 rounded-none cursor-pointer"
+              >
                 JOIN AS BUYER
               </Button>
-              <Button className=" text-primary bg-card-bg hover:bg-card-bg/90  text-sm px-4 py-2 rounded-none cursor-pointer">
+              <Button
+                className="text-primary bg-card-bg hover:bg-card-bg/90 text-sm px-4 py-2 rounded-none cursor-pointer"
+                onClick={handleSellingSignup}
+              >
                 START SELLING
               </Button>
+              <AuthDialog open={open} onOpenChange={setOpen} />
             </div>
 
             {/* Role Switch Buttons */}

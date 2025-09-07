@@ -11,7 +11,7 @@ const Footer = () => {
   return (
     <footer className="bg-card-bg ">
       <div className="w-full  px-8 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 pt-12">
-        <div className="w-full grid  grid-cols-2 md:grid-cols-5 gap-8 ">
+        <div className="w-full grid  grid-cols-2 md:grid-cols-5  gap-8 ">
           <div className="">
             <h3 className="text-sm text-primary mb-4">Marketplace</h3>
             <ul className="space-y-2 text-sm md:text-base text-primary">
