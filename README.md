@@ -4,6 +4,9 @@ Overview
 
 Gavellia is an e-commerce website where users can buy and sell products through timed or live bidding processes. Users can participate in auctions, place bids, and purchase items if they win. The platform supports multiple user roles: individual buyer, professional buyer, and seller. Users can sign up, log in, and switch between buyer and seller roles seamlessly.
 
+
+
+
 Features
 
 
