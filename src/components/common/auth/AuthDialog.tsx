@@ -137,7 +137,95 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
 
       case "email":
         return (
-          <div className="space-y-4">
+          <div className=" space-y-4">
+            <div className="flex  mb-4">
+              <Button
+                variant="ghost"
+                onClick={handleBack}
+                className="p-0 mr-4 text-gray-600 hover:text-gray-800"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                <span className=" font-medium">BACK</span>
+              </Button>
+            </div>
+
+            <div className="flex flex-col space-y-6 justify-between h-full">
+              <div className="">
+                <h1 className="text-xl md:text-3xl font-serif font-medium text-primary mb-2">
+                  Gavellia
+                </h1>
+                <h2 className="text-base md:text-lg font-semibold text-primary tracking-wide mb-3">
+                  BEGINS YOUR AUCTION JOURNEY
+                </h2>
+                <div className="space-y-2">
+                  <div>
+                    <Label
+                      htmlFor="email"
+                      className="text-sm font-medium text-gray-700 mb-2 block"
+                    >
+                      Email
+                    </Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) =>
+                        handleInputChange("email", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-blue-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder=""
+                    />
+                  </div>
+
+                  <div>
+                    <Label
+                      htmlFor="password"
+                      className="text-sm font-medium text-gray-700 mb-2 block"
+                    >
+                      Password
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        required
+                        type={showPassword ? "text" : "password"}
+                        value={formData.password}
+                        onChange={(e) =>
+                          handleInputChange("password", e.target.value)
+                        }
+                        className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder=""
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <Button
+                onClick={handleContinue}
+                className="w-full text-xs md:text-sm bg-black text-white font-semibold py-3 rounded-none hover:bg-gray-800"
+              >
+                CONTINUE
+              </Button>
+            </div>
+          </div>
+        );
+
+      case "accountType":
+        return (
+          <div className=" space-y-4">
             <div className="flex  mb-4">
               <Button
                 variant="ghost"
@@ -145,97 +233,12 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
                 className="p-0 mr-4 text-gray-600 hover:text-gray-800"
               >
                 <ChevronLeft className="h-4 w-5" />
-                <span className="ml-2 font-medium">BACK</span>
+                <span className=" font-medium">BACK</span>
               </Button>
             </div>
 
             <div>
-              <h1 className="text-xl md:text-3xl font-serif font-medium text-primary mb-2">
-                Gavellia
-              </h1>
-              <h2 className="text-base md:text-lg font-semibold text-primary mb-1 tracking-wide">
-                BEGINS YOUR AUCTION JOURNEY
-              </h2>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <Label
-                  htmlFor="email"
-                  className="text-sm font-medium text-gray-700 mb-2 block"
-                >
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  className="w-full px-3 py-2 border border-blue-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder=""
-                />
-              </div>
-
-              <div>
-                <Label
-                  htmlFor="password"
-                  className="text-sm font-medium text-gray-700 mb-2 block"
-                >
-                  Password
-                </Label>
-                <div className="relative">
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    value={formData.password}
-                    onChange={(e) =>
-                      handleInputChange("password", e.target.value)
-                    }
-                    className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder=""
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            <Button
-              onClick={handleContinue}
-              className="w-full bg-black text-white font-semibold py-3 rounded-none hover:bg-gray-800 items-end"
-            >
-              CONTINUE
-            </Button>
-          </div>
-        );
-
-      case "accountType":
-        return (
-          <div className="space-y-6">
-            <div className="flex justify-between mb-6">
-              <Button
-                variant="ghost"
-                onClick={handleBack}
-                className="p-0 text-gray-600 hover:text-gray-800"
-              >
-                <ArrowLeft className="h-5 w-5" />
-                <span className="ml-2 font-medium">BACK</span>
-              </Button>
-              <span className="text-sm text-gray-500">1 of 6</span>
-            </div>
-
-            <div>
-              <h2 className="text-lg font-semibold text-gray-800 mb-8">
+              <h2 className="text-xs md:text-sm  text-gray-800 mb-8">
                 Select Account Type
               </h2>
             </div>
@@ -245,9 +248,9 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
                 variant={accountType === "solo" ? "default" : "outline"}
                 onClick={() => setAccountType("solo")}
                 className={cn(
-                  "h-24 flex flex-col items-center justify-center rounded-lg border-2",
+                  "h-24 flex flex-col items-center justify-center rounded-none border-2",
                   accountType === "solo"
-                    ? "border-black bg-black text-white"
+                    ? "border-blue-500 bg-blue-100 text-blue-500"
                     : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
                 )}
               >
@@ -257,9 +260,9 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
                 variant={accountType === "business" ? "default" : "outline"}
                 onClick={() => setAccountType("business")}
                 className={cn(
-                  "h-24 flex flex-col items-center justify-center rounded-lg border-2",
+                  "h-24 flex flex-col items-center justify-center rounded-none border-2",
                   accountType === "business"
-                    ? "border-black bg-black text-white"
+                    ? "border-blue-500 bg-blue-100 text-blue-500"
                     : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
                 )}
               >
@@ -270,7 +273,7 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
             <Button
               onClick={handleContinue}
               disabled={!accountType}
-              className="w-full bg-gray-400 text-white font-semibold py-3 rounded-none hover:bg-gray-500 disabled:bg-gray-300"
+              className="w-full text-xs md:text-sm bg-black text-white font-semibold py-3 rounded-none hover:bg-gray-800"
             >
               CONTINUE
             </Button>
@@ -499,23 +502,22 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
           </div>
         </div>
         {/* Right Content */}
-        <div className="w-full md:w-2/5 bg-white p-6 flex flex-col justify-center min-h-[500px] relative">
+        <div className="w-full md:w-2/5 bg-white p-6 flex flex-col  min-h-[500px] relative">
           {renderStepContent()}
 
           {/* Terms and Privacy - Only show on welcome and email steps */}
-          {(currentStep === "welcome" || currentStep === "email") && (
-            <div className="text-xs text-primary/60 mt-auto">
-              By joining, you agree to the Gavellia{" "}
-              <a href="#" className="underline text-blue-500">
-                Terms of Service
-              </a>{" "}
-              and to occasionally receive emails from us. Please read our{" "}
-              <a href="#" className="underline text-blue-500">
-                Privacy Policy
-              </a>{" "}
-              to learn how we use your personal data.
-            </div>
-          )}
+
+          <div className="text-xs text-primary/60 mt-auto">
+            By joining, you agree to the Gavellia{" "}
+            <a href="#" className="underline text-blue-500">
+              Terms of Service
+            </a>{" "}
+            and to occasionally receive emails from us. Please read our{" "}
+            <a href="#" className="underline text-blue-500">
+              Privacy Policy
+            </a>{" "}
+            to learn how we use your personal data.
+          </div>
         </div>
       </DialogContent>
     </Dialog>
