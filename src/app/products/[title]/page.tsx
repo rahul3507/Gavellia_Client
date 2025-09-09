@@ -84,7 +84,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
                         <Image
                           src={image}
                           alt={`${productData.title} - Image ${index + 1}`}
-                          fill
+                          loading="lazy"
                           className="object-cover p-12 sm:p-18"
                         />
                       </div>
