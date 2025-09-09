@@ -55,6 +55,7 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
       "accountType",
       "personalInfo",
       "businessInfo",
+
       "address",
       "taxId",
       "documents",
