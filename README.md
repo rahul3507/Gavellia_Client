@@ -28,6 +28,11 @@ Product Listings: Browse and create listings for various categories including fa
 
 Responsive Design: Optimized for desktop and mobile viewing.
 
+
+
+
+
+
 Technologies Used
 
 
@@ -55,6 +60,9 @@ Acertanity UI: Additional UI components for enhanced design.
 
 
 Redux toolkit: State management for a consistent user experience.
+
+
+
 
 Deployment
 
