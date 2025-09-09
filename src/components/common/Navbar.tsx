@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import AuthDialog from "./AuthDialog";
+import AuthDialog from "./auth/AuthDialog";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { switchToBuyer, switchToSeller } from "@/redux/feature/userRoleSlice";
 
