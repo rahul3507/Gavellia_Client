@@ -225,58 +225,62 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
 
       case "accountType":
         return (
-          <div className=" space-y-4">
-            <div className="flex  mb-4">
+          <div className="space-y-6">
+            <div className="flex items-center justify-between mb-6">
               <Button
                 variant="ghost"
                 onClick={handleBack}
-                className="p-0 mr-4 text-gray-600 hover:text-gray-800"
+                className="p-0 text-gray-600 hover:text-gray-800"
               >
-                <ChevronLeft className="h-4 w-5" />
-                <span className=" font-medium">BACK</span>
+                <ArrowLeft className="h-5 w-5" />
+                <span className="ml-2 font-medium">BACK</span>
               </Button>
+              <span className="text-sm text-gray-500">1 of 6</span>
             </div>
+            <div className="flex flex-col space-y-6 justify-between h-full">
+              <div className="mb-2">
+                <div>
+                  <h2 className="text-xs md:text-sm  text-gray-800 mb-6">
+                    Select Account Type
+                  </h2>
+                </div>
 
-            <div>
-              <h2 className="text-xs md:text-sm  text-gray-800 mb-8">
-                Select Account Type
-              </h2>
-            </div>
+                <div className="grid grid-cols-2 gap-4 mb-20 ">
+                  <Button
+                    variant={accountType === "solo" ? "default" : "outline"}
+                    onClick={() => setAccountType("solo")}
+                    className={cn(
+                      "h-24 flex flex-col items-center justify-center rounded-none border-2",
+                      accountType === "solo"
+                        ? "border-blue-500 bg-blue-100 text-blue-500"
+                        : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                    )}
+                  >
+                    <span className="font-semibold">SOLO</span>
+                  </Button>
+                  <Button
+                    variant={accountType === "business" ? "default" : "outline"}
+                    onClick={() => setAccountType("business")}
+                    className={cn(
+                      "h-24 flex flex-col items-center justify-center rounded-none border-2",
+                      accountType === "business"
+                        ? "border-blue-500 bg-blue-100 text-blue-500"
+                        : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+                    )}
+                  >
+                    <span className="font-semibold">BUSINESS</span>
+                  </Button>
+                </div>
+              </div>
 
-            <div className="grid grid-cols-2 gap-4 mb-8">
               <Button
-                variant={accountType === "solo" ? "default" : "outline"}
-                onClick={() => setAccountType("solo")}
-                className={cn(
-                  "h-24 flex flex-col items-center justify-center rounded-none border-2",
-                  accountType === "solo"
-                    ? "border-blue-500 bg-blue-100 text-blue-500"
-                    : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
-                )}
+                onClick={handleContinue}
+                disabled={!accountType}
+                className="w-full text-xs md:text-sm bg-black text-white font-semibold py-3 rounded-none hover:bg-gray-800"
               >
-                <span className="font-semibold">SOLO</span>
-              </Button>
-              <Button
-                variant={accountType === "business" ? "default" : "outline"}
-                onClick={() => setAccountType("business")}
-                className={cn(
-                  "h-24 flex flex-col items-center justify-center rounded-none border-2",
-                  accountType === "business"
-                    ? "border-blue-500 bg-blue-100 text-blue-500"
-                    : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
-                )}
-              >
-                <span className="font-semibold">BUSINESS</span>
+                CONTINUE
               </Button>
             </div>
-
-            <Button
-              onClick={handleContinue}
-              disabled={!accountType}
-              className="w-full text-xs md:text-sm bg-black text-white font-semibold py-3 rounded-none hover:bg-gray-800"
-            >
-              CONTINUE
-            </Button>
           </div>
         );
 
@@ -295,59 +299,65 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
               <span className="text-sm text-gray-500">2 of 6</span>
             </div>
 
-            <div>
-              <h2 className="text-lg font-semibold text-gray-800 mb-8">
-                Personal Info
-              </h2>
-            </div>
-
-            <div className="space-y-4">
+            <div className="flex flex-col space-y-6 justify-between h-full">
               <div>
-                <Label
-                  htmlFor="firstName"
-                  className="text-sm font-medium text-gray-700 mb-2 block"
-                >
-                  First name
-                </Label>
-                <Input
-                  id="firstName"
-                  type="text"
-                  value={formData.firstName}
-                  onChange={(e) =>
-                    handleInputChange("firstName", e.target.value)
-                  }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="e.g. Steve"
-                />
+                <div>
+                  <div>
+                    <h2 className="text-xs md:text-sm  text-gray-800 mb-6">
+                      Personal Information
+                    </h2>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <Label
+                        htmlFor="firstName"
+                        className="text-sm font-medium text-gray-700 mb-2 block"
+                      >
+                        First name
+                      </Label>
+                      <Input
+                        id="firstName"
+                        type="text"
+                        value={formData.firstName}
+                        onChange={(e) =>
+                          handleInputChange("firstName", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="e.g. Steve"
+                      />
+                    </div>
+
+                    <div>
+                      <Label
+                        htmlFor="lastName"
+                        className="text-sm font-medium text-gray-700 mb-2 block"
+                      >
+                        Last name
+                      </Label>
+                      <Input
+                        id="lastName"
+                        type="text"
+                        value={formData.lastName}
+                        onChange={(e) =>
+                          handleInputChange("lastName", e.target.value)
+                        }
+                        className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="e.g. Moss"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div>
-                <Label
-                  htmlFor="lastName"
-                  className="text-sm font-medium text-gray-700 mb-2 block"
-                >
-                  Last name
-                </Label>
-                <Input
-                  id="lastName"
-                  type="text"
-                  value={formData.lastName}
-                  onChange={(e) =>
-                    handleInputChange("lastName", e.target.value)
-                  }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="e.g. Moss"
-                />
-              </div>
+              <Button
+                onClick={handleContinue}
+                disabled={!formData.firstName || !formData.lastName}
+                className="w-full bg-gray-400 text-white font-semibold py-3 rounded-none hover:bg-gray-500 disabled:bg-gray-300"
+              >
+                CONTINUE
+              </Button>
             </div>
-
-            <Button
-              onClick={handleContinue}
-              disabled={!formData.firstName || !formData.lastName}
-              className="w-full bg-gray-400 text-white font-semibold py-3 rounded-none hover:bg-gray-500 disabled:bg-gray-300"
-            >
-              CONTINUE
-            </Button>
           </div>
         );
 
