@@ -81,13 +81,13 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
                 <CarouselContent>
                   {productData.img.map((image, index) => (
                     <CarouselItem key={index}>
-                      <div className="relative aspect-square  rounded-lg overflow-hidden">
+                      <div className="relative aspect-square  rounded-lg overflow-hidden justify-center items-center flex">
                         <Image
                           src={image}
                           alt={`${productData.title} - Image ${index + 1}`}
                           loading="lazy"
-                          width={400}
-                          height={400}
+                          width={600}
+                          height={600}
                           className="object-cover p-12 sm:p-18"
                         />
                       </div>
@@ -127,7 +127,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
             </div>
 
             {/* Thumbnail Navigation */}
-            <div className="flex gap-2 justify-center">
+            <div className="flex gap-2 justify-center ">
               {productData.img.slice(0, 4).map((image, index) => (
                 <div
                   key={index}
