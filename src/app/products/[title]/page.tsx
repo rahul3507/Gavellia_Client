@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/carousel";
 import { type CarouselApi } from "@/components/ui/carousel";
 import ProductCard from "@/components/common/ProductCard";
+import loading from "@/app/loading";
 
 interface ProductDetailsProps {
   params: Promise<{
@@ -85,6 +86,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
                           src={image}
                           alt={`${productData.title} - Image ${index + 1}`}
                           loading="lazy"
+                          width={400}
+                          height={400}
                           className="object-cover p-12 sm:p-18"
                         />
                       </div>
