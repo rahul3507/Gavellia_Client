@@ -6,7 +6,14 @@ import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
 import React, { useState } from "react";
-import { Mail, ArrowLeft, Eye, EyeOff, ChevronLeft } from "lucide-react";
+import {
+  Mail,
+  ArrowLeft,
+  Eye,
+  EyeOff,
+  ChevronLeft,
+  Loader,
+} from "lucide-react";
 
 interface AuthDialogProps {
   open: boolean;
@@ -19,7 +26,7 @@ type SignupStep =
   | "accountType"
   | "personalInfo"
   | "businessInfo"
-  | "address"
+  | "businessAddress"
   | "taxId"
   | "documents"
   | "verification"
@@ -29,6 +36,7 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
   const [currentStep, setCurrentStep] = useState<SignupStep>("welcome");
   const [showPassword, setShowPassword] = useState(false);
   const [accountType, setAccountType] = useState<"solo" | "business">("solo");
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -36,7 +44,7 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
     lastName: "",
     businessName: "",
     businessType: "",
-    address: "",
+    businessAddress: "",
     city: "",
     state: "",
     zipCode: "",
@@ -55,8 +63,7 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
       "accountType",
       "personalInfo",
       "businessInfo",
-
-      "address",
+      "businessAddress",
       "taxId",
       "documents",
       "verification",
@@ -68,14 +75,18 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
     }
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
+    setIsLoading(true);
+    // Simulate loading delay
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
     const stepOrder: SignupStep[] = [
       "welcome",
       "email",
       "accountType",
       "personalInfo",
       "businessInfo",
-      "address",
+      "businessAddress",
       "taxId",
       "documents",
       "verification",
@@ -87,11 +98,36 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
       if (currentStep === "accountType" && accountType === "solo") {
         setCurrentStep("personalInfo");
       } else if (currentStep === "personalInfo" && accountType === "solo") {
-        setCurrentStep("address");
+        setCurrentStep("businessAddress");
       } else {
         setCurrentStep(stepOrder[currentIndex + 1]);
       }
     }
+    setIsLoading(false);
+  };
+
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true);
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Add your Google sign-in logic here
+    setIsLoading(false);
+  };
+
+  const handleEmailSignUp = async () => {
+    setIsLoading(true);
+    // Simulate loading delay
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    setCurrentStep("email");
+    setIsLoading(false);
+  };
+
+  const handleAccountTypeSelect = async (type: "solo" | "business") => {
+    setIsLoading(true);
+    // Simulate loading delay
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    setAccountType(type);
+    setIsLoading(false);
   };
 
   const renderStepContent = () => {
@@ -112,7 +148,11 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
               </a>
             </div>
             <div className="space-y-3">
-              <Button className="w-full flex items-center justify-between bg-gray-100 border border-gray-200 text-primary font-semibold text-base py-5 rounded-none hover:bg-gray-200">
+              <Button
+                onClick={handleGoogleSignIn}
+                disabled={isLoading}
+                className="w-full flex items-center justify-between bg-gray-100 border border-gray-200 text-primary font-semibold text-base py-5 rounded-none hover:bg-gray-200 disabled:opacity-50"
+              >
                 <Image
                   src="/google.png"
                   alt="Google Logo"
@@ -120,15 +160,22 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
                   height={20}
                   className="h-4 w-4"
                 />
-                CONTINUE WITH GOOGLE
+                <span className="flex items-center gap-2">
+                  CONTINUE WITH GOOGLE
+                  {isLoading && <Loader className="animate-spin h-4 w-4" />}
+                </span>
                 <div></div>
               </Button>
               <Button
-                onClick={() => setCurrentStep("email")}
-                className="w-full flex items-center justify-between bg-gray-100 border border-gray-200 text-primary font-semibold text-base py-5 rounded-none hover:bg-gray-200"
+                onClick={handleEmailSignUp}
+                disabled={isLoading}
+                className="w-full flex items-center justify-between bg-gray-100 border border-gray-200 text-primary font-semibold text-base py-5 rounded-none hover:bg-gray-200 disabled:opacity-50"
               >
                 <Mail className="ml-1.5 h-4 w-4" />
-                SIGN UP WITH EMAIL
+                <span className="flex items-center gap-2">
+                  SIGN UP WITH EMAIL
+                  {isLoading && <Loader className="animate-spin h-4 w-4" />}
+                </span>
                 <div></div>
               </Button>
             </div>
@@ -145,7 +192,7 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
                 className="p-0 mr-4 text-gray-600 hover:text-gray-800"
               >
                 <ChevronLeft className="h-4 w-4" />
-                <span className=" font-medium">BACK</span>
+                <span className="font-medium">BACK</span>
               </Button>
             </div>
 
@@ -215,9 +262,13 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
               </div>
               <Button
                 onClick={handleContinue}
-                className="w-full text-xs md:text-sm bg-black text-white font-semibold py-3 rounded-none hover:bg-gray-800"
+                disabled={isLoading}
+                className="w-full text-xs md:text-sm bg-black text-white font-semibold py-3 rounded-none hover:bg-gray-800 disabled:opacity-50"
               >
-                CONTINUE
+                <span className="flex items-center gap-2">
+                  CONTINUE
+                  {isLoading && <Loader className="animate-spin h-4 w-4" />}
+                </span>
               </Button>
             </div>
           </div>
@@ -238,9 +289,9 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
               <span className="text-sm text-gray-500">1 of 6</span>
             </div>
             <div className="flex flex-col space-y-6 justify-between h-full">
-              <div className="mb-2">
+              <div className="mb-4">
                 <div>
-                  <h2 className="text-xs md:text-sm  text-gray-800 mb-6">
+                  <h2 className="text-xs md:text-sm  text-gray-800 mb-4">
                     Select Account Type
                   </h2>
                 </div>
@@ -248,37 +299,44 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
                 <div className="grid grid-cols-2 gap-4 mb-20 ">
                   <Button
                     variant={accountType === "solo" ? "default" : "outline"}
-                    onClick={() => setAccountType("solo")}
+                    onClick={() => handleAccountTypeSelect("solo")}
                     className={cn(
-                      "h-24 flex flex-col items-center justify-center rounded-none border-2",
+                      "h-24 flex flex-col items-center justify-center rounded-none border-2 disabled:opacity-50",
                       accountType === "solo"
                         ? "border-blue-500 bg-blue-100 text-blue-500"
                         : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
                     )}
                   >
-                    <span className="font-semibold">SOLO</span>
+                    <span className="font-semibold flex items-center gap-2">
+                      SOLO
+                    </span>
                   </Button>
                   <Button
                     variant={accountType === "business" ? "default" : "outline"}
-                    onClick={() => setAccountType("business")}
+                    onClick={() => handleAccountTypeSelect("business")}
                     className={cn(
-                      "h-24 flex flex-col items-center justify-center rounded-none border-2",
+                      "h-24 flex flex-col items-center justify-center rounded-none border-2 disabled:opacity-50",
                       accountType === "business"
                         ? "border-blue-500 bg-blue-100 text-blue-500"
                         : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
                     )}
                   >
-                    <span className="font-semibold">BUSINESS</span>
+                    <span className="font-semibold flex items-center gap-2">
+                      BUSINESS
+                    </span>
                   </Button>
                 </div>
               </div>
 
               <Button
                 onClick={handleContinue}
-                disabled={!accountType}
-                className="w-full text-xs md:text-sm bg-black text-white font-semibold py-3 rounded-none hover:bg-gray-800"
+                disabled={!accountType || isLoading}
+                className="w-full text-xs md:text-sm bg-black text-white font-semibold py-3 rounded-none hover:bg-gray-800 disabled:opacity-50"
               >
-                CONTINUE
+                <span className="flex items-center gap-2">
+                  CONTINUE
+                  {isLoading && <Loader className="animate-spin h-4 w-4" />}
+                </span>
               </Button>
             </div>
           </div>
@@ -300,11 +358,11 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
             </div>
 
             <div className="flex flex-col space-y-6 justify-between h-full">
-              <div>
+              <div className="mb-12">
                 <div>
                   <div>
-                    <h2 className="text-xs md:text-sm  text-gray-800 mb-6">
-                      Personal Information
+                    <h2 className="text-xs md:text-sm  text-gray-800 mb-4">
+                      Personal Info
                     </h2>
                   </div>
 
@@ -352,10 +410,15 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
 
               <Button
                 onClick={handleContinue}
-                disabled={!formData.firstName || !formData.lastName}
-                className="w-full bg-gray-400 text-white font-semibold py-3 rounded-none hover:bg-gray-500 disabled:bg-gray-300"
+                disabled={
+                  !formData.firstName || !formData.lastName || isLoading
+                }
+                className="w-full bg-primary text-white font-semibold py-3 rounded-none hover:bg-primary/90 disabled:bg-gray-300"
               >
-                CONTINUE
+                <span className="flex items-center gap-2">
+                  CONTINUE
+                  {isLoading && <Loader className="animate-spin h-4 w-4" />}
+                </span>
               </Button>
             </div>
           </div>
@@ -373,62 +436,150 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
                 <ArrowLeft className="h-5 w-5" />
                 <span className="ml-2 font-medium">BACK</span>
               </Button>
-              <span className="text-sm text-gray-500">3 of 6</span>
+              <span className="text-sm text-gray-500">2 of 6</span>
             </div>
 
-            <div>
-              <h2 className="text-lg font-semibold text-gray-800 mb-8">
-                Enter Your Business Info
-              </h2>
-            </div>
+            <div className="flex flex-col space-y-6 justify-between h-full">
+              <div className="mb-12">
+                <div>
+                  <h2 className="text-xs md:text-sm  text-gray-800 mb-4">
+                    Enter Your Business Info
+                  </h2>
+                </div>
 
-            <div className="space-y-4">
-              <div>
-                <Label
-                  htmlFor="businessName"
-                  className="text-sm font-medium text-gray-700 mb-2 block"
-                >
-                  Business name
-                </Label>
-                <Input
-                  id="businessName"
-                  type="text"
-                  value={formData.businessName}
-                  onChange={(e) =>
-                    handleInputChange("businessName", e.target.value)
-                  }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter business name"
-                />
+                <div className="space-y-4">
+                  <div>
+                    <Label
+                      htmlFor="businessName"
+                      className="text-sm font-medium text-gray-700 mb-2 block"
+                    >
+                      Business name
+                    </Label>
+                    <Input
+                      id="businessName"
+                      type="text"
+                      value={formData.businessName}
+                      onChange={(e) =>
+                        handleInputChange("businessName", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Enter business name"
+                    />
+                  </div>
+
+                  <div>
+                    <Label
+                      htmlFor="businessType"
+                      className="text-sm font-medium text-gray-700 mb-2 block"
+                    >
+                      Business type
+                    </Label>
+                    <Input
+                      id="businessType"
+                      type="text"
+                      value={formData.businessType}
+                      onChange={(e) =>
+                        handleInputChange("businessType", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="e.g. LLC, Inc"
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div>
-                <Label
-                  htmlFor="businessType"
-                  className="text-sm font-medium text-gray-700 mb-2 block"
-                >
-                  Business type
-                </Label>
-                <Input
-                  id="businessType"
-                  type="text"
-                  value={formData.businessType}
-                  onChange={(e) =>
-                    handleInputChange("businessType", e.target.value)
-                  }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="e.g. LLC, Inc"
-                />
-              </div>
+              <Button
+                onClick={handleContinue}
+                disabled={
+                  !formData.businessName || !formData.businessType || isLoading
+                }
+                className="w-full bg-primary text-white font-semibold py-3 rounded-none hover:bg-primary/90 disabled:bg-gray-300"
+              >
+                <span className="flex items-center gap-2">
+                  CONTINUE
+                  {isLoading && <Loader className="animate-spin h-4 w-4" />}
+                </span>
+              </Button>
+            </div>
+          </div>
+        );
+      case "businessAddress":
+        return (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between mb-6">
+              <Button
+                variant="ghost"
+                onClick={handleBack}
+                className="p-0 text-gray-600 hover:text-gray-800"
+              >
+                <ArrowLeft className="h-5 w-5" />
+                <span className="ml-2 font-medium">BACK</span>
+              </Button>
+              <span className="text-sm text-gray-500">2 of 6</span>
             </div>
 
-            <Button
-              onClick={handleContinue}
-              disabled={!formData.businessName || !formData.businessType}
-              className="w-full bg-gray-400 text-white font-semibold py-3 rounded-none hover:bg-gray-500 disabled:bg-gray-300"
-            >
-              CONTINUE
-            </Button>
+            <div className="flex flex-col space-y-6 justify-between h-full">
+              <div className="mb-12">
+                <div>
+                  <h2 className="text-xs md:text-sm  text-gray-800 mb-4">
+                    Enter Your Business Info
+                  </h2>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <Label
+                      htmlFor="businessName"
+                      className="text-sm font-medium text-gray-700 mb-2 block"
+                    >
+                      Business name
+                    </Label>
+                    <Input
+                      id="businessName"
+                      type="text"
+                      value={formData.businessName}
+                      onChange={(e) =>
+                        handleInputChange("businessName", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Enter business name"
+                    />
+                  </div>
+
+                  <div>
+                    <Label
+                      htmlFor="businessType"
+                      className="text-sm font-medium text-gray-700 mb-2 block"
+                    >
+                      Business type
+                    </Label>
+                    <Input
+                      id="businessType"
+                      type="text"
+                      value={formData.businessType}
+                      onChange={(e) =>
+                        handleInputChange("businessType", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="e.g. LLC, Inc"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <Button
+                onClick={handleContinue}
+                disabled={
+                  !formData.businessName || !formData.businessType || isLoading
+                }
+                className="w-full bg-primary text-white font-semibold py-3 rounded-none hover:bg-primary/90 disabled:bg-gray-300"
+              >
+                <span className="flex items-center gap-2">
+                  CONTINUE
+                  {isLoading && <Loader className="animate-spin h-4 w-4" />}
+                </span>
+              </Button>
+            </div>
           </div>
         );
 
@@ -448,7 +599,11 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
               </a>
             </div>
             <div className="space-y-3">
-              <Button className="w-full flex items-center justify-between bg-gray-100 border border-gray-200 text-primary font-semibold text-base py-5 rounded-none hover:bg-gray-200">
+              <Button
+                onClick={handleGoogleSignIn}
+                disabled={isLoading}
+                className="w-full flex items-center justify-between bg-gray-100 border border-gray-200 text-primary font-semibold text-base py-5 rounded-none hover:bg-gray-200 disabled:opacity-50"
+              >
                 <Image
                   src="/google.png"
                   alt="Google Logo"
@@ -456,15 +611,22 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
                   height={20}
                   className="h-4 w-4"
                 />
-                CONTINUE WITH GOOGLE
+                <span className="flex items-center gap-2">
+                  CONTINUE WITH GOOGLE
+                  {isLoading && <Loader className="animate-spin h-4 w-4" />}
+                </span>
                 <div></div>
               </Button>
               <Button
-                onClick={() => setCurrentStep("email")}
-                className="w-full flex items-center justify-between bg-gray-100 border border-gray-200 text-primary font-semibold text-base py-5 rounded-none hover:bg-gray-200"
+                onClick={handleEmailSignUp}
+                disabled={isLoading}
+                className="w-full flex items-center justify-between bg-gray-100 border border-gray-200 text-primary font-semibold text-base py-5 rounded-none hover:bg-gray-200 disabled:opacity-50"
               >
                 <Mail className="ml-1.5 h-4 w-4" />
-                SIGN UP WITH EMAIL
+                <span className="flex items-center gap-2">
+                  SIGN UP WITH EMAIL
+                  {isLoading && <Loader className="animate-spin h-4 w-4" />}
+                </span>
                 <div></div>
               </Button>
             </div>
