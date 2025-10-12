@@ -5,7 +5,15 @@ import Image from "next/image";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import { Label } from "../../ui/label";
-import React, { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../ui/select";
+import { RadioGroup, RadioGroupItem } from "../../ui/radio-group";
+import React, { useState, useRef } from "react";
 import {
   Mail,
   ArrowLeft,
@@ -13,6 +21,11 @@ import {
   EyeOff,
   ChevronLeft,
   Loader,
+  Upload,
+  FileText,
+  Trash2,
+  CheckCircle,
+  X,
 } from "lucide-react";
 
 interface AuthDialogProps {
@@ -27,7 +40,7 @@ type SignupStep =
   | "personalInfo"
   | "businessInfo"
   | "businessAddress"
-  | "taxId"
+  | "taxInfo"
   | "documents"
   | "verification"
   | "confirmation";
@@ -37,6 +50,13 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [accountType, setAccountType] = useState<"solo" | "business">("solo");
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadStatus, setUploadStatus] = useState<
+    "idle" | "uploading" | "success" | "error"
+  >("idle");
+  const [isDragOver, setIsDragOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -50,6 +70,8 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
     zipCode: "",
     country: "",
     taxId: "",
+    idType: "",
+    registrationCountry: "",
   });
 
   const handleInputChange = (field: string, value: string) => {
@@ -64,7 +86,7 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
       "personalInfo",
       "businessInfo",
       "businessAddress",
-      "taxId",
+      "taxInfo",
       "documents",
       "verification",
       "confirmation",
@@ -87,7 +109,7 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
       "personalInfo",
       "businessInfo",
       "businessAddress",
-      "taxId",
+      "taxInfo",
       "documents",
       "verification",
       "confirmation",
@@ -128,6 +150,69 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
     await new Promise((resolve) => setTimeout(resolve, 300));
     setAccountType(type);
     setIsLoading(false);
+  };
+
+  const handleFileUpload = async (file: File) => {
+    if (file.size > 25 * 1024 * 1024) {
+      // 25MB limit
+      setUploadStatus("error");
+      return;
+    }
+
+    setUploadedFile(file);
+    setUploadStatus("uploading");
+    setUploadProgress(0);
+
+    // Simulate upload progress
+    const uploadInterval = setInterval(() => {
+      setUploadProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(uploadInterval);
+          setUploadStatus("success");
+          return 100;
+        }
+        return prev + 10;
+      });
+    }, 200);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      handleFileUpload(files[0]);
+    }
+  };
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      handleFileUpload(files[0]);
+    }
+  };
+
+  const handleRemoveFile = () => {
+    setUploadedFile(null);
+    setUploadStatus("idle");
+    setUploadProgress(0);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleClickUpload = () => {
+    fileInputRef.current?.click();
   };
 
   const renderStepContent = () => {
@@ -436,7 +521,7 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
                 <ArrowLeft className="h-5 w-5" />
                 <span className="ml-2 font-medium">BACK</span>
               </Button>
-              <span className="text-sm text-gray-500">2 of 6</span>
+              <span className="text-sm text-gray-500">3 of 6</span>
             </div>
 
             <div className="flex flex-col space-y-6 justify-between h-full">
@@ -506,7 +591,7 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
       case "businessAddress":
         return (
           <div className="space-y-6">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-2">
               <Button
                 variant="ghost"
                 onClick={handleBack}
@@ -515,54 +600,119 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
                 <ArrowLeft className="h-5 w-5" />
                 <span className="ml-2 font-medium">BACK</span>
               </Button>
-              <span className="text-sm text-gray-500">2 of 6</span>
+              <span className="text-sm text-gray-500">4 of 6</span>
             </div>
 
-            <div className="flex flex-col space-y-6 justify-between h-full">
-              <div className="mb-12">
+            <div className="flex flex-col space-y-0  h-full">
+              <div className="mb-3">
                 <div>
-                  <h2 className="text-xs md:text-sm  text-gray-800 mb-4">
-                    Enter Your Business Info
+                  <h2 className="text-xs md:text-sm text-gray-800 mb-2">
+                    Business Address
                   </h2>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-2">
                   <div>
                     <Label
-                      htmlFor="businessName"
-                      className="text-sm font-medium text-gray-700 mb-2 block"
+                      htmlFor="street"
+                      className="text-sm font-medium text-gray-700 mb-1 block"
                     >
-                      Business name
+                      Street
                     </Label>
                     <Input
-                      id="businessName"
+                      id="street"
                       type="text"
-                      value={formData.businessName}
+                      value={formData.businessAddress}
                       onChange={(e) =>
-                        handleInputChange("businessName", e.target.value)
+                        handleInputChange("businessAddress", e.target.value)
                       }
                       className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Enter business name"
+                      placeholder="123 Main Street, Suite 400"
                     />
                   </div>
 
                   <div>
                     <Label
-                      htmlFor="businessType"
-                      className="text-sm font-medium text-gray-700 mb-2 block"
+                      htmlFor="city"
+                      className="text-sm font-medium text-gray-700 mb-1 block"
                     >
-                      Business type
+                      City
                     </Label>
                     <Input
-                      id="businessType"
+                      id="city"
                       type="text"
-                      value={formData.businessType}
+                      value={formData.city}
                       onChange={(e) =>
-                        handleInputChange("businessType", e.target.value)
+                        handleInputChange("city", e.target.value)
                       }
                       className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="e.g. LLC, Inc"
+                      placeholder="New York"
                     />
+                  </div>
+
+                  <div>
+                    <Label
+                      htmlFor="state"
+                      className="text-sm font-medium text-gray-700 mb-1 block"
+                    >
+                      State
+                    </Label>
+                    <Select
+                      value={formData.state}
+                      onValueChange={(value) =>
+                        handleInputChange("state", value)
+                      }
+                    >
+                      <SelectTrigger className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <SelectValue placeholder="New York (USA)" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="ny">New York (USA)</SelectItem>
+                        <SelectItem value="ca">California (USA)</SelectItem>
+                        <SelectItem value="tx">Texas (USA)</SelectItem>
+                        <SelectItem value="fl">Florida (USA)</SelectItem>
+                        <SelectItem value="il">Illinois (USA)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label
+                      htmlFor="country"
+                      className="text-sm font-medium text-gray-700 mb-1 block"
+                    >
+                      Country
+                    </Label>
+                    <Select
+                      value={formData.country}
+                      onValueChange={(value) =>
+                        handleInputChange("country", value)
+                      }
+                    >
+                      <SelectTrigger className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <SelectValue placeholder="United States" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="us">
+                          <div className="flex items-center gap-2">
+                            <span className="text-base">🇺🇸</span>
+                            <span>United States</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="ca">
+                          <div className="flex items-center gap-2">
+                            <span className="text-base">🇨🇦</span>
+                            <span>Canada</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="uk">
+                          <div className="flex items-center gap-2">
+                            <span className="text-base">🇬🇧</span>
+                            <span>United Kingdom</span>
+                          </div>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
               </div>
@@ -570,9 +720,13 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
               <Button
                 onClick={handleContinue}
                 disabled={
-                  !formData.businessName || !formData.businessType || isLoading
+                  !formData.businessAddress ||
+                  !formData.city ||
+                  !formData.state ||
+                  !formData.country ||
+                  isLoading
                 }
-                className="w-full bg-primary text-white font-semibold py-3 rounded-none hover:bg-primary/90 disabled:bg-gray-300"
+                className="w-full bg-black text-white font-semibold py-3 rounded-none hover:bg-gray-800 disabled:opacity-50"
               >
                 <span className="flex items-center gap-2">
                   CONTINUE
@@ -580,6 +734,319 @@ const AuthDialog: React.FC<AuthDialogProps> = ({ open, onOpenChange }) => {
                 </span>
               </Button>
             </div>
+          </div>
+        );
+
+      case "taxInfo":
+        return (
+          <div className="space-y-6 ">
+            <div className="flex items-center justify-between mb-4">
+              <Button
+                variant="ghost"
+                onClick={handleBack}
+                className="p-0 text-gray-600 hover:text-gray-800"
+              >
+                <ArrowLeft className="h-5 w-5" />
+                <span className="ml-2 font-medium">BACK</span>
+              </Button>
+              <span className="text-sm text-gray-500">5 of 6</span>
+            </div>
+
+            <div className="flex flex-col space-y-0  h-full ">
+              <div className="mb-9">
+                <div>
+                  <h2 className="text-xs md:text-sm text-gray-800 pb-4">
+                    Business Tax ID/VAT Number Required For Verification
+                  </h2>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-sm font-medium text-gray-700 mb-3 block">
+                      Select ID type
+                    </Label>
+                    <RadioGroup
+                      value={formData.idType}
+                      onValueChange={(value) =>
+                        handleInputChange("idType", value)
+                      }
+                      className="flex flex-row gap-6"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="ein" id="ein" />
+                        <Label htmlFor="ein" className="text-sm font-medium">
+                          EIN
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="ssn" id="ssn" />
+                        <Label htmlFor="ssn" className="text-sm font-medium">
+                          SSN
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="vat" id="vat" />
+                        <Label htmlFor="vat" className="text-sm font-medium ">
+                          VAT
+                        </Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="other" id="other" />
+                        <Label htmlFor="other" className="text-sm font-medium">
+                          Other
+                        </Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+
+                  <div>
+                    <Label
+                      htmlFor="idNumber"
+                      className="text-sm font-medium text-gray-700 mb-1 block"
+                    >
+                      ID number
+                    </Label>
+                    <Input
+                      id="idNumber"
+                      type="text"
+                      value={formData.taxId}
+                      onChange={(e) =>
+                        handleInputChange("taxId", e.target.value)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="GB123456789"
+                    />
+                  </div>
+
+                  <div>
+                    <Label
+                      htmlFor="registrationCountry"
+                      className="text-sm font-medium text-gray-700 mb-1 block"
+                    >
+                      Country of registration
+                    </Label>
+                    <Select
+                      value={formData.registrationCountry}
+                      onValueChange={(value) =>
+                        handleInputChange("registrationCountry", value)
+                      }
+                    >
+                      <SelectTrigger className="w-full px-3 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <SelectValue placeholder="United States" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="us">
+                          <div className="flex items-center gap-2">
+                            <span>United States</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="gb">
+                          <div className="flex items-center gap-2">
+                            <span>United Kingdom</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="ca">
+                          <div className="flex items-center gap-2">
+                            <span>Canada</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="de">
+                          <div className="flex items-center gap-2">
+                            <span>Germany</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="fr">
+                          <div className="flex items-center gap-2">
+                            <span>France</span>
+                          </div>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+
+              <Button
+                onClick={handleContinue}
+                disabled={
+                  !formData.idType ||
+                  !formData.taxId ||
+                  !formData.registrationCountry ||
+                  isLoading
+                }
+                className="w-full  bg-black text-white font-semibold py-3 rounded-none hover:bg-gray-800 disabled:opacity-50"
+              >
+                <span className="flex items-center gap-2">
+                  CONTINUE
+                  {isLoading && <Loader className="animate-spin h-4 w-4" />}
+                </span>
+              </Button>
+            </div>
+          </div>
+        );
+
+      case "documents":
+        return (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between mb-2">
+              <Button
+                variant="ghost"
+                onClick={handleBack}
+                className="p-0 text-gray-600 hover:text-gray-800"
+              >
+                <ArrowLeft className="h-5 w-5" />
+                <span className="ml-2 font-medium">BACK</span>
+              </Button>
+              <span className="text-sm text-gray-500">6 of 6</span>
+            </div>
+
+            <div className="flex flex-col space-y-0  h-full">
+              <div className="mb-6">
+                <div>
+                  <h2 className="text-xs md:text-sm text-gray-800 mb-1">
+                    We Need To Verify Your Business
+                  </h2>
+                  <p className="text-xs text-gray-600 mb-4">
+                    Documents That It&apos;s{" "}
+                    {uploadStatus === "success" ? "Really " : ""}You
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  {/* Upload Area */}
+                  <div
+                    className={cn(
+                      "border-2 border-dashed rounded-lg p-4 text-center transition-colors",
+                      isDragOver
+                        ? "border-blue-400 bg-blue-50"
+                        : "border-gray-300 bg-gray-50"
+                    )}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                  >
+                    <Upload className="mx-auto h-8 w-8 text-blue-500 mb-3" />
+                    <p className="text-sm text-gray-600 mb-1">
+                      <button
+                        onClick={handleClickUpload}
+                        className="cursor-pointer text-blue-500 font-medium hover:underline"
+                      >
+                        Click to Upload
+                      </button>{" "}
+                      or drag and drop
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      (Max. File size: 25 MB)
+                    </p>
+                  </div>
+
+                  {/* File Upload Status */}
+                  {uploadStatus !== "idle" && (
+                    <div className="bg-white border border-gray-200 rounded-lg p-2">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-3">
+                          <FileText className="h-5 w-5 text-gray-500" />
+                          <div>
+                            <p className="text-sm font-medium text-gray-900">
+                              {uploadStatus === "error"
+                                ? "Tax ID"
+                                : uploadedFile?.name || "Tax ID"}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {uploadStatus === "error"
+                                ? "HannahBusing_Resume.pdf"
+                                : uploadStatus === "success"
+                                ? "Business docs.pdf"
+                                : `${Math.round(
+                                    (uploadedFile?.size || 0) / 1024
+                                  )} KB`}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {uploadStatus === "success" && (
+                            <CheckCircle className="h-5 w-5 text-green-500" />
+                          )}
+                          {uploadStatus === "error" && (
+                            <button className="text-xs text-red-500 font-medium">
+                              TRY AGAIN
+                            </button>
+                          )}
+                          {uploadStatus === "success" && (
+                            <button className="text-xs text-gray-500 font-medium">
+                              CLICK TO VIEW
+                            </button>
+                          )}
+                          <button
+                            onClick={handleRemoveFile}
+                            className="cursor-pointer"
+                          >
+                            <Trash2 className="h-4 w-4 text-gray-400 hover:text-red-500" />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Progress Bar */}
+                      {uploadStatus === "uploading" && (
+                        <div className="space-y-1">
+                          <div className="w-full bg-gray-200 rounded-full h-1">
+                            <div
+                              className="bg-blue-500 h-1 rounded-full transition-all duration-300"
+                              style={{ width: `${uploadProgress}%` }}
+                            />
+                          </div>
+                          <p className="text-xs text-gray-500 text-right">
+                            {uploadProgress}%
+                          </p>
+                        </div>
+                      )}
+
+                      {uploadStatus === "success" && (
+                        <div className="space-y-1">
+                          <div className="w-full bg-green-200 rounded-full h-1">
+                            <div className="bg-green-500 h-1 rounded-full w-full" />
+                          </div>
+                          <p className="text-xs text-green-600 text-right">
+                            100%
+                          </p>
+                        </div>
+                      )}
+
+                      {uploadStatus === "error" && (
+                        <div className="space-y-1">
+                          <div className="w-full bg-red-200 rounded-full h-1">
+                            <div className="bg-red-500 h-1 rounded-full w-2/5" />
+                          </div>
+                          <p className="text-xs text-red-600 text-right">40%</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <Button
+                onClick={handleContinue}
+                disabled={uploadStatus !== "success" || isLoading}
+                className="w-full bg-black  text-white font-semibold py-3 rounded-none hover:bg-gray-800 disabled:opacity-50 disabled:bg-gray-400"
+              >
+                <span className="flex items-center gap-2">
+                  {uploadStatus === "success" && isLoading
+                    ? "SUBMITTING"
+                    : "SUBMIT"}
+                  {isLoading && <Loader className="animate-spin h-4 w-4" />}
+                </span>
+              </Button>
+            </div>
+
+            {/* Hidden File Input */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+              onChange={handleFileInputChange}
+              className="hidden"
+            />
           </div>
         );
 
