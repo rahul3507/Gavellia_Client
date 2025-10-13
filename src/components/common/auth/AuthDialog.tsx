@@ -2,9 +2,9 @@
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { Button } from "../../ui/button";
+
 import React, { useState, useRef } from "react";
-import { Mail, Loader } from "lucide-react";
+
 import WelcomeStep from "./authComponents/welcomeStep";
 import EmailStep from "./authComponents/emailStep";
 import AccountTypeStep from "./authComponents/accountTypeStep";
