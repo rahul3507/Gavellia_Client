@@ -1,12 +1,18 @@
 /** @format */
 "use client";
-import { Search, ShoppingBag, UserRound } from "lucide-react";
+import { ChevronDown, Search, ShoppingBag, UserRound } from "lucide-react";
 import React from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import AuthDialog from "./auth/AuthDialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { switchToBuyer, switchToSeller } from "@/redux/feature/userRoleSlice";
 
@@ -53,15 +59,44 @@ const Navbar = () => {
               >
                 Browse auction
               </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="text-primary cursor-pointer flex hover:text-primary/80 text-sm font-semibold items-center focus:outline-none">
+                    Categories{" "}
+                    <ChevronDown className="w-4 h-4 ml-0.5 mt-0.5 " />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link href="/products" className="cursor-pointer">
+                      Fashion & Apparel
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/products" className="cursor-pointer">
+                      Electronics
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/products" className="cursor-pointer">
+                      Home & Living
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/products" className="cursor-pointer">
+                      Collectibles
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/products" className="cursor-pointer">
+                      Luxury Items
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <a
                 href="#"
-                className="text-primary hover:text-primary/80 text-sm font-semibold"
-              >
-                Categories
-              </a>
-              <a
-                href="#"
-                className="text-primary hover:text-primary/80 text-sm font-semibold"
+                className="text-primary  hover:text-primary/80 text-sm font-semibold"
               >
                 How it works
               </a>
