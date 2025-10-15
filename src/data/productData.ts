@@ -13,6 +13,7 @@ export const product = [
       "/productImage/Jacket.png",
       "/productImage/Jacket.png",
     ],
+    action: "timed" as const,
   },
   {
     title: "Rare First Edition Book",
@@ -26,9 +27,10 @@ export const product = [
       "/productImage/Book.png",
       "/productImage/Book.png",
     ],
+    action: "upcoming" as const,
   },
   {
-    title: "Women’s Luxury Boot",
+    title: "Women's Luxury Boot",
     time: "00d:12h:10sec",
     starting: 1050,
     bids: 14,
@@ -39,6 +41,7 @@ export const product = [
       "/productImage/Boot_women.png",
       "/productImage/Boot_women.png",
     ],
+    action: "live" as const,
   },
   {
     title: "LOUIS VUITTON x Yayoi Kusama",
@@ -52,6 +55,7 @@ export const product = [
       "/productImage/LOUIS_VUITTON.png",
       "/productImage/LOUIS_VUITTON.png",
     ],
+    action: "timed" as const,
   },
   {
     title: "Limited Edition Sneakers",
@@ -65,6 +69,7 @@ export const product = [
       "/productImage/Sneakers_men.png",
       "/productImage/Sneakers_men.png",
     ],
+    action: "upcoming" as const,
   },
   {
     title: "Antique Pocket Watch",
@@ -78,6 +83,7 @@ export const product = [
       "/productImage/Pocket_Watch.png",
       "/productImage/Pocket_Watch.png",
     ],
+    action: "timed" as const,
   },
   {
     title: "T-Shirt",
@@ -91,6 +97,7 @@ export const product = [
       "/productImage/Tshirt_men.png",
       "/productImage/Tshirt_men.png",
     ],
+    action: "upcoming" as const,
   },
   {
     title: "Handcrafted Wooden Chess Set",
@@ -104,6 +111,7 @@ export const product = [
       "/productImage/Chess_set.png",
       "/productImage/Chess_set.png",
     ],
+    action: "live" as const,
   },
   {
     title: "Designer Handbag",
@@ -117,6 +125,7 @@ export const product = [
       "/productImage/Designer_Handbag.png",
       "/productImage/Designer_Handbag.png",
     ],
+    action: "timed" as const,
   },
   {
     title: "Bowling SS Bag",
@@ -130,6 +139,7 @@ export const product = [
       "/productImage/Bowling_SS_Bag.png",
       "/productImage/Bowling_SS_Bag.png",
     ],
+    action: "upcoming" as const,
   },
   {
     title: "Collectible Vinyl Record",
@@ -143,6 +153,7 @@ export const product = [
       "/productImage/Record.png",
       "/productImage/Record.png",
     ],
+    action: "live" as const,
   },
   {
     title: "Iphone 16 Pro Max 1TB",
@@ -156,6 +167,7 @@ export const product = [
       "/productImage/Iphone_16pro.png",
       "/productImage/Iphone_16pro.png",
     ],
+    action: "timed" as const,
   },
   {
     title: "Original Art - The Ancient Hamlet",
@@ -169,6 +181,7 @@ export const product = [
       "/productImage/The_Ancient_Hamlet.png",
       "/productImage/The_Ancient_Hamlet.png",
     ],
+    action: "upcoming" as const,
   },
   {
     title: "DJI Mini Drone (Refurbished)",
@@ -182,6 +195,7 @@ export const product = [
       "/productImage/DJI_Mini_Drone.png",
       "/productImage/DJI_Mini_Drone.png",
     ],
+    action: "live" as const,
   },
   {
     title: "Rolex Swiss (2014)",
@@ -195,6 +209,7 @@ export const product = [
       "/productImage/Rolex_Swiss.png",
       "/productImage/Rolex_Swiss.png",
     ],
+    action: "timed" as const,
   },
   {
     title: "Autographed Movie Poster",
@@ -208,6 +223,7 @@ export const product = [
       "/productImage/Movie_poster.png",
       "/productImage/Movie_poster.png",
     ],
+    action: "upcoming" as const,
   },
   {
     title: "Noise-Canceling Wireless Headphones",
@@ -221,5 +237,6 @@ export const product = [
       "/productImage/Headphone.png",
       "/productImage/Headphone.png",
     ],
+    action: "live" as const,
   },
 ];
