@@ -1,7 +1,7 @@
 /** @format */
 "use client";
 import { product } from "@/data/productData";
-import { Check, Eye, Package, Plane, Tag } from "lucide-react";
+import { ArrowRight, Check, Eye, Package, Plane, Tag } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import React, { useState, useEffect, use } from "react";
@@ -245,28 +245,48 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
             </div>
 
             {/* Bidding Section */}
-            <div className="space-y-4 pb-5  border-b">
-              <div className="flex space-x-3">
-                <Select value={selectedBid} onValueChange={setSelectedBid}>
-                  <SelectTrigger className="flex-1 h-12 cursor-pointer">
-                    <SelectValue placeholder="£ Enter Amount" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {bidOptions.map((bidAmount) => (
-                      <SelectItem
-                        key={bidAmount}
-                        value={bidAmount.toString()}
-                        className="cursor-pointer"
-                      >
-                        £{bidAmount}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Button className="bg-primary hover:bg-primary/90 rounded-none text-white  px-8">
-                  REQUEST TO BID
-                </Button>
-              </div>
+            <div className=" pb-5  border-b">
+              {productData.action === "timed" ? (
+                /* timed button */
+                <div className="flex space-x-3">
+                  <Select value={selectedBid} onValueChange={setSelectedBid}>
+                    <SelectTrigger className="flex-1 h-12 cursor-pointer">
+                      <SelectValue placeholder="£ Enter Amount" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {bidOptions.map((bidAmount) => (
+                        <SelectItem
+                          key={bidAmount}
+                          value={bidAmount.toString()}
+                          className="cursor-pointer"
+                        >
+                          £{bidAmount}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Button className="bg-primary hover:bg-primary/90 rounded-none text-white  px-8">
+                    REQUEST TO BID
+                  </Button>
+                </div>
+              ) : (
+                /* live/upcoming button */
+                <div className="flex w-full">
+                  <Button
+                    className={`w-full text-white text-center py-5 rounded-none ${
+                      productData.action === "upcoming"
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-black hover:bg-black/90"
+                    }`}
+                    disabled={productData.action === "upcoming"}
+                  >
+                    {productData.action === "upcoming"
+                      ? "Auction Starting Soon"
+                      : "Join the LIVE streaming auction"}{" "}
+                    <ArrowRight />
+                  </Button>
+                </div>
+              )}
             </div>
 
             {/* Description */}
