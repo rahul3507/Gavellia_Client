@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/carousel";
 import { type CarouselApi } from "@/components/ui/carousel";
 import ProductCard from "@/components/common/ProductCard";
+import ParticipateModal from "@/components/productsComponents/perticipateModal";
 import loading from "@/app/loading";
 
 interface ProductDetailsProps {
@@ -35,6 +36,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
   const [selectedBid, setSelectedBid] = useState<string>("");
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [api, setApi] = useState<CarouselApi>();
+  const [isParticipateModalOpen, setIsParticipateModalOpen] = useState(false);
 
   // Decode the URL title and find the matching product
   const decodedTitle = decodeURIComponent(resolvedParams.title);
@@ -279,6 +281,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
                         : "bg-black hover:bg-black/90"
                     }`}
                     disabled={productData.action === "upcoming"}
+                    onClick={() => {
+                      if (productData.action === "live") {
+                        setIsParticipateModalOpen(true);
+                      }
+                    }}
                   >
                     {productData.action === "upcoming"
                       ? "Auction Starting Soon"
@@ -375,6 +382,12 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
           </Carousel>
         </div>
       </div>
+
+      <ParticipateModal
+        open={isParticipateModalOpen}
+        onOpenChange={setIsParticipateModalOpen}
+        productTitle={productData.title}
+      />
 
       <div></div>
     </div>
