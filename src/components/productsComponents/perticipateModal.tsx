@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface ParticipateModalProps {
   open: boolean;
@@ -24,6 +25,7 @@ const ParticipateModal: React.FC<ParticipateModalProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const router = useRouter();
 
   const handleConfirm = async () => {
     setIsLoading(true);
@@ -41,11 +43,12 @@ const ParticipateModal: React.FC<ParticipateModalProps> = ({
     setIsLoading(false);
     onOpenChange(false);
   };
-
-  const handleClose = () => {
+  const urlTitle = productTitle.toLowerCase().replace(/\s+/g, "-");
+  const handleJoin = () => {
     setIsConfirmed(false);
     setIsLoading(false);
     onOpenChange(false);
+    router.push(`/products/${urlTitle}/live`);
   };
 
   return (
@@ -60,11 +63,11 @@ const ParticipateModal: React.FC<ParticipateModalProps> = ({
           </p>
         </DialogHeader>
 
-        <div className="py-6">
+        <div className="py-4 border-t border-gray-100">
           {!isConfirmed && !isLoading ? (
             // Initial confirmation state
             <div className="space-y-6">
-              <div className="text-center space-y-2">
+              <div className=" space-y-2 text-base">
                 <p className="text-gray-700">
                   Confirm your attendance for{" "}
                   <span className="font-semibold text-black">
@@ -75,17 +78,17 @@ const ParticipateModal: React.FC<ParticipateModalProps> = ({
                 <p className="text-gray-700">June 7, 2025, at 1:00 PM.</p>
               </div>
 
-              <div className="flex justify-center space-x-4 pt-4">
+              <div className="flex justify-end space-x-4 pt-4">
                 <Button
                   onClick={handleConfirm}
-                  className="bg-black hover:bg-gray-800 text-white px-8 py-2 rounded-none"
+                  className="bg-black hover:bg-gray-800 text-white px-8 py-3 rounded-none"
                 >
                   CONFIRM
                 </Button>
                 <Button
                   onClick={handleCancel}
                   variant="outline"
-                  className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-2 rounded-none"
+                  className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-3 rounded-none"
                 >
                   CANCEL
                 </Button>
@@ -111,17 +114,17 @@ const ParticipateModal: React.FC<ParticipateModalProps> = ({
                 </p>
               </div>
 
-              <div className="flex justify-center space-x-4 pt-4">
+              <div className="flex justify-end space-x-4 pt-4">
                 <Button
                   disabled
-                  className="bg-black text-white px-8 py-2 rounded-none opacity-50 cursor-not-allowed"
+                  className="bg-black text-white px-8 py-3 rounded-none opacity-50 cursor-not-allowed"
                 >
                   CONFIRM
                 </Button>
                 <Button
                   onClick={handleCancel}
                   variant="outline"
-                  className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-2 rounded-none"
+                  className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-3 rounded-none"
                 >
                   CANCEL
                 </Button>
@@ -143,7 +146,7 @@ const ParticipateModal: React.FC<ParticipateModalProps> = ({
 
               {/* Paddle Number Display */}
               <div className="flex justify-center">
-                <div className="w-48 h-32 bg-gray-100 rounded-lg flex items-center justify-center">
+                <div className="w-44 h-36 bg-gray-100 rounded-lg flex items-center justify-center">
                   <span className="text-6xl font-bold text-black">
                     {paddleNumber}
                   </span>
@@ -159,17 +162,17 @@ const ParticipateModal: React.FC<ParticipateModalProps> = ({
               </div>
 
               {/* Action Buttons */}
-              <div className="flex justify-center space-x-4 pt-4">
+              <div className="flex justify-end space-x-4 pt-4">
                 <Button
-                  onClick={handleClose}
-                  className="bg-black hover:bg-gray-800 text-white px-8 py-2 rounded-none"
+                  onClick={handleJoin}
+                  className="bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-none"
                 >
                   JOIN NOW
                 </Button>
                 <Button
                   onClick={handleCancel}
                   variant="outline"
-                  className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-2 rounded-none"
+                  className="border-gray-300 text-gray-700 bg-gray-100 hover:bg-gray-200 px-6 py-2 rounded-none"
                 >
                   CANCEL
                 </Button>
