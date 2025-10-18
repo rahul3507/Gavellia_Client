@@ -63,7 +63,7 @@ const ProductLive: React.FC<ProductDetailsProps> = ({ params }) => {
           {/* Left Column - live streaming */}
           <div className="col-span-1 lg:col-span-2 2xl:col-span-3 border-2">
             <video
-              src="/videoplayback.mp4"
+              src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
               controls
               className="w-full h-full object-cover"
             />
