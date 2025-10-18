@@ -318,9 +318,9 @@ const ProductLive: React.FC<ProductDetailsProps> = ({ params }) => {
                   </div>
                   <div className="flex space-x-4 mt-4">
                     <BidSheet
-                      currentBid={Number(productData.highestBid)}
-                      minimumBid={300}
-                      productTitle={productData.title}
+                      bidAmount={300}
+                      onConfirm={() => console.log("Bid confirmed for £300")}
+                      onCancel={() => console.log("Bid cancelled")}
                     >
                       <Button className="bg-black text-white px-6 py-2 rounded-none flex-1">
                         BID £300
