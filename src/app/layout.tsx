@@ -4,10 +4,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/common/Navbar";
-import Footer from "@/components/common/Footer";
+
 import Providers from "@/redux/Providers";
-import { Suspense } from "react";
-import Loading from "./loading";
+
+import ConditionalFooter from "@/components/common/ConditionalFooter";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +38,7 @@ export default function RootLayout({
           <Navbar />
           {children}
 
-          <Footer />
+          <ConditionalFooter />
         </Providers>
       </body>
     </html>
