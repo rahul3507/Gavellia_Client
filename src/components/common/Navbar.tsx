@@ -126,58 +126,116 @@ const Navbar = () => {
         ) : (
           /* ── BUYER NAVBAR ── */
           <div className="relative">
-            <div className="flex items-center justify-between h-14 md:h-16">
-              {/* Left: Logo */}
-              <Link
-                href="/"
-                className="text-xl md:text-4xl font-bold font-serif text-primary"
-              >
-                Gavellia
-              </Link>
+            <div className="flex flex-col md:flex-row items-center justify-between h-14 md:h-16">
+              <div className="w-full flex flex-col md:flex-row   gap-1 lg:gap-8 mb-2 md:mb-0">
+                <div className="w-full md:w-auto flex flex-row  justify-between">
+                  {" "}
+                  {/* Left: Logo */}
+                  <Link
+                    href="/"
+                    className="text-xl md:text-4xl font-bold font-serif text-primary"
+                  >
+                    Gavellia
+                  </Link>
+                  {/* Icons group */}
+                  <div className="flex md:hidden items-center   space-x-3 sm:space-x-4   md:py-1">
+                    <Search className="w-5 h-5 text-primary cursor-pointer hover:text-primary/80" />
+                    <Link href="/purchases" aria-label="Purchases">
+                      <ShoppingBag className="w-5 h-5 text-primary cursor-pointer hover:text-primary/80" />
+                    </Link>
 
-              {/* Center nav links — hidden on mobile */}
-              <nav className="hidden md:flex items-center space-x-6">
-                <Link
-                  href="/products"
-                  className="text-primary hover:text-primary/80 text-sm font-semibold"
-                >
-                  Browse auction
-                </Link>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button className="text-primary cursor-pointer flex hover:text-primary/80 text-sm font-semibold items-center focus:outline-none">
-                      Categories{" "}
-                      <ChevronDown className="w-4 h-4 ml-0.5 mt-0.5" />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="w-48">
-                    {[
-                      "Fashion & Apparel",
-                      "Electronics",
-                      "Home & Living",
-                      "Collectibles",
-                      "Luxury Items",
-                    ].map((cat) => (
-                      <DropdownMenuItem key={cat} asChild>
-                        <Link href="/products" className="cursor-pointer">
-                          {cat}
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <a
-                  href="#"
-                  className="text-primary hover:text-primary/80 text-sm font-semibold"
-                >
-                  How it works
-                </a>
-              </nav>
+                    {/* User icon with dropdown */}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <button
+                          className="focus:outline-none cursor-pointer"
+                          aria-label="User menu"
+                        >
+                          <UserRound className="w-5 h-5 text-primary hover:text-primary/80" />
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-48">
+                        <DropdownMenuItem asChild>
+                          <Link
+                            href="/overviews"
+                            className="cursor-pointer w-full"
+                          >
+                            Overviews
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link
+                            href="/my-bids"
+                            className="cursor-pointer w-full"
+                          >
+                            My Bids
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link
+                            href="/messages"
+                            className="cursor-pointer w-full"
+                          >
+                            Messages
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link
+                            href="/purchases"
+                            className="cursor-pointer w-full"
+                          >
+                            Purchases
+                          </Link>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+
+                {/* Center nav links — hidden on mobile */}
+                <nav className="flex text-center md:text-start items-center justify-center space-x-2 sm:space-x-4 md:space-x-6 lg:space-x-8">
+                  <Link
+                    href="/products"
+                    className="text-primary hover:text-primary/80 text-sm font-semibold"
+                  >
+                    Browse auction
+                  </Link>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button className="text-primary cursor-pointer flex hover:text-primary/80 text-sm font-semibold items-center focus:outline-none">
+                        Categories{" "}
+                        <ChevronDown className="w-4 h-4 ml-0.5 mt-0.5" />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start" className="w-48">
+                      {[
+                        "Fashion & Apparel",
+                        "Electronics",
+                        "Home & Living",
+                        "Collectibles",
+                        "Luxury Items",
+                      ].map((cat) => (
+                        <DropdownMenuItem key={cat} asChild>
+                          <Link href="/products" className="cursor-pointer">
+                            {cat}
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <a
+                    href="#"
+                    className="text-primary hover:text-primary/80 text-sm font-semibold"
+                  >
+                    How it works
+                  </a>
+                </nav>
+              </div>
 
               {/* Right: Icons + buttons */}
               <div className="flex items-center space-x-3 sm:space-x-4">
                 {/* Icons group */}
-                <div className="flex items-center space-x-3 sm:space-x-4 md:border-r-2 md:border-r-tertiary md:pr-4 md:py-1">
+                <div className="hidden md:flex items-center space-x-3 sm:space-x-4 md:border-r-2 md:border-r-tertiary md:pr-4 md:py-1">
                   <Search className="w-5 h-5 text-primary cursor-pointer hover:text-primary/80" />
                   <Link href="/purchases" aria-label="Purchases">
                     <ShoppingBag className="w-5 h-5 text-primary cursor-pointer hover:text-primary/80" />
@@ -228,7 +286,7 @@ const Navbar = () => {
                 </div>
 
                 {/* Auth buttons + switch — hidden on mobile */}
-                <div className="hidden md:flex items-center space-x-2">
+                <div className="flex items-center space-x-2">
                   <Button
                     onClick={handleBuyerSignup}
                     className="bg-primary hover:bg-primary/90 text-white text-sm px-4 py-2 rounded-none cursor-pointer"
@@ -236,20 +294,19 @@ const Navbar = () => {
                     JOIN AS BUYER
                   </Button>
                   <Button
-                    className="text-primary bg-card-bg hover:bg-card-bg/90 text-sm px-4 py-2 rounded-none cursor-pointer"
+                    className="hidden lg:block text-primary bg-card-bg hover:bg-card-bg/90 text-sm px-4 py-2 rounded-none cursor-pointer"
                     onClick={handleSellingSignup}
                   >
                     START SELLING
                   </Button>
                   <AuthDialog open={open} onOpenChange={setOpen} />
+                  <Button
+                    onClick={handleSwitchToSelling}
+                    className="inline-flex text-primary bg-card-bg hover:bg-card-bg/90 text-sm px-4 py-2 rounded-none cursor-pointer"
+                  >
+                    SWITCH TO SELLING
+                  </Button>
                 </div>
-
-                <Button
-                  onClick={handleSwitchToSelling}
-                  className="hidden md:inline-flex text-primary bg-card-bg hover:bg-card-bg/90 text-sm px-4 py-2 rounded-none cursor-pointer"
-                >
-                  SWITCH TO SELLING
-                </Button>
               </div>
             </div>
           </div>
