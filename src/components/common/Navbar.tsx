@@ -53,16 +53,28 @@ const Navbar = () => {
 
   return (
     <div className="mb-12 md:mb-3 bg-white">
-      <div className="w-full px-8 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
+      <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
         {userRole === "seller" ? (
           /* ── SELLER NAVBAR ── */
-          <div>
-            <div className="flex items-center justify-between h-16">
-              {/* Left: Logo + desktop nav + mobile burger */}
-              <div className="flex items-center space-x-8">
+          <div className="relative">
+            <div className=" flex items-center justify-between md:h-16 py-2 md:py-0">
+              {/* Row 1 on mobile / Left on desktop: Logo + nav + burger */}
+              <div className="flex items-center justify-between md:space-x-8">
+                {/* Mobile only: burger icon */}
+                <button
+                  className="md:hidden text-primary focus:outline-none mr-2"
+                  onClick={() => setMobileMenuOpen((prev) => !prev)}
+                  aria-label="Toggle menu"
+                >
+                  {mobileMenuOpen ? (
+                    <X className="w-6 h-6" />
+                  ) : (
+                    <Menu className="w-6 h-6" />
+                  )}
+                </button>
                 <Link
                   href="/"
-                  className="text-4xl font-bold font-serif text-primary"
+                  className="text-xl md:text-4xl font-bold font-serif text-primary"
                 >
                   Gavellia
                 </Link>
@@ -79,38 +91,25 @@ const Navbar = () => {
                     </Link>
                   ))}
                 </nav>
-
-                {/* Mobile burger icon */}
-                <button
-                  className="md:hidden text-primary focus:outline-none"
-                  onClick={() => setMobileMenuOpen((prev) => !prev)}
-                  aria-label="Toggle menu"
-                >
-                  {mobileMenuOpen ? (
-                    <X className="w-6 h-6" />
-                  ) : (
-                    <Menu className="w-6 h-6" />
-                  )}
-                </button>
               </div>
 
-              {/* Right: Profile icon + Switch to Buying */}
-              <div className="flex items-center space-x-4">
+              {/* Row 2 on mobile / Right on desktop: Profile icon + Switch to Buying */}
+              <div className="flex items-center justify-center space-x-2   md:mt-0">
                 <Link href="/profile-settings" aria-label="Profile settings">
                   <UserRound className="w-5 h-5 text-primary cursor-pointer hover:text-primary/80" />
                 </Link>
                 <Button
                   onClick={handleSwitchToBuying}
-                  className="text-primary bg-card-bg hover:bg-card-bg/90 text-sm px-4 py-2 rounded-none cursor-pointer"
+                  className="text-primary bg-card-bg hover:bg-card-bg/90 text-sm px-2 py-1 md:py-2 rounded-none cursor-pointer"
                 >
                   SWITCH TO BUYING
                 </Button>
               </div>
             </div>
 
-            {/* Mobile dropdown menu */}
+            {/* Mobile dropdown menu — overlays page content */}
             {mobileMenuOpen && (
-              <div className="md:hidden bg-white border-t border-gray-200 py-2">
+              <div className="md:hidden absolute top-full left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg py-2">
                 {sellerNavLinks.map((link) => (
                   <Link
                     key={link.href}
