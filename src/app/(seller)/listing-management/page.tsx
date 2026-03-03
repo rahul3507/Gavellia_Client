@@ -1,9 +1,11 @@
 /** @format */
+"use client";
 
 import React from "react";
+import ListingManagementContent from "@/components/SellerAllComponents/ListingManagementComponents/ListingManagementContent";
 
 const ListingManagementPage = () => {
-  return <div>ListingManagementPage</div>;
+  return <ListingManagementContent />;
 };
 
 export default ListingManagementPage;

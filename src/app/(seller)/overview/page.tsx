@@ -1,9 +1,11 @@
 /** @format */
+"use client";
 
 import React from "react";
+import OverviewContent from "@/components/SellerAllComponents/OverviewComponents/OverviewContent";
 
 const OverviewPage = () => {
-  return <div>OverviewPage</div>;
+  return <OverviewContent />;
 };
 
 export default OverviewPage;

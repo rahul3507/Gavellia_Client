@@ -1,9 +1,11 @@
 /** @format */
+"use client";
 
 import React from "react";
+import ProfileSettingsContent from "@/components/ProfileSettingComponents/ProfileSettingsContent";
 
 const ProfileSettingsPage = () => {
-  return <div>ProfileSettingsPage</div>;
+  return <ProfileSettingsContent />;
 };
 
 export default ProfileSettingsPage;

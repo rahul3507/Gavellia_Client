@@ -1,9 +1,11 @@
 /** @format */
+"use client";
 
 import React from "react";
+import SalesAnalyticsContent from "@/components/SellerAllComponents/SalesAnalyticsComponents/SalesAnalyticsContent";
 
 const SalesAnalyticsPage = () => {
-  return <div>SalesAnalyticsPage</div>;
+  return <SalesAnalyticsContent />;
 };
 
 export default SalesAnalyticsPage;

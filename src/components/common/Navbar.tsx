@@ -62,7 +62,7 @@ const Navbar = () => {
               <div className="flex items-center justify-between md:space-x-8">
                 {/* Mobile only: burger icon */}
                 <button
-                  className="md:hidden text-primary focus:outline-none mr-2"
+                  className="cursor-pointer md:hidden text-primary focus:outline-none mr-2"
                   onClick={() => setMobileMenuOpen((prev) => !prev)}
                   aria-label="Toggle menu"
                 >
