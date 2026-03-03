@@ -24,7 +24,7 @@ interface ListingDetailContentProps {
 
 const ListingDetailContent = ({ listingId }: ListingDetailContentProps) => {
   return (
-    <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 py-6">
+    <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 ">
       <div className="bg-white border border-gray-100 rounded-xl overflow-hidden">
         {/* Header */}
         <div className="p-5 sm:p-8 border-b border-gray-100">

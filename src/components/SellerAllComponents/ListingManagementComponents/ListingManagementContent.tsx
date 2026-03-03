@@ -43,11 +43,11 @@ const ListingManagementContent = () => {
   const filteredListings = demoListings.filter((l) => l.status === activeTab);
 
   return (
-    <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 py-6">
+    <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 ">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-primary font-serif">
+          <h1 className="text-3xl sm:text-4xl font-bold text-primary font-serif italic">
             Listing Management
           </h1>
           <p className="text-sm text-muted-foreground mt-1">

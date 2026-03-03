@@ -79,10 +79,10 @@ const MessageInquiriesContent = () => {
   const totalPages = 8;
 
   return (
-    <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 py-6">
+    <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 ">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-3xl sm:text-4xl font-bold text-primary font-serif">
+        <h1 className="text-3xl sm:text-4xl font-bold text-primary font-serif italic">
           Messages and Inquiries
         </h1>
         <p className="text-sm text-muted-foreground mt-1">

@@ -37,9 +37,15 @@ export default function RootLayout({
       >
         <Providers>
           <Navbar />
-          {children}
+          <div className="w-full ">
+            <div className="max-w-625 mx-auto">{children}</div>
+          </div>
 
-          <ConditionalFooter />
+          <div className="w-full bg-card-bg">
+            <div className="max-w-625 mx-auto">
+              <ConditionalFooter />
+            </div>
+          </div>
         </Providers>
       </body>
     </html>

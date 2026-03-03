@@ -48,7 +48,7 @@ const SalesAnalyticsContent = () => {
   const [period, setPeriod] = useState("Yearly");
 
   return (
-    <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 py-6">
+    <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 ">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
