@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Progress } from "../ui/progress";
+import { Progress } from "../../ui/progress";
 import { Upload, Trash2 } from "lucide-react";
 import { CiImageOn } from "react-icons/ci";
 import {
@@ -63,7 +63,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
 
     const droppedFiles = Array.from(e.dataTransfer.files);
     const imageFiles = droppedFiles.filter((file) =>
-      file.type.startsWith("image/")
+      file.type.startsWith("image/"),
     );
 
     if (imageFiles.length > 0) {

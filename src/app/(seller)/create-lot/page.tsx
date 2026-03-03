@@ -4,11 +4,11 @@
 
 import React, { useState, useEffect } from "react";
 import { Check } from "lucide-react";
-import LotDetails from "@/components/createLotComponents/LotDetails";
-import UploadImage from "@/components/createLotComponents/UploadImage";
-import PricingAndAuctionType from "@/components/createLotComponents/PricingAndAuctionType";
-import Publish from "@/components/createLotComponents/Publish";
-import Success from "@/components/createLotComponents/Success";
+import LotDetails from "@/components/SellerAllComponents/CreateLotComponents/LotDetails";
+import UploadImage from "@/components/SellerAllComponents/CreateLotComponents/UploadImage";
+import PricingAndAuctionType from "@/components/SellerAllComponents/CreateLotComponents/PricingAndAuctionType";
+import Publish from "@/components/SellerAllComponents/CreateLotComponents/Publish";
+import Success from "@/components/SellerAllComponents/CreateLotComponents/Success";
 
 interface FileUpload {
   name: string;
@@ -72,16 +72,16 @@ const CreateLot = () => {
           progress += 10;
           setFiles((prev) =>
             prev.map((file, i) =>
-              i === fileIndex ? { ...file, progress } : file
-            )
+              i === fileIndex ? { ...file, progress } : file,
+            ),
           );
 
           if (progress >= 100) {
             clearInterval(interval);
             setFiles((prev) =>
               prev.map((file, i) =>
-                i === fileIndex ? { ...file, complete: true } : file
-              )
+                i === fileIndex ? { ...file, complete: true } : file,
+              ),
             );
           }
         }, 100);
@@ -159,8 +159,8 @@ const CreateLot = () => {
                 step.number < currentStep
                   ? "bg-green-500 text-white"
                   : step.active
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-600"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-gray-600"
               }`}
             >
               {step.number < currentStep ? (

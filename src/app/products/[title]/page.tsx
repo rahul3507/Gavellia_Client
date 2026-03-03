@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/carousel";
 import { type CarouselApi } from "@/components/ui/carousel";
 import ProductCard from "@/components/common/ProductCard";
-import ParticipateModal from "@/components/productsComponents/perticipateModal";
+import ParticipateModal from "@/components/ProductsComponents/perticipateModal";
 import loading from "@/app/loading";
 
 interface ProductDetailsProps {
@@ -43,7 +43,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ params }) => {
   const productData = product.find(
     (item) =>
       item.title.toLowerCase().replace(/\s+/g, "-") ===
-      decodedTitle.toLowerCase()
+      decodedTitle.toLowerCase(),
   );
 
   if (!productData) {

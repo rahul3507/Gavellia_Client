@@ -4,7 +4,7 @@
 
 import { useAppSelector } from "@/redux/hooks";
 import HomePage from "./home/page";
-import SellerHome from "./seller-home/page";
+import SellerHome from "./(seller)/seller-home/page";
 
 export default function Home() {
   const userRole = useAppSelector((state) => state.userRole.role);

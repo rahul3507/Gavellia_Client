@@ -6,7 +6,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import React, { useState, useEffect, use } from "react";
 import { Button } from "@/components/ui/button";
-import BidSheet from "@/components/productsComponents/bidSheet";
+import BidSheet from "@/components/ProductsComponents/bidSheet";
 
 import {
   Carousel,
@@ -33,7 +33,7 @@ const ProductLive: React.FC<ProductDetailsProps> = ({ params }) => {
   const productData = product.find(
     (item) =>
       item.title.toLowerCase().replace(/\s+/g, "-") ===
-      decodedTitle.toLowerCase()
+      decodedTitle.toLowerCase(),
   );
 
   if (!productData) {

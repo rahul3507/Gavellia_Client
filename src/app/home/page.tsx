@@ -1,10 +1,10 @@
 /** @format */
 
 import ProductCard from "@/components/common/ProductCard";
-import ArtAuctionCard from "@/components/homeComponents/ArtAuctionCard";
-import AutomotiveHeroCard from "@/components/homeComponents/AutomotiveHeroCard";
-import BottomCTACard from "@/components/homeComponents/BottomCTACard";
-import WatchCollectionCard from "@/components/homeComponents/WatchCollectionCard";
+import ArtAuctionCard from "@/components/HomeComponents/ArtAuctionCard";
+import AutomotiveHeroCard from "@/components/HomeComponents/AutomotiveHeroCard";
+import BottomCTACard from "@/components/HomeComponents/BottomCTACard";
+import WatchCollectionCard from "@/components/HomeComponents/WatchCollectionCard";
 import { product } from "@/data/productData";
 import Link from "next/link";
 import React from "react";
