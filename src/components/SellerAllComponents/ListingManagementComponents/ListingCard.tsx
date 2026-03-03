@@ -66,7 +66,7 @@ const ListingCard = ({ listing }: ListingCardProps) => {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-4 mt-4 pt-3 border-t border-gray-200">
+        <div className="w-full flex items-center justify-between gap-4 mt-4 pt-3 border-t border-gray-200">
           <button className="text-xs font-bold text-primary hover:underline uppercase cursor-pointer">
             Promote
           </button>

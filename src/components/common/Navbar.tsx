@@ -27,7 +27,7 @@ const sellerNavLinks = [
   { label: "Overview", href: "/overview" },
   { label: "Listings Management", href: "/listing-management" },
   { label: "Sales & Analytics", href: "/sales-analytics" },
-  { label: "Messages & Inquiries", href: "/message-inquiries" },
+  { label: "Messages", href: "/messages" },
 ];
 
 const Navbar = () => {
@@ -125,16 +125,18 @@ const Navbar = () => {
           </div>
         ) : (
           /* ── BUYER NAVBAR ── */
-          <div className="flex flex-col md:flex-row items-center justify-between h-16 space-y-2">
-            {/* Left: Logo + nav */}
-            <div className="flex flex-col md:flex-row items-center space-x-8">
+          <div className="relative">
+            <div className="flex items-center justify-between h-14 md:h-16">
+              {/* Left: Logo */}
               <Link
                 href="/"
-                className="text-4xl font-bold font-serif text-primary"
+                className="text-xl md:text-4xl font-bold font-serif text-primary"
               >
                 Gavellia
               </Link>
-              <nav className="flex space-x-6">
+
+              {/* Center nav links — hidden on mobile */}
+              <nav className="hidden md:flex items-center space-x-6">
                 <Link
                   href="/products"
                   className="text-primary hover:text-primary/80 text-sm font-semibold"
@@ -171,38 +173,84 @@ const Navbar = () => {
                   How it works
                 </a>
               </nav>
-            </div>
 
-            {/* Right: Icons + auth buttons + switch */}
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-4 border-r-2 border-r-tertiary pr-4 py-1">
-                <Search className="w-5 h-5 text-primary" />
-                <ShoppingBag className="w-5 h-5 text-primary" />
-                <UserRound className="w-5 h-5 text-primary" />
-              </div>
+              {/* Right: Icons + buttons */}
+              <div className="flex items-center space-x-3 sm:space-x-4">
+                {/* Icons group */}
+                <div className="flex items-center space-x-3 sm:space-x-4 md:border-r-2 md:border-r-tertiary md:pr-4 md:py-1">
+                  <Search className="w-5 h-5 text-primary cursor-pointer hover:text-primary/80" />
+                  <Link href="/purchases" aria-label="Purchases">
+                    <ShoppingBag className="w-5 h-5 text-primary cursor-pointer hover:text-primary/80" />
+                  </Link>
 
-              <div className="flex items-center space-x-2">
+                  {/* User icon with dropdown */}
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        className="focus:outline-none cursor-pointer"
+                        aria-label="User menu"
+                      >
+                        <UserRound className="w-5 h-5 text-primary hover:text-primary/80" />
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-48">
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/overviews"
+                          className="cursor-pointer w-full"
+                        >
+                          Overviews
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/my-bids" className="cursor-pointer w-full">
+                          My Bids
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/messages"
+                          className="cursor-pointer w-full"
+                        >
+                          Messages
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/purchases"
+                          className="cursor-pointer w-full"
+                        >
+                          Purchases
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+
+                {/* Auth buttons + switch — hidden on mobile */}
+                <div className="hidden md:flex items-center space-x-2">
+                  <Button
+                    onClick={handleBuyerSignup}
+                    className="bg-primary hover:bg-primary/90 text-white text-sm px-4 py-2 rounded-none cursor-pointer"
+                  >
+                    JOIN AS BUYER
+                  </Button>
+                  <Button
+                    className="text-primary bg-card-bg hover:bg-card-bg/90 text-sm px-4 py-2 rounded-none cursor-pointer"
+                    onClick={handleSellingSignup}
+                  >
+                    START SELLING
+                  </Button>
+                  <AuthDialog open={open} onOpenChange={setOpen} />
+                </div>
+
                 <Button
-                  onClick={handleBuyerSignup}
-                  className="bg-primary hover:bg-primary/90 text-white text-sm px-4 py-2 rounded-none cursor-pointer"
+                  onClick={handleSwitchToSelling}
+                  className="hidden md:inline-flex text-primary bg-card-bg hover:bg-card-bg/90 text-sm px-4 py-2 rounded-none cursor-pointer"
                 >
-                  JOIN AS BUYER
+                  SWITCH TO SELLING
                 </Button>
-                <Button
-                  className="text-primary bg-card-bg hover:bg-card-bg/90 text-sm px-4 py-2 rounded-none cursor-pointer"
-                  onClick={handleSellingSignup}
-                >
-                  START SELLING
-                </Button>
-                <AuthDialog open={open} onOpenChange={setOpen} />
               </div>
-
-              <Button
-                onClick={handleSwitchToSelling}
-                className="text-primary bg-card-bg hover:bg-card-bg/90 text-sm px-4 py-2 rounded-none cursor-pointer"
-              >
-                SWITCH TO SELLING
-              </Button>
             </div>
           </div>
         )}
