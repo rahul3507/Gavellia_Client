@@ -76,7 +76,7 @@ const recentActivities = [
 
 const OverviewContent = () => {
   return (
-    <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 ">
+    <div className="w-full px-2 md:px-4 xl:px-6 mb-12 ">
       {/* Stats Cards */}
       <StatsCards statsCards={statsCards} />
 

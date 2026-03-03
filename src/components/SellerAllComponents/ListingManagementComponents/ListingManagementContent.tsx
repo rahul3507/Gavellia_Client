@@ -2,22 +2,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { Clock, MoreHorizontal } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
+import ListingTabBar from "./ListingTabBar";
+import ListingCard, { Listing } from "./ListingCard";
 
 type TabType = "timed" | "live" | "sold" | "draft";
-
-interface Listing {
-  id: string;
-  title: string;
-  image: string;
-  timeLeft: string;
-  startingPrice: number;
-  bids: number;
-  highestBid: number;
-  status: TabType;
-}
 
 const demoListings: Listing[] = Array.from({ length: 8 }, (_, i) => ({
   id: `C${4567 + i}`,
@@ -27,7 +16,7 @@ const demoListings: Listing[] = Array.from({ length: 8 }, (_, i) => ({
   startingPrice: 48,
   bids: 18,
   highestBid: 370,
-  status: i < 4 ? "timed" : i < 6 ? "live" : i < 7 ? "sold" : "draft",
+  status: i < 5 ? "timed" : i < 6 ? "live" : i < 7 ? "sold" : "draft",
 }));
 
 const tabs: { label: string; value: TabType; count: number }[] = [
@@ -43,7 +32,7 @@ const ListingManagementContent = () => {
   const filteredListings = demoListings.filter((l) => l.status === activeTab);
 
   return (
-    <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 ">
+    <div className="w-full px-2 md:px-4 xl:px-6 mb-12 ">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
@@ -63,86 +52,16 @@ const ListingManagementContent = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex flex-wrap gap-0 border-b border-gray-200 mb-6">
-        {tabs.map((tab) => (
-          <button
-            key={tab.value}
-            onClick={() => setActiveTab(tab.value)}
-            className={`px-4 py-3 text-xs font-semibold tracking-wide transition border-b-2 cursor-pointer ${
-              activeTab === tab.value
-                ? "border-primary text-primary"
-                : "border-transparent text-muted-foreground hover:text-primary"
-            }`}
-          >
-            {tab.label} ({tab.count})
-          </button>
-        ))}
-      </div>
+      <ListingTabBar
+        tabs={tabs}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+      />
 
       {/* Listings Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
         {filteredListings.map((listing) => (
-          <Link
-            key={listing.id}
-            href={`/listing-management/${listing.id}`}
-            className="bg-card-bg rounded-xl overflow-hidden hover:shadow-md transition group"
-          >
-            {/* Image */}
-            <div className="relative aspect-square bg-gray-100 flex items-center justify-center overflow-hidden">
-              <Image
-                src={listing.image}
-                alt={listing.title}
-                width={300}
-                height={300}
-                className="object-cover w-full h-full group-hover:scale-105 transition-transform"
-              />
-            </div>
-
-            {/* Info */}
-            <div className="p-4">
-              <h3 className="text-sm font-bold text-primary uppercase">
-                {listing.title}
-              </h3>
-              <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-                <Clock className="w-3 h-3" />
-                {listing.timeLeft}
-              </div>
-
-              <div className="grid grid-cols-3 gap-2 mt-3 text-xs">
-                <div>
-                  <p className="text-muted-foreground">Starting</p>
-                  <p className="font-semibold text-primary">
-                    £{listing.startingPrice}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-muted-foreground">Bids</p>
-                  <p className="font-semibold text-primary">
-                    {listing.bids} bidder
-                  </p>
-                </div>
-                <div>
-                  <p className="text-muted-foreground">Highest bid</p>
-                  <p className="font-semibold text-primary">
-                    £{listing.highestBid}
-                  </p>
-                </div>
-              </div>
-
-              {/* Actions */}
-              <div className="flex items-center gap-4 mt-4 pt-3 border-t border-gray-200">
-                <button className="text-xs font-bold text-primary hover:underline uppercase cursor-pointer">
-                  Promote
-                </button>
-                <button className="text-xs font-bold text-primary hover:underline uppercase cursor-pointer">
-                  Edit
-                </button>
-                <button className="text-xs font-bold text-red-500 hover:underline uppercase cursor-pointer">
-                  Delete
-                </button>
-              </div>
-            </div>
-          </Link>
+          <ListingCard key={listing.id} listing={listing} />
         ))}
       </div>
 

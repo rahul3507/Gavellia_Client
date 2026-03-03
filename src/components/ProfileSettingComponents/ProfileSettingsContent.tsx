@@ -16,7 +16,7 @@ const ProfileSettingsContent = () => {
   const [weeklySummary, setWeeklySummary] = useState(false);
 
   return (
-    <div className="w-full px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32 ">
+    <div className="w-full px-2 md:px-4 xl:px-6 mb-12">
       {/* Header */}
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
         {/* Left Title */}
