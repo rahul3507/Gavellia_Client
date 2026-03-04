@@ -9,7 +9,7 @@ import {
   X,
 } from "lucide-react";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import AuthDialog from "./auth/AuthDialog";
@@ -35,6 +35,7 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -85,7 +86,10 @@ const Navbar = () => {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="text-primary hover:text-primary/80 text-sm font-semibold"
+                      className="text-sm font-semibold hover:text-primary/80"
+                      style={{
+                        color: pathname === link.href ? "#6C63FF" : undefined,
+                      }}
                     >
                       {link.label}
                     </Link>
@@ -95,9 +99,32 @@ const Navbar = () => {
 
               {/* Row 2 on mobile / Right on desktop: Profile icon + Switch to Buying */}
               <div className="flex items-center justify-center space-x-2   md:mt-0">
-                <Link href="/profile-settings" aria-label="Profile settings">
-                  <UserRound className="w-5 h-5 text-primary cursor-pointer hover:text-primary/80" />
-                </Link>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      className="focus:outline-none cursor-pointer"
+                      aria-label="User menu"
+                    >
+                      <UserRound className="w-5 h-5 text-primary hover:text-primary/80" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem asChild>
+                      <Link
+                        href="/profile-settings"
+                        className="cursor-pointer w-full"
+                        style={{
+                          color:
+                            pathname === "/profile-settings"
+                              ? "#6C63FF"
+                              : undefined,
+                        }}
+                      >
+                        Settings
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 <Button
                   onClick={handleSwitchToBuying}
                   className="text-primary bg-card-bg hover:bg-card-bg/90 text-sm px-2 py-1 md:py-2 rounded-none cursor-pointer"
@@ -114,7 +141,10 @@ const Navbar = () => {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="block px-4 py-2 text-primary hover:bg-gray-50 text-sm font-semibold"
+                    className="block px-4 py-2 hover:bg-gray-50 text-sm font-semibold"
+                    style={{
+                      color: pathname === link.href ? "#6C63FF" : undefined,
+                    }}
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {link.label}
@@ -159,6 +189,12 @@ const Navbar = () => {
                           <Link
                             href="/overviews"
                             className="cursor-pointer w-full"
+                            style={{
+                              color:
+                                pathname === "/overviews"
+                                  ? "#6C63FF"
+                                  : undefined,
+                            }}
                           >
                             Overviews
                           </Link>
@@ -167,6 +203,10 @@ const Navbar = () => {
                           <Link
                             href="/my-bids"
                             className="cursor-pointer w-full"
+                            style={{
+                              color:
+                                pathname === "/my-bids" ? "#6C63FF" : undefined,
+                            }}
                           >
                             My Bids
                           </Link>
@@ -175,6 +215,12 @@ const Navbar = () => {
                           <Link
                             href="/messages"
                             className="cursor-pointer w-full"
+                            style={{
+                              color:
+                                pathname === "/messages"
+                                  ? "#6C63FF"
+                                  : undefined,
+                            }}
                           >
                             Messages
                           </Link>
@@ -183,8 +229,28 @@ const Navbar = () => {
                           <Link
                             href="/purchases"
                             className="cursor-pointer w-full"
+                            style={{
+                              color:
+                                pathname === "/purchases"
+                                  ? "#6C63FF"
+                                  : undefined,
+                            }}
                           >
                             Purchases
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link
+                            href="/profile-settings"
+                            className="cursor-pointer w-full"
+                            style={{
+                              color:
+                                pathname === "/profile-settings"
+                                  ? "#6C63FF"
+                                  : undefined,
+                            }}
+                          >
+                            Settings
                           </Link>
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -196,7 +262,12 @@ const Navbar = () => {
                 <nav className="flex text-center md:text-start items-center justify-center space-x-2 sm:space-x-4 md:space-x-6 lg:space-x-8">
                   <Link
                     href="/products"
-                    className="text-primary hover:text-primary/80 text-sm font-semibold"
+                    className="hover:text-primary/80 text-sm font-semibold"
+                    style={{
+                      color: pathname.startsWith("/products")
+                        ? "#6C63FF"
+                        : undefined,
+                    }}
                   >
                     Browse auction
                   </Link>
@@ -256,12 +327,23 @@ const Navbar = () => {
                         <Link
                           href="/overviews"
                           className="cursor-pointer w-full"
+                          style={{
+                            color:
+                              pathname === "/overviews" ? "#6C63FF" : undefined,
+                          }}
                         >
                           Overviews
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
-                        <Link href="/my-bids" className="cursor-pointer w-full">
+                        <Link
+                          href="/my-bids"
+                          className="cursor-pointer w-full"
+                          style={{
+                            color:
+                              pathname === "/my-bids" ? "#6C63FF" : undefined,
+                          }}
+                        >
                           My Bids
                         </Link>
                       </DropdownMenuItem>
@@ -269,6 +351,10 @@ const Navbar = () => {
                         <Link
                           href="/messages"
                           className="cursor-pointer w-full"
+                          style={{
+                            color:
+                              pathname === "/messages" ? "#6C63FF" : undefined,
+                          }}
                         >
                           Messages
                         </Link>
@@ -277,8 +363,26 @@ const Navbar = () => {
                         <Link
                           href="/purchases"
                           className="cursor-pointer w-full"
+                          style={{
+                            color:
+                              pathname === "/purchases" ? "#6C63FF" : undefined,
+                          }}
                         >
                           Purchases
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/profile-settings"
+                          className="cursor-pointer w-full"
+                          style={{
+                            color:
+                              pathname === "/profile-settings"
+                                ? "#6C63FF"
+                                : undefined,
+                          }}
+                        >
+                          Settings
                         </Link>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
