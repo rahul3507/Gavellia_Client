@@ -1,73 +1,85 @@
 /** @format */
 import React from "react";
 import Image from "next/image";
-import { Send, AlertTriangle, MoreVertical } from "lucide-react";
 
-export interface Message {
+export interface Conversation {
   id: number;
   name: string;
   avatar: string;
-  subject: string;
-  preview: string;
-  isNew: boolean;
-  isPriority: boolean;
+  lastMessage: string;
+  time: string;
+  unread: number;
+  isOnline: boolean;
 }
 
 interface MessageListItemProps {
-  message: Message;
-  isFirst: boolean;
+  conversation: Conversation;
+  isSelected: boolean;
+  onClick: () => void;
 }
 
-const MessageListItem = ({ message, isFirst }: MessageListItemProps) => {
+const MessageListItem = ({
+  conversation,
+  isSelected,
+  onClick,
+}: MessageListItemProps) => {
   return (
-    <div className="flex items-center gap-4 p-4 sm:p-6 hover:bg-gray-50 transition">
-      {/* Avatar */}
-      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full overflow-hidden bg-gray-200 shrink-0">
-        <Image
-          src={message.avatar}
-          alt={message.name}
-          width={48}
-          height={48}
-          className="w-full h-full object-cover"
-        />
+    <div
+      onClick={onClick}
+      className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition border-l-2 ${
+        isSelected
+          ? "bg-gray-100 border-l-primary"
+          : "border-l-transparent hover:bg-gray-50"
+      }`}
+    >
+      {/* Avatar with online indicator */}
+      <div className="relative shrink-0">
+        <div className="w-11 h-11 rounded-full overflow-hidden bg-gray-200">
+          <Image
+            src={conversation.avatar}
+            alt={conversation.name}
+            width={44}
+            height={44}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        {conversation.isOnline && (
+          <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full" />
+        )}
       </div>
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-primary">
-            {message.name}
+        <div className="flex items-center justify-between">
+          <span
+            className={`text-sm truncate ${
+              conversation.unread > 0
+                ? "font-bold text-primary"
+                : "font-medium text-primary"
+            }`}
+          >
+            {conversation.name}
           </span>
-          {message.isNew && (
-            <span className="text-xs font-semibold text-green-500">New</span>
+          <span className="text-[11px] text-muted-foreground shrink-0 ml-2">
+            {conversation.time}
+          </span>
+        </div>
+        <div className="flex items-center justify-between mt-0.5">
+          <p
+            className={`text-xs truncate ${
+              conversation.unread > 0
+                ? "text-primary font-medium"
+                : "text-muted-foreground"
+            }`}
+          >
+            {conversation.lastMessage}
+          </p>
+          {conversation.unread > 0 && (
+            <span className="shrink-0 ml-2 w-5 h-5 flex items-center justify-center bg-primary text-white text-[10px] font-bold rounded-full">
+              {conversation.unread}
+            </span>
           )}
         </div>
-        <p className="text-sm text-primary mt-0.5 truncate">
-          {message.subject}
-        </p>
-        <p className="text-xs text-muted-foreground mt-0.5 truncate">
-          {message.preview}
-        </p>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="flex items-center gap-2 shrink-0">
-        {isFirst ? (
-          <button className="flex items-center gap-1.5 bg-primary text-white text-xs font-semibold px-4 py-2 rounded-md hover:bg-primary/90 transition">
-            QUICK REPLY <Send className="w-3 h-3" />
-          </button>
-        ) : message.isPriority ? (
-          <button className="flex items-center gap-1.5 bg-red-500 text-white text-xs font-semibold px-4 py-2 rounded-md hover:bg-red-600 transition">
-            PRIORITY REPLY <AlertTriangle className="w-3 h-3" />
-          </button>
-        ) : (
-          <button className="flex items-center gap-1.5 border border-gray-200 text-primary text-xs font-semibold px-4 py-2 rounded-md hover:bg-gray-50 transition">
-            REPLY <Send className="w-3 h-3" />
-          </button>
-        )}
-        <button className="p-1 hover:bg-gray-100 rounded cursor-pointer">
-          <MoreVertical className="w-4 h-4 text-muted-foreground" />
-        </button>
       </div>
     </div>
   );

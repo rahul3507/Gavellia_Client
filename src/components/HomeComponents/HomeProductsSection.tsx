@@ -1,3 +1,4 @@
+"use client";
 import React, { Suspense, useEffect } from 'react'
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';

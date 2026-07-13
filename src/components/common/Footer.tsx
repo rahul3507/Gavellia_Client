@@ -139,7 +139,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-[#e9e9e9] mt-6 pt-4 flex justify-between items-center">
+        <div className="border-t border-[#e9e9e9] mt-6 py-4 flex justify-between items-center">
           <div className="text-sm md:text-base text-primary/70 gap-8">
             © 2024 Vendra Inc.{" "}
             <a href="#" className="text-link hover:text-link ml-2 underline">
@@ -167,11 +167,11 @@ const Footer = () => {
       </div>
 
       {/* Large Gavellia Logo */}
-      <div className="text-center mt-2 ">
+      {/* <div className="text-center mt-2 ">
         <h1 className="text-5xl md:text-9xl lg:text-[270px] xl:text-[300px] 2xl:text-[330px] font-serif text-primary ">
           Gavellia
         </h1>
-      </div>
+      </div> */}
     </footer>
   );
 };
