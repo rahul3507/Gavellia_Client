@@ -6,15 +6,29 @@ import ProductCard from '../common/ProductCard';
 
 const ProductsSkeleton = () => (
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1">
-    {Array.from({ length: 4 }).map((_, i) => (
-      <div key={i} className="animate-pulse">
-        <div className="bg-gray-200 h-[300px] rounded" />
-        <div className="p-4 space-y-2">
-          <div className="bg-gray-200 h-4 rounded w-3/4" />
-          <div className="bg-gray-200 h-3 rounded w-1/2" />
+    {Array.from({ length: 5 }).map((_, i) => {
+      let visibilityClass = "";
+
+      if (i === 1) {
+        visibilityClass = "hidden sm:block";
+      } else if (i === 2) {
+        visibilityClass = "hidden md:block";
+      } else if (i === 3) {
+        visibilityClass = "hidden xl:block";
+      } else if (i === 4) {
+        visibilityClass = "hidden 2xl:block";
+      }
+
+      return (
+        <div key={i} className={`animate-pulse ${visibilityClass}`}>
+          <div className="bg-gray-200 h-[300px] rounded" />
+          <div className="p-4 space-y-2">
+            <div className="bg-gray-200 h-4 rounded w-3/4" />
+            <div className="bg-gray-200 h-3 rounded w-1/2" />
+          </div>
         </div>
-      </div>
-    ))}
+      );
+    })}
   </div>
 );
 

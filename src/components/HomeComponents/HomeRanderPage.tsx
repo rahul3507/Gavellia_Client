@@ -21,7 +21,9 @@ const HomeRanderPage = () => {
       <AutomotiveHeroCard />
 
       {/* Product Section */}
+      <div className="min-h-90">
       <HomeProductsSection />
+      </div>
 
       {/* Bottom CTA Section */}
       <BottomCTACard />
