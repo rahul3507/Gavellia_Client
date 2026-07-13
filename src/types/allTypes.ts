@@ -123,3 +123,31 @@ export interface MyBidsResponse {
   };
   totalPages: number;
 }
+
+// Purchases Types
+export type PurchaseTab = "to-pay" | "to-ship" | "in-transit" | "completed";
+
+export interface PurchaseItem {
+  id: number;
+  title: string;
+  lot: string;
+  image: string;
+  myBid: number;
+  auctionWonDate: string;
+  paymentDueDate: string;
+  amount: number;
+  status: PurchaseTab;
+}
+
+export interface PurchasesResponse {
+  toPay: PurchaseItem[];
+  toShip: PurchaseItem[];
+  inTransit: PurchaseItem[];
+  completed: PurchaseItem[];
+  tabCounts: {
+    toPay: number;
+    toShip: number;
+    inTransit: number;
+    completed: number;
+  };
+}

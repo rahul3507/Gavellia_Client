@@ -1,18 +1,7 @@
-/** @format */
 import React from "react";
 import Image from "next/image";
 import { Trophy, Clock } from "lucide-react";
-
-export interface PurchaseItem {
-  id: number;
-  title: string;
-  lot: string;
-  image: string;
-  myBid: number;
-  auctionWonDate: string;
-  paymentDueDate: string;
-  amount: number;
-}
+import { PurchaseItem } from "@/types/allTypes";
 
 interface PurchaseListItemProps {
   item: PurchaseItem;

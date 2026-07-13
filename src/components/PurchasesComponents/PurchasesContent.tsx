@@ -1,44 +1,28 @@
-/** @format */
 "use client";
 
-import React, { useState } from "react";
-import PurchasesTabBar, { PurchaseTab } from "./PurchasesTabBar";
-import PurchaseListItem, { PurchaseItem } from "./PurchaseListItem";
-
-const toPayItems: PurchaseItem[] = [
-  {
-    id: 1,
-    title: "Vintage Leather Jacket",
-    lot: "#C4567",
-    image: "/productImage/Bowling_SS_Bag.png",
-    myBid: 8500,
-    auctionWonDate: "17 Sep, 2025",
-    paymentDueDate: "19 Sep, 2025",
-    amount: 8500,
-  },
-  {
-    id: 2,
-    title: "Vintage Leather Jacket",
-    lot: "#C4567",
-    image: "/productImage/Bowling_SS_Bag.png",
-    myBid: 8500,
-    auctionWonDate: "17 Sep, 2025",
-    paymentDueDate: "19 Sep, 2025",
-    amount: 8500,
-  },
-];
+import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchPurchases, setCurrentTab } from "@/redux/feature/purchasesSlice";
+import PurchasesTabBar from "./PurchasesTabBar";
+import PurchaseListItem from "./PurchaseListItem";
+import { PurchaseTab } from "@/types/allTypes";
 
 const PurchasesContent = () => {
-  const [activeTab, setActiveTab] = useState<PurchaseTab>("to-pay");
+  const dispatch = useAppDispatch();
+  const { currentItems, tabCounts, loading } = useAppSelector(
+    (state) => state.purchases
+  );
 
-  const itemsMap: Record<PurchaseTab, PurchaseItem[]> = {
-    "to-pay": toPayItems,
-    "to-ship": [],
-    "in-transit": [],
-    completed: [],
+  const [activeTab, setActiveTab] = React.useState<PurchaseTab>("to-pay");
+
+  useEffect(() => {
+    dispatch(fetchPurchases());
+  }, [dispatch]);
+
+  const handleTabChange = (tab: PurchaseTab) => {
+    setActiveTab(tab);
+    dispatch(setCurrentTab(tab));
   };
-
-  const currentItems = itemsMap[activeTab];
 
   return (
     <div className="w-full px-2 md:px-4 xl:px-6 mb-12">
@@ -53,7 +37,11 @@ const PurchasesContent = () => {
       </div>
 
       {/* Tabs */}
-      <PurchasesTabBar activeTab={activeTab} onTabChange={setActiveTab} />
+      <PurchasesTabBar
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        tabCounts={tabCounts}
+      />
 
       {/* Items */}
       <div className="bg-white border border-gray-100 rounded-xl mt-6 px-4 sm:px-6">
@@ -63,7 +51,11 @@ const PurchasesContent = () => {
           </h3>
         </div>
 
-        {currentItems.length > 0 ? (
+        {loading ? (
+          <div className="py-12 text-center text-muted-foreground text-sm">
+            Loading...
+          </div>
+        ) : currentItems.length > 0 ? (
           currentItems.map((item) => (
             <PurchaseListItem key={item.id} item={item} />
           ))

@@ -1,13 +1,17 @@
-/** @format */
 "use client";
 
 import React from "react";
-
-export type PurchaseTab = "to-pay" | "to-ship" | "in-transit" | "completed";
+import { PurchaseTab } from "@/types/allTypes";
 
 interface PurchasesTabBarProps {
   activeTab: PurchaseTab;
   onTabChange: (tab: PurchaseTab) => void;
+  tabCounts: {
+    toPay: number;
+    toShip: number;
+    inTransit: number;
+    completed: number;
+  };
 }
 
 const tabs: { label: string; value: PurchaseTab }[] = [
@@ -17,7 +21,7 @@ const tabs: { label: string; value: PurchaseTab }[] = [
   { label: "COMPLETED", value: "completed" },
 ];
 
-const PurchasesTabBar = ({ activeTab, onTabChange }: PurchasesTabBarProps) => {
+const PurchasesTabBar = ({ activeTab, onTabChange, tabCounts }: PurchasesTabBarProps) => {
   return (
     <div className="flex gap-0 border border-gray-200 rounded-md overflow-hidden w-fit flex-wrap">
       {tabs.map((tab) => (

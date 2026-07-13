@@ -5,6 +5,7 @@ import userRoleReducer from "./feature/userRoleSlice";
 import productsReducer from "./feature/productsSlice";
 import overviewReducer from "./feature/overviewSlice";
 import myBidsReducer from "./feature/myBidsSlice";
+import purchasesReducer from "./feature/purchasesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     products: productsReducer,
     overview: overviewReducer,
     myBids: myBidsReducer,
+    purchases: purchasesReducer,
   },
 });
 
