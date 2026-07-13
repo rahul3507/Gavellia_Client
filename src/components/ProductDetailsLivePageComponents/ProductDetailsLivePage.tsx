@@ -45,7 +45,22 @@ const ProductDetailsLivePage: React.FC<ProductDetailsLivePageProps> = ({ params 
   }
 
   if (!productData) {
-    return null;
+    return (
+      <div className="w-full flex flex-col justify-center items-center min-h-[70vh] px-4">
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl font-bold text-primary">Product Not Found</h1>
+          <p className="text-gray-500 text-sm max-w-md">
+            The product you are looking for does not exist or has been removed.
+          </p>
+          <a
+            href="/products"
+            className="inline-block bg-primary text-white px-6 py-2 rounded-none text-sm hover:bg-primary/90 transition-colors"
+          >
+            BROWSE PRODUCTS
+          </a>
+        </div>
+      </div>
+    );
   }
 
   return (
