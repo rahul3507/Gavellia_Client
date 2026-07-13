@@ -280,15 +280,19 @@ const Navbar = () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start" className="w-48">
                       {[
-                        "Fashion & Apparel",
-                        "Electronics",
-                        "Home & Living",
-                        "Collectibles",
-                        "Luxury Items",
+                        { label: "Art Auction", href: "/products?category=art" },
+                        { label: "Watch Collection", href: "/products?category=watches" },
+                        { label: "Collector Cars", href: "/products?category=cars" },
+                        { label: "Jewellery", href: "/products?category=jewellery" },
+                        { label: "Collectibles", href: "/products?category=collectibles" },
+                        { label: "Fashion", href: "/products?category=fashion" },
+                        { label: "Antiques", href: "/products?category=antiques" },
+                        { label: "Shoes", href: "/products?category=shoes" },
+                        { label: "Bags", href: "/products?category=bags" },
                       ].map((cat) => (
-                        <DropdownMenuItem key={cat} asChild>
-                          <Link href="/products" className="cursor-pointer">
-                            {cat}
+                        <DropdownMenuItem key={cat.label} asChild>
+                          <Link href={cat.href} className="cursor-pointer">
+                            {cat.label}
                           </Link>
                         </DropdownMenuItem>
                       ))}

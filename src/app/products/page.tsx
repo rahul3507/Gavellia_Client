@@ -2,9 +2,8 @@
 "use client";
 
 import ProductCard from "@/components/common/ProductCard";
-import { product } from "@/data/productData";
-
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,11 +21,19 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import { FilterState } from "@/types/allTypes";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { CollapsibleTrigger } from "@radix-ui/react-collapsible";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  fetchProducts,
+  setFilter,
+  setSortBy,
+  setPage,
+  clearFilters,
+  toggleArrayFilter,
+} from "@/redux/feature/productsSlice";
 
 const categories = [
   "ART",
@@ -38,9 +45,6 @@ const categories = [
   "ANTIQUES",
   "SHOES",
   "BAGS",
-  "MEN",
-  "WOMEN",
-  "ALL",
 ];
 
 const auctionHouses = [
@@ -49,87 +53,104 @@ const auctionHouses = [
   "Timeline Auctions Limited",
   "Auction at Showplace",
   "Richard L. Edwards Auctioneering",
+  "Kubli Haus",
+  "Prestige Auction House",
+  "Heritage Auctions",
+  "Bonhams",
+  "Christie's",
+  "Sotheby's",
 ];
 
-const PRODUCTS_PER_PAGE = 20;
+const ProductsContent = () => {
+  const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const {
+    products,
+    total,
+    page,
+    totalPages,
+    loading,
+    filters,
+    sortBy,
+  } = useAppSelector((state) => state.products);
 
-const Products = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState("all");
-  const [sortBy, setSortBy] = useState("new-arrival");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [showAllCategories, setShowAllCategories] = useState(false);
+  const [activeTab, setActiveTab] = useState("all");
 
-  // Filter products based on active tab
-  const getFilteredProducts = () => {
-    // For now, return all products. You can add filtering logic here later
-    return product;
-  };
+  const categoryFromUrl = searchParams.get("category");
 
-  const filteredProducts = getFilteredProducts();
-  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
-
-  // Get products for current page
-  const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-  const endIndex = startIndex + PRODUCTS_PER_PAGE;
-  const currentProducts = filteredProducts.slice(startIndex, endIndex);
-
-  // Generate page numbers for pagination
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisiblePages = 5;
-
-    if (totalPages <= maxVisiblePages) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      // Always show first page
-      pages.push(1);
-
-      if (currentPage > 3) {
-        pages.push("...");
-      }
-
-      // Show pages around current page
-      const start = Math.max(2, currentPage - 1);
-      const end = Math.min(totalPages - 1, currentPage + 1);
-
-      for (let i = start; i <= end; i++) {
-        if (i !== 1 && i !== totalPages) {
-          pages.push(i);
-        }
-      }
-
-      if (currentPage < totalPages - 2) {
-        pages.push("...");
-      }
-
-      // Always show last page
-      if (totalPages > 1) {
-        pages.push(totalPages);
-      }
+  useEffect(() => {
+    if (categoryFromUrl) {
+      dispatch(setFilter({ key: "category", value: categoryFromUrl.toUpperCase() }));
+      setActiveTab(categoryFromUrl.toLowerCase());
     }
+  }, [categoryFromUrl, dispatch]);
 
-    return pages;
-  };
+  useEffect(() => {
+    dispatch(fetchProducts({ page, limit: 20 }));
+  }, [dispatch, page, filters, sortBy]);
 
-  const [filters, setFilters] = useState<FilterState>({
-    auctionType: "timed",
-    priceRange: [700],
-    location: "usa",
-    categories: [],
-    condition: ["restored"],
-    auctionHouses: ["Timeline Auctions Limited"],
-    searchQuery: "",
-  });
+  const handleTabChange = useCallback(
+    (value: string) => {
+      setActiveTab(value);
+      const category = value === "all" ? "ALL" : value.toUpperCase();
+      dispatch(setFilter({ key: "category", value: category }));
+      dispatch(setPage(1));
+      const params = new URLSearchParams(searchParams.toString());
+      if (value === "all") {
+        params.delete("category");
+      } else {
+        params.set("category", value);
+      }
+      router.push(`/products?${params.toString()}`);
+    },
+    [dispatch, router, searchParams]
+  );
 
-  const updateFilter = <K extends keyof FilterState>(
-    key: K,
-    value: FilterState[K]
-  ) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-  };
+  const handleSortChange = useCallback(
+    (value: string) => {
+      dispatch(setSortBy(value));
+      dispatch(setPage(1));
+    },
+    [dispatch]
+  );
+
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      dispatch(setPage(newPage));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    [dispatch]
+  );
+
+  const handleApplyFilters = useCallback(() => {
+    dispatch(setPage(1));
+    dispatch(fetchProducts({ page: 1, limit: 20 }));
+    setIsFilterOpen(false);
+  }, [dispatch]);
+
+  const handleClearFilters = useCallback(() => {
+    dispatch(clearFilters());
+    dispatch(setPage(1));
+    setActiveTab("all");
+    router.push("/products");
+  }, [dispatch, router]);
+
+  const updateFilter = useCallback(
+    (key: string, value: string | number[] | string[]) => {
+      dispatch(setFilter({ key, value }));
+    },
+    [dispatch]
+  );
+
+  const toggleArrayFilterHandler = useCallback(
+    (key: "condition" | "auctionHouses", value: string) => {
+      dispatch(toggleArrayFilter({ key, value }));
+    },
+    [dispatch]
+  );
 
   const [openSections, setOpenSections] = useState({
     auctionType: true,
@@ -144,16 +165,27 @@ const Products = () => {
     setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }));
   };
 
-  const toggleArrayFilter = (
-    key: "categories" | "condition" | "auctionHouses",
-    value: string
-  ) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: prev[key].includes(value)
-        ? prev[key].filter((item) => item !== value)
-        : [...prev[key], value],
-    }));
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    const maxVisiblePages = 5;
+
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      pages.push(1);
+      if (page > 3) pages.push("...");
+      const start = Math.max(2, page - 1);
+      const end = Math.min(totalPages - 1, page + 1);
+      for (let i = start; i <= end; i++) {
+        if (i !== 1 && i !== totalPages) pages.push(i);
+      }
+      if (page < totalPages - 2) pages.push("...");
+      if (totalPages > 1) pages.push(totalPages);
+    }
+
+    return pages;
   };
 
   return (
@@ -161,20 +193,19 @@ const Products = () => {
       {/* Filter Sidebar Overlay */}
       {isFilterOpen && (
         <div
-          className=" inset-0 bg-black/30  z-40"
+          className="fixed inset-0 bg-black/30 z-40"
           onClick={() => setIsFilterOpen(false)}
         />
       )}
 
       {/* Filter Sidebar */}
       <div
-        className={`fixed  top-0 right-0 h-full w-80 bg-white shadow-lg z-50 transform transition-transform duration-300  ${
+        className={`fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 transform transition-transform duration-300 ${
           isFilterOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <ScrollArea className="h-full w-full px-6 ">
+        <ScrollArea className="h-full w-full px-6">
           <div className="pt-4 px-0">
-            {/* Filter Header */}
             <div className="flex justify-between items-center mb-0">
               <h2 className="text-lg font-semibold">Filters</h2>
               <Button
@@ -201,50 +232,26 @@ const Products = () => {
                 <ChevronDown className="h-4 w-4" />
               )}
             </CollapsibleTrigger>
-            <CollapsibleContent className="space-y-0 pb-4 text-primary ">
+            <CollapsibleContent className="space-y-0 pb-4 text-primary">
               <RadioGroup
                 value={filters.auctionType}
                 onValueChange={(value) => updateFilter("auctionType", value)}
               >
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem
-                    value="live"
-                    id="live"
-                    className="cursor-pointer"
-                  />
-                  <Label htmlFor="live" className="text-sm font-normal">
-                    LIVE
-                  </Label>
+                  <RadioGroupItem value="all" id="all-type" className="cursor-pointer" />
+                  <Label htmlFor="all-type" className="text-sm font-normal">All</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem
-                    value="upcoming"
-                    id="upcoming"
-                    className="cursor-pointer"
-                  />
-                  <Label htmlFor="upcoming" className="text-sm font-normal">
-                    Upcoming
-                  </Label>
+                  <RadioGroupItem value="live" id="live" className="cursor-pointer" />
+                  <Label htmlFor="live" className="text-sm font-normal">LIVE</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem
-                    value="timed"
-                    id="timed"
-                    className="cursor-pointer"
-                  />
-                  <Label htmlFor="timed" className="text-sm font-normal">
-                    Timed
-                  </Label>
+                  <RadioGroupItem value="upcoming" id="upcoming" className="cursor-pointer" />
+                  <Label htmlFor="upcoming" className="text-sm font-normal">Upcoming</Label>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <RadioGroupItem
-                    value="buynow"
-                    id="buynow"
-                    className="cursor-pointer"
-                  />
-                  <Label htmlFor="buynow" className="text-sm font-normal">
-                    Buy Now
-                  </Label>
+                  <RadioGroupItem value="timed" id="timed" className="cursor-pointer" />
+                  <Label htmlFor="timed" className="text-sm font-normal">Timed</Label>
                 </div>
               </RadioGroup>
             </CollapsibleContent>
@@ -268,10 +275,9 @@ const Products = () => {
             <CollapsibleContent className="space-y-4 pb-4">
               <div className="text-center">
                 <span className="text-lg font-semibold">
-                  £ {filters.priceRange[0]}
+                  £ {filters.priceRange[0].toLocaleString()}
                 </span>
               </div>
-
               <div className="flex justify-between text-sm text-gray-500">
                 <span>Min £0</span>
                 <Slider
@@ -312,12 +318,15 @@ const Products = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
+                    <SelectItem value="all" className="cursor-pointer">
+                      <span>All Locations</span>
+                    </SelectItem>
                     <SelectItem value="usa" className="cursor-pointer">
                       <div className="flex items-center gap-2">
-                        <div className="w-5 h-3 bg-red-500 relative rounded-full">
+                        <div className="w-5 h-3 bg-red-500 relative rounded-full overflow-hidden">
                           <Image
                             src="/united-states.png"
-                            alt="USA Flag  "
+                            alt="USA Flag"
                             className="w-full h-full object-cover"
                             width={500}
                             height={500}
@@ -326,13 +335,12 @@ const Products = () => {
                         <span>USA</span>
                       </div>
                     </SelectItem>
-
                     <SelectItem value="uk" className="cursor-pointer">
                       <div className="flex items-center gap-2">
-                        <div className="w-5 h-3 bg-red-500 relative rounded-full">
+                        <div className="w-5 h-3 bg-red-500 relative rounded-full overflow-hidden">
                           <Image
                             src="/united-kingdom.png"
-                            alt="UK Flag  "
+                            alt="UK Flag"
                             className="w-full h-full object-cover"
                             width={500}
                             height={500}
@@ -343,7 +351,7 @@ const Products = () => {
                     </SelectItem>
                     <SelectItem value="europe" className="cursor-pointer">
                       <div className="flex items-center gap-2">
-                        <div className="w-5 h-3 bg-red-500 relative rounded-full">
+                        <div className="w-5 h-3 bg-red-500 relative rounded-full overflow-hidden">
                           <Image
                             src="/european-union.png"
                             alt="EU Flag"
@@ -383,13 +391,14 @@ const Products = () => {
                     <Button
                       key={category}
                       variant={
-                        filters.categories.includes(category)
-                          ? "default"
-                          : "outline"
+                        filters.category === category ? "default" : "outline"
                       }
                       size="sm"
                       className="text-xs h-8 rounded-none"
-                      onClick={() => toggleArrayFilter("categories", category)}
+                      onClick={() => {
+                        updateFilter("category", category);
+                        setActiveTab(category.toLowerCase());
+                      }}
                     >
                       {category}
                     </Button>
@@ -424,25 +433,17 @@ const Products = () => {
               )}
             </CollapsibleTrigger>
             <CollapsibleContent className="space-y-3 pb-6">
-              {["New", "Used", "Restored", "For Parts"].map((condition) => (
+              {["new", "used", "restored", "forparts"].map((condition) => (
                 <div key={condition} className="flex items-center space-x-2">
                   <Checkbox
-                    id={condition.toLowerCase().replace(" ", "")}
-                    checked={filters.condition.includes(
-                      condition.toLowerCase().replace(" ", "")
-                    )}
+                    id={condition}
+                    checked={filters.condition.includes(condition)}
                     onCheckedChange={() =>
-                      toggleArrayFilter(
-                        "condition",
-                        condition.toLowerCase().replace(" ", "")
-                      )
+                      toggleArrayFilterHandler("condition", condition)
                     }
                   />
-                  <Label
-                    htmlFor={condition.toLowerCase().replace(" ", "")}
-                    className="text-sm  font-normal"
-                  >
-                    {condition}
+                  <Label htmlFor={condition} className="text-sm font-normal capitalize">
+                    {condition === "forparts" ? "For Parts" : condition}
                   </Label>
                 </div>
               ))}
@@ -481,7 +482,7 @@ const Products = () => {
                       id={house.toLowerCase().replace(/\s+/g, "")}
                       checked={filters.auctionHouses.includes(house)}
                       onCheckedChange={() =>
-                        toggleArrayFilter("auctionHouses", house)
+                        toggleArrayFilterHandler("auctionHouses", house)
                       }
                     />
                     <Label
@@ -495,18 +496,19 @@ const Products = () => {
               </div>
             </CollapsibleContent>
           </Collapsible>
+
           {/* Filter Actions */}
           <div className="flex space-x-3 mb-16 mt-3">
             <Button
               variant="outline"
               className="flex-1"
-              onClick={() => setIsFilterOpen(false)}
+              onClick={handleClearFilters}
             >
               Clear All
             </Button>
             <Button
               className="flex-1 bg-primary hover:bg-primary/90"
-              onClick={() => setIsFilterOpen(false)}
+              onClick={handleApplyFilters}
             >
               Apply Filters
             </Button>
@@ -514,91 +516,30 @@ const Products = () => {
         </ScrollArea>
       </div>
 
-      {/* Header */}
-
       {/* Category Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8 ">
-        <TabsList className="flex bg-transparent gap-1 ">
-          <TabsTrigger
-            value="all"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
-          >
-            ALL
-          </TabsTrigger>
-          <TabsTrigger
-            value="men"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
-          >
-            MEN
-          </TabsTrigger>
-          <TabsTrigger
-            value="women"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
-          >
-            WOMEN
-          </TabsTrigger>
-
-          <TabsTrigger
-            value="art"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
-          >
-            ART
-          </TabsTrigger>
-          <TabsTrigger
-            value="watches"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
-          >
-            WATCHES
-          </TabsTrigger>
-          <TabsTrigger
-            value="cars"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
-          >
-            CARS
-          </TabsTrigger>
-          <TabsTrigger
-            value="jewellery"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
-          >
-            JEWELLERY
-          </TabsTrigger>
-          <TabsTrigger
-            value="collectibles"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
-          >
-            COLLECTIBLES
-          </TabsTrigger>
-          <TabsTrigger
-            value="fashion"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
-          >
-            FASHION
-          </TabsTrigger>
-          <TabsTrigger
-            value="antiques"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
-          >
-            ANTIQUES
-          </TabsTrigger>
-          <TabsTrigger
-            value="shoes"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
-          >
-            SHOES
-          </TabsTrigger>
-          <TabsTrigger
-            value="bags"
-            className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
-          >
-            BAGS
-          </TabsTrigger>
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="mb-8">
+        <TabsList className="flex bg-transparent gap-1">
+          {["all", "men", "women", "art", "watches", "cars", "jewellery", "collectibles", "fashion", "antiques", "shoes", "bags"].map(
+            (tab) => (
+              <TabsTrigger
+                key={tab}
+                value={tab}
+                className="text-xs border border-gray-200 rounded-none px-3 cursor-pointer data-[state=active]:border-blue-500 data-[state=active]:text-blue-500"
+              >
+                {tab.toUpperCase()}
+              </TabsTrigger>
+            )
+          )}
         </TabsList>
 
-        <TabsContent value={activeTab} className="">
+        <TabsContent value={activeTab}>
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center gap-4">
+              <span className="text-sm text-gray-600">
+                {total} {total === 1 ? "result" : "results"}
+              </span>
               <span className="text-sm text-gray-600">Sort By:</span>
-              <Select value={sortBy} onValueChange={setSortBy}>
+              <Select value={sortBy} onValueChange={handleSortChange}>
                 <SelectTrigger className="w-48 text-sm cursor-pointer">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
@@ -632,56 +573,76 @@ const Products = () => {
           </div>
 
           {/* Products Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
-            {currentProducts.map((productItem, index) => (
-              <ProductCard key={startIndex + index} productData={productItem} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
+              {Array.from({ length: 20 }).map((_, i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="bg-gray-200 h-[300px] rounded" />
+                  <div className="p-4 space-y-2">
+                    <div className="bg-gray-200 h-4 rounded w-3/4" />
+                    <div className="bg-gray-200 h-3 rounded w-1/2" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : products.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-gray-500 text-lg">No products found matching your filters.</p>
+              <Button
+                variant="outline"
+                className="mt-4"
+                onClick={handleClearFilters}
+              >
+                Clear Filters
+              </Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
+              {products.map((productItem) => (
+                <ProductCard key={productItem.id} productData={productItem} />
+              ))}
+            </div>
+          )}
 
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex justify-center items-center gap-2 mt-8">
-              {/* Previous Button */}
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
+                onClick={() => handlePageChange(Math.max(1, page - 1))}
+                disabled={page === 1}
                 className="px-3 py-1"
               >
                 PREVIOUS
               </Button>
 
-              {/* Page Numbers */}
-              {getPageNumbers().map((page, index) => (
+              {getPageNumbers().map((pageNum, index) => (
                 <React.Fragment key={index}>
-                  {page === "..." ? (
+                  {pageNum === "..." ? (
                     <span className="px-2 py-1 text-gray-500">...</span>
                   ) : (
                     <Button
-                      variant={currentPage === page ? "default" : "outline"}
+                      variant={page === pageNum ? "default" : "outline"}
                       size="sm"
-                      onClick={() => setCurrentPage(page as number)}
+                      onClick={() => handlePageChange(pageNum as number)}
                       className={`px-3 py-1 ${
-                        currentPage === page
+                        page === pageNum
                           ? "bg-primary text-white"
                           : "text-gray-700"
                       }`}
                     >
-                      {page}
+                      {pageNum}
                     </Button>
                   )}
                 </React.Fragment>
               ))}
 
-              {/* Next Button */}
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() =>
-                  setCurrentPage(Math.min(totalPages, currentPage + 1))
-                }
-                disabled={currentPage === totalPages}
+                onClick={() => handlePageChange(Math.min(totalPages, page + 1))}
+                disabled={page === totalPages}
                 className="px-3 py-1"
               >
                 NEXT
@@ -691,6 +652,14 @@ const Products = () => {
         </TabsContent>
       </Tabs>
     </div>
+  );
+};
+
+const Products = () => {
+  return (
+    <Suspense fallback={<div className="px-2 md:px-4 xl:px-6">Loading...</div>}>
+      <ProductsContent />
+    </Suspense>
   );
 };
 

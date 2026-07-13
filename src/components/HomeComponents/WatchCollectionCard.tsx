@@ -33,7 +33,7 @@ const WatchCollectionCard = () => {
       {/* Button Section */}
       <div className="text-center">
         <Link
-          href="/products"
+          href="/products?category=watches"
           className="text-primary font-semibold hover:text-primary/70 hover:underline text-xs md:text-sm underline"
         >
           VIEW WATCH COLLECTION

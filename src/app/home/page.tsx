@@ -1,15 +1,24 @@
 /** @format */
+"use client";
 
 import ProductCard from "@/components/common/ProductCard";
 import ArtAuctionCard from "@/components/HomeComponents/ArtAuctionCard";
 import AutomotiveHeroCard from "@/components/HomeComponents/AutomotiveHeroCard";
 import BottomCTACard from "@/components/HomeComponents/BottomCTACard";
 import WatchCollectionCard from "@/components/HomeComponents/WatchCollectionCard";
-import { product } from "@/data/productData";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchProducts } from "@/redux/feature/productsSlice";
 
 const HomePage = () => {
+  const dispatch = useAppDispatch();
+  const { products, loading } = useAppSelector((state) => state.products);
+
+  useEffect(() => {
+    dispatch(fetchProducts({ page: 1, limit: 5 }));
+  }, [dispatch]);
+
   return (
     <div className="px-2 md:px-4 xl:px-6 mb-12">
       {/* this is top banner */}
@@ -36,34 +45,39 @@ const HomePage = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-1">
-          {product.slice(0, 5).map((productItem, index) => {
-            let visibilityClass = "";
+          {loading
+            ? Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="bg-gray-200 h-[300px] rounded" />
+                  <div className="p-4 space-y-2">
+                    <div className="bg-gray-200 h-4 rounded w-3/4" />
+                    <div className="bg-gray-200 h-3 rounded w-1/2" />
+                  </div>
+                </div>
+              ))
+            : products.slice(0, 5).map((productItem, index) => {
+                let visibilityClass = "";
 
-            if (index === 0) {
-              // Always show first product
-              visibilityClass = "";
-            } else if (index === 1) {
-              // Show second product from sm breakpoint
-              visibilityClass = "hidden sm:block";
-            } else if (index === 2) {
-              // Show third product from md breakpoint
-              visibilityClass = "hidden md:block";
-            } else if (index === 3) {
-              // Show fourth product from lg breakpoint
-              visibilityClass = "hidden xl:block";
-            } else if (index === 4) {
-              // Show fifth product from 2xl breakpoint
-              visibilityClass = "hidden 2xl:block";
-            }
+                if (index === 0) {
+                  visibilityClass = "";
+                } else if (index === 1) {
+                  visibilityClass = "hidden sm:block";
+                } else if (index === 2) {
+                  visibilityClass = "hidden md:block";
+                } else if (index === 3) {
+                  visibilityClass = "hidden xl:block";
+                } else if (index === 4) {
+                  visibilityClass = "hidden 2xl:block";
+                }
 
-            return (
-              <ProductCard
-                key={index}
-                productData={productItem}
-                className={visibilityClass}
-              />
-            );
-          })}
+                return (
+                  <ProductCard
+                    key={productItem.id}
+                    productData={productItem}
+                    className={visibilityClass}
+                  />
+                );
+              })}
         </div>
       </div>
 
