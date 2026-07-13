@@ -201,3 +201,18 @@ export interface ListingsResponse {
 export interface ListingDetailResponse {
   listing: ListingDetail;
 }
+
+// Create Lot Types
+export interface FileUpload {
+  name: string;
+  size: number;
+  progress: number;
+  complete: boolean;
+  file?: File;
+  previewUrl?: string;
+}
+
+export interface Step {
+  number: number;
+  title: string;
+}
