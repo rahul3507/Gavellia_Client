@@ -61,8 +61,21 @@ const MyBidsContent = () => {
         </div>
 
         {loading ? (
-          <div className="py-12 text-center text-muted-foreground text-sm">
-            Loading...
+          <div className="divide-y divide-gray-100">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-3 sm:gap-4 py-4 sm:py-5 animate-pulse">
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg bg-gray-200 shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-4 w-3/4 bg-gray-200 rounded" />
+                  <div className="h-3 w-1/2 bg-gray-200 rounded" />
+                  <div className="h-3 w-2/3 bg-gray-200 rounded" />
+                </div>
+                <div className="flex flex-col items-end gap-1 shrink-0">
+                  <div className="h-3 w-12 bg-gray-200 rounded" />
+                  <div className="h-4 w-16 bg-gray-200 rounded" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : currentBids.length > 0 ? (
           currentBids.map((item) => (
