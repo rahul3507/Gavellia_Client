@@ -6,6 +6,7 @@ import productsReducer from "./feature/productsSlice";
 import overviewReducer from "./feature/overviewSlice";
 import myBidsReducer from "./feature/myBidsSlice";
 import purchasesReducer from "./feature/purchasesSlice";
+import listingsReducer from "./feature/listingsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     overview: overviewReducer,
     myBids: myBidsReducer,
     purchases: purchasesReducer,
+    listings: listingsReducer,
   },
 });
 

@@ -1,21 +1,8 @@
-/** @format */
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Clock } from "lucide-react";
-
-type TabType = "timed" | "live" | "sold" | "draft";
-
-export interface Listing {
-  id: string;
-  title: string;
-  image: string;
-  timeLeft: string;
-  startingPrice: number;
-  bids: number;
-  highestBid: number;
-  status: TabType;
-}
+import { Listing } from "@/types/allTypes";
 
 interface ListingCardProps {
   listing: Listing;

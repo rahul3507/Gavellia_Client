@@ -1,18 +1,16 @@
-/** @format */
 import React from "react";
-
-type TabType = "timed" | "live" | "sold" | "draft";
+import { ListingTabType } from "@/types/allTypes";
 
 interface Tab {
   label: string;
-  value: TabType;
+  value: ListingTabType;
   count: number;
 }
 
 interface ListingTabBarProps {
   tabs: Tab[];
-  activeTab: TabType;
-  onTabChange: (tab: TabType) => void;
+  activeTab: ListingTabType;
+  onTabChange: (tab: ListingTabType) => void;
 }
 
 const ListingTabBar = ({

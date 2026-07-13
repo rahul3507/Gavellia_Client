@@ -1,38 +1,43 @@
-/** @format */
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchListings } from "@/redux/feature/listingsSlice";
 import ListingTabBar from "./ListingTabBar";
-import ListingCard, { Listing } from "./ListingCard";
+import ListingCard from "./ListingCard";
+import { ListingTabType } from "@/types/allTypes";
 
-type TabType = "timed" | "live" | "sold" | "draft";
-
-const demoListings: Listing[] = Array.from({ length: 8 }, (_, i) => ({
-  id: `C${4567 + i}`,
-  title: "Bowling SS Bag",
-  image: "/productImage/Bowling_SS_Bag.png",
-  timeLeft: "00d:12h:29 sec left",
-  startingPrice: 48,
-  bids: 18,
-  highestBid: 370,
-  status: i < 5 ? "timed" : i < 6 ? "live" : i < 7 ? "sold" : "draft",
-}));
-
-const tabs: { label: string; value: TabType; count: number }[] = [
-  { label: "TIMED AUCTION", value: "timed", count: 13 },
-  { label: "LIVE AUCTION", value: "live", count: 2 },
-  { label: "SOLD", value: "sold", count: 12 },
-  { label: "DRAFT", value: "draft", count: 0 },
+const tabs: { label: string; value: ListingTabType }[] = [
+  { label: "TIMED AUCTION", value: "timed" },
+  { label: "LIVE AUCTION", value: "live" },
+  { label: "SOLD", value: "sold" },
+  { label: "DRAFT", value: "draft" },
 ];
 
 const ListingManagementContent = () => {
-  const [activeTab, setActiveTab] = useState<TabType>("timed");
+  const dispatch = useAppDispatch();
+  const { listings, tabCounts, loading } = useAppSelector(
+    (state) => state.listings
+  );
 
-  const filteredListings = demoListings.filter((l) => l.status === activeTab);
+  const [activeTab, setActiveTab] = useState<ListingTabType>("timed");
+
+  useEffect(() => {
+    dispatch(fetchListings({ tab: activeTab }));
+  }, [dispatch, activeTab]);
+
+  const handleTabChange = (tab: ListingTabType) => {
+    setActiveTab(tab);
+  };
+
+  const tabsWithCount = tabs.map((tab) => ({
+    ...tab,
+    count: tabCounts[tab.value],
+  }));
 
   return (
-    <div className="w-full px-2 md:px-4 xl:px-6 mb-12 ">
+    <div className="w-full px-2 md:px-4 xl:px-6 mb-12">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
@@ -53,22 +58,43 @@ const ListingManagementContent = () => {
 
       {/* Tabs */}
       <ListingTabBar
-        tabs={tabs}
+        tabs={tabsWithCount}
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={handleTabChange}
       />
 
       {/* Listings Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-        {filteredListings.map((listing) => (
-          <ListingCard key={listing.id} listing={listing} />
-        ))}
-      </div>
-
-      {filteredListings.length === 0 && (
-        <div className="text-center py-16 text-muted-foreground">
-          No listings found in this category.
+      {loading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="bg-card-bg rounded-xl overflow-hidden animate-pulse">
+              <div className="aspect-square bg-gray-200" />
+              <div className="p-4 space-y-3">
+                <div className="h-4 w-3/4 bg-gray-200 rounded" />
+                <div className="h-3 w-1/2 bg-gray-200 rounded" />
+                <div className="grid grid-cols-3 gap-2">
+                  <div className="h-3 bg-gray-200 rounded" />
+                  <div className="h-3 bg-gray-200 rounded" />
+                  <div className="h-3 bg-gray-200 rounded" />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            {listings.map((listing) => (
+              <ListingCard key={listing.id} listing={listing} />
+            ))}
+          </div>
+
+          {listings.length === 0 && (
+            <div className="text-center py-16 text-muted-foreground">
+              No listings found in this category.
+            </div>
+          )}
+        </>
       )}
     </div>
   );

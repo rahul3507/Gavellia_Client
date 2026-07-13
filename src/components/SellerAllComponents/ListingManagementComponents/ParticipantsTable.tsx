@@ -1,13 +1,7 @@
-/** @format */
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-
-interface Participant {
-  name: string;
-  avatar: string;
-  bid: number;
-}
+import { Participant } from "@/types/allTypes";
 
 interface ParticipantsTableProps {
   participants: Participant[];

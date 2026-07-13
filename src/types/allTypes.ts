@@ -151,3 +151,53 @@ export interface PurchasesResponse {
     completed: number;
   };
 }
+
+// Listing Management Types
+export type ListingTabType = "timed" | "live" | "sold" | "draft";
+
+export interface Listing {
+  id: string;
+  title: string;
+  image: string;
+  timeLeft: string;
+  startingPrice: number;
+  bids: number;
+  highestBid: number;
+  status: ListingTabType;
+}
+
+export interface ListingDetail {
+  id: string;
+  title: string;
+  image: string;
+  timeLeft: string;
+  startingPrice: number;
+  bids: number;
+  highestBid: number;
+  status: ListingTabType;
+  category: string;
+  condition: string;
+  description: string;
+  auctionHouse: string;
+  participants: Participant[];
+}
+
+export interface Participant {
+  name: string;
+  avatar: string;
+  bid: number;
+}
+
+export interface ListingsResponse {
+  listings: Listing[];
+  tabCounts: {
+    timed: number;
+    live: number;
+    sold: number;
+    draft: number;
+  };
+}
+
+export interface ListingDetailResponse {
+  listing: ListingDetail;
+}
