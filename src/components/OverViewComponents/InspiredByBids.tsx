@@ -1,32 +1,36 @@
-/** @format */
 "use client";
 
 import React from "react";
 import Image from "next/image";
 import { Clock } from "lucide-react";
 import Link from "next/link";
-
-interface BidProduct {
-  id: number;
-  title: string;
-  image: string;
-  timeLeft: string;
-  startingPrice: number;
-  bids: number;
-  highestBid: number;
-}
-
-const demoBidProducts: BidProduct[] = Array.from({ length: 4 }, (_, i) => ({
-  id: i + 1,
-  title: "Bowling SS Bag",
-  image: "/productImage/Bowling_SS_Bag.png",
-  timeLeft: "00d:12h:29 sec left",
-  startingPrice: 48,
-  bids: 18,
-  highestBid: 370,
-}));
+import { useAppSelector } from "@/redux/hooks";
 
 const InspiredByBids = () => {
+  const { inspiredByBids, loading } = useAppSelector((state) => state.overview);
+
+  if (loading) {
+    return (
+      <div className="mt-8 sm:mt-10">
+        <div className="flex items-center justify-between mb-5">
+          <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
+          <div className="h-4 w-16 bg-gray-200 rounded animate-pulse" />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="bg-white border border-gray-100 rounded-xl overflow-hidden animate-pulse">
+              <div className="aspect-square bg-gray-200" />
+              <div className="p-3 sm:p-4 space-y-2">
+                <div className="h-4 w-3/4 bg-gray-200 rounded" />
+                <div className="h-3 w-1/2 bg-gray-200 rounded" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="mt-8 sm:mt-10">
       <div className="flex items-center justify-between mb-5">
@@ -42,7 +46,7 @@ const InspiredByBids = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-        {demoBidProducts.map((product) => (
+        {inspiredByBids.map((product) => (
           <div
             key={product.id}
             className="bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-md transition"
