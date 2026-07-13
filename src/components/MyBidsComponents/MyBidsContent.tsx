@@ -1,104 +1,37 @@
-/** @format */
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchMyBids } from "@/redux/feature/myBidsSlice";
 import BidsTabBar from "./BidsTabBar";
-import BidListItem, { BidItem, BidTab } from "./BidListItem";
+import BidListItem from "./BidListItem";
 import BidsPagination from "./BidsPagination";
-
-const activeBids: BidItem[] = [
-  {
-    id: 1,
-    title: "Vintage Leather Jacket",
-    lot: "#C4567",
-    image: "/productImage/Bowling_SS_Bag.png",
-    myBid: 8500,
-    isHighest: true,
-    status: "Winning",
-    time: "2 hr ago",
-  },
-  {
-    id: 2,
-    title: "Vintage Leather Jacket",
-    lot: "#C4567",
-    image: "/productImage/Bowling_SS_Bag.png",
-    myBid: 8500,
-    isHighest: false,
-    status: "Outbid",
-    time: "2 hr ago",
-  },
-  {
-    id: 3,
-    title: "Vintage Leather Jacket",
-    lot: "#C4567",
-    image: "/productImage/Bowling_SS_Bag.png",
-    myBid: 8500,
-    isHighest: true,
-    status: "Winning",
-    time: "2 hr ago",
-  },
-  {
-    id: 4,
-    title: "Vintage Leather Jacket",
-    lot: "#C4567",
-    image: "/productImage/Bowling_SS_Bag.png",
-    myBid: 8500,
-    isHighest: true,
-    status: "Winning",
-    time: "2 hr ago",
-  },
-];
-
-const wonBids: BidItem[] = [
-  {
-    id: 10,
-    title: "Vintage Leather Jacket",
-    lot: "#C4567",
-    image: "/productImage/Bowling_SS_Bag.png",
-    myBid: 8500,
-    isHighest: true,
-    status: "Winner",
-    time: "2 hr ago",
-    finalAmount: 8500,
-  },
-  {
-    id: 11,
-    title: "Vintage Leather Jacket",
-    lot: "#C4567",
-    image: "/productImage/Bowling_SS_Bag.png",
-    myBid: 8500,
-    isHighest: true,
-    status: "Winner",
-    time: "2 hr ago",
-    finalAmount: 8500,
-  },
-];
-
-const lostBids: BidItem[] = [
-  {
-    id: 20,
-    title: "Vintage Leather Jacket",
-    lot: "#C4567",
-    image: "/productImage/Bowling_SS_Bag.png",
-    myBid: 8500,
-    isHighest: false,
-    status: "Lost",
-    time: "2 hr ago",
-  },
-];
+import { BidTab } from "@/types/allTypes";
 
 const MyBidsContent = () => {
+  const dispatch = useAppDispatch();
+  const { currentBids, tabCounts, page, totalPages, loading } = useAppSelector(
+    (state) => state.myBids
+  );
+
   const [activeTab, setActiveTab] = useState<BidTab>("active");
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 8;
 
-  const bidsMap: Record<BidTab, BidItem[]> = {
-    active: activeBids,
-    won: wonBids,
-    lost: lostBids,
+  const loadBids = useCallback(
+    (tab: BidTab, pageNum: number) => {
+      dispatch(fetchMyBids({ tab, page: pageNum, limit: 10 }));
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    loadBids(activeTab, currentPage);
+  }, [activeTab, currentPage, loadBids]);
+
+  const handleTabChange = (tab: BidTab) => {
+    setActiveTab(tab);
+    setCurrentPage(1);
   };
-
-  const currentBids = bidsMap[activeTab];
 
   return (
     <div className="w-full px-2 md:px-4 xl:px-6 mb-12">
@@ -113,7 +46,11 @@ const MyBidsContent = () => {
       </div>
 
       {/* Tabs */}
-      <BidsTabBar activeTab={activeTab} onTabChange={setActiveTab} />
+      <BidsTabBar
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        tabCounts={tabCounts}
+      />
 
       {/* Items */}
       <div className="bg-white border border-gray-100 rounded-xl mt-6 px-4 sm:px-6">
@@ -123,7 +60,11 @@ const MyBidsContent = () => {
           </h3>
         </div>
 
-        {currentBids.length > 0 ? (
+        {loading ? (
+          <div className="py-12 text-center text-muted-foreground text-sm">
+            Loading...
+          </div>
+        ) : currentBids.length > 0 ? (
           currentBids.map((item) => (
             <BidListItem key={item.id} item={item} tab={activeTab} />
           ))
@@ -137,7 +78,7 @@ const MyBidsContent = () => {
       {/* Pagination (only on active tab) */}
       {activeTab === "active" && currentBids.length > 0 && (
         <BidsPagination
-          currentPage={currentPage}
+          currentPage={page}
           totalPages={totalPages}
           onPageChange={setCurrentPage}
         />

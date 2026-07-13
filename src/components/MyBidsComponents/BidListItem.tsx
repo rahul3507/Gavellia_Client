@@ -1,21 +1,7 @@
-/** @format */
 import React from "react";
 import Image from "next/image";
 import { Clock } from "lucide-react";
-
-export type BidTab = "active" | "won" | "lost";
-
-export interface BidItem {
-  id: number;
-  title: string;
-  lot: string;
-  image: string;
-  myBid: number;
-  isHighest: boolean;
-  status: "Winning" | "Outbid" | "Winner" | "Lost";
-  time: string;
-  finalAmount?: number;
-}
+import { BidItem, BidTab } from "@/types/allTypes";
 
 interface BidListItemProps {
   item: BidItem;

@@ -1,22 +1,25 @@
-/** @format */
 "use client";
 
 import React from "react";
-
-type BidTab = "active" | "won" | "lost";
+import { BidTab } from "@/types/allTypes";
 
 interface BidsTabBarProps {
   activeTab: BidTab;
   onTabChange: (tab: BidTab) => void;
+  tabCounts: {
+    active: number;
+    won: number;
+    lost: number;
+  };
 }
 
-const tabs: { label: string; value: BidTab; count: number }[] = [
-  { label: "ACTIVE", value: "active", count: 13 },
-  { label: "WON", value: "won", count: 2 },
-  { label: "LOST", value: "lost", count: 39 },
+const tabs: { label: string; value: BidTab }[] = [
+  { label: "ACTIVE", value: "active" },
+  { label: "WON", value: "won" },
+  { label: "LOST", value: "lost" },
 ];
 
-const BidsTabBar = ({ activeTab, onTabChange }: BidsTabBarProps) => {
+const BidsTabBar = ({ activeTab, onTabChange, tabCounts }: BidsTabBarProps) => {
   return (
     <div className="flex gap-0 border border-gray-200 rounded-md overflow-hidden w-fit">
       {tabs.map((tab) => (
@@ -29,7 +32,7 @@ const BidsTabBar = ({ activeTab, onTabChange }: BidsTabBarProps) => {
               : "bg-gray-50 text-muted-foreground hover:bg-gray-100"
           }`}
         >
-          {tab.label} ({tab.count})
+          {tab.label} ({tabCounts[tab.value]})
         </button>
       ))}
     </div>

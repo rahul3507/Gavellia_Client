@@ -1,36 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
-export interface OverviewStats {
-  currentlyBidding: number;
-  saved: number;
-  needsPayment: number;
-  spent: number;
-}
-
-export interface InspiredByBidProduct {
-  id: string;
-  title: string;
-  image: string;
-  timeLeft: string;
-  startingPrice: number;
-  bids: number;
-  highestBid: number;
-}
-
-export interface LiveAuctionItem {
-  id: string;
-  title: string;
-  image: string;
-  date: string;
-}
-
-export interface RecentActivityItem {
-  id: number;
-  type: "outbid" | "won" | "new";
-  title: string;
-  detail: string;
-  time: string;
-}
+import {
+  OverviewStats,
+  InspiredByBidProduct,
+  LiveAuctionItem,
+  RecentActivityItem,
+  OverviewResponse,
+} from "@/types/allTypes";
 
 interface OverviewState {
   stats: OverviewStats;
@@ -56,7 +31,7 @@ const initialState: OverviewState = {
 };
 
 export const fetchOverview = createAsyncThunk<
-  Omit<OverviewState, "loading" | "error">,
+  OverviewResponse,
   void,
   { rejectValue: string }
 >(
