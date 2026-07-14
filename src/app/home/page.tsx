@@ -2,13 +2,8 @@
 
 import HomeRanderPage from "@/components/HomeComponents/HomeRanderPage";
 
-
 const HomePage = () => {
-
-
-  return (
-    <HomeRanderPage />
-  );
+  return <HomeRanderPage />;
 };
 
 export default HomePage;

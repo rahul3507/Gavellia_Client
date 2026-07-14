@@ -20,9 +20,69 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Gavillia",
+  metadataBase: new URL("https://gavellia-client.vercel.app"),
+  title: {
+    default: "Gavellia — Premium Online Auction Platform",
+    template: "%s | Gavellia",
+  },
   description:
-    "Gavillia is an e-commerce website where users can buy and sell products through timed or live bidding processes. Users can participate in auctions, place bids, and purchase items if they win. The platform supports multiple user roles: individual buyer, professional buyer, and seller. Users can sign up, log in, and switch between buyer and seller roles seamlessly.",
+    "Buy and sell luxury goods through real-time and timed auctions. Curated collections of watches, art, cars, jewellery, fashion, and collectibles from trusted sellers worldwide.",
+  keywords: [
+    "online auction",
+    "luxury goods",
+    "live bidding",
+    "timed auction",
+    "watches",
+    "art",
+    "cars",
+    "jewellery",
+    "fashion",
+    "collectibles",
+    "buy and sell",
+    "premium marketplace",
+  ],
+  authors: [{ name: "Gavellia" }],
+  creator: "Gavellia",
+  publisher: "Gavellia",
+  openGraph: {
+    type: "website",
+    locale: "en_GB",
+    url: "https://gavellia-client.vercel.app",
+    siteName: "Gavellia",
+    title: "Gavellia — Premium Online Auction Platform",
+    description:
+      "Buy and sell luxury goods through real-time and timed auctions. Curated collections of watches, art, cars, jewellery, fashion, and collectibles.",
+    images: [
+      {
+        url: "/ArtBanner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Gavellia Auction Platform",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Gavellia — Premium Online Auction Platform",
+    description:
+      "Buy and sell luxury goods through real-time and timed auctions.",
+    images: ["/ArtBanner.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
