@@ -1,5 +1,5 @@
 /** @format */
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import {
   Send,
@@ -33,11 +33,6 @@ const ChatPanel = ({
   onBack,
 }: ChatPanelProps) => {
   const [inputValue, setInputValue] = useState("");
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
 
   const handleSend = () => {
     const trimmed = inputValue.trim();
@@ -130,7 +125,6 @@ const ChatPanel = ({
             </div>
           </div>
         ))}
-        <div ref={messagesEndRef} />
       </div>
 
       {/* Input Area */}
