@@ -298,12 +298,12 @@ const Navbar = () => {
                       ))}
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <a
-                    href="#"
+                  <Link
+                    href="/how-it-works"
                     className="text-primary hover:text-primary/80 text-sm font-semibold"
                   >
                     How it works
-                  </a>
+                  </Link>
                 </nav>
               </div>
 
