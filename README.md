@@ -1,8 +1,6 @@
-<!-- @format -->
-
 # Gavellia
 
-> A modern online auction platform for buying and selling premium goods through real-time and timed bidding.
+> A premium online auction platform for buying and selling luxury goods through real-time and timed bidding.
 
 [![Live Demo](https://img.shields.io/badge/demo-live-success)](https://gavellia-client.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.5-black)](https://nextjs.org/)
@@ -10,265 +8,255 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-## 🌐 Live Application
+## Live Application
 
 **[Visit Gavellia](https://gavellia-client.vercel.app/)**
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Features](#features)
-- [Technology Stack](#technology-stack)
+- [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Development](#development)
-  - [Build & Deployment](#build--deployment)
 - [Project Structure](#project-structure)
-- [User Roles](#user-roles)
-- [Core Functionality](#core-functionality)
+- [Architecture](#architecture)
+- [API Routes](#api-routes)
 - [Contributing](#contributing)
 - [License](#license)
 
-## 🎯 Overview
+## Overview
 
-Gavellia is a sophisticated e-commerce platform that enables users to buy and sell products through competitive bidding processes. The platform offers a seamless auction experience with support for both timed auctions and live bidding sessions, catering to a diverse range of product categories including fashion, electronics, collectibles, and luxury items.
+Gavellia is a sophisticated auction marketplace that enables users to buy and sell premium products through competitive bidding. The platform supports both timed auctions and live bidding sessions across categories including fashion, art, watches, cars, jewellery, collectibles, antiques, shoes, and bags.
 
 ### Key Highlights
 
-- **Multi-Role System**: Support for individual buyers, professional buyers, and sellers
-- **Dynamic Bidding**: Real-time and timed auction mechanisms
-- **Role Flexibility**: Seamless switching between buyer and seller roles
-- **Modern UI/UX**: Responsive design optimized for all devices
-- **Type-Safe**: Built with TypeScript for enhanced reliability
+- **Dual-Role System** — Buyers and sellers share a single platform with seamless role switching
+- **Real-Time Bidding** — Live auction support with instant bid updates
+- **Timed Auctions** — Duration-based bidding with countdown timers and automatic extensions
+- **Curated Categories** — Fashion, art, watches, automotive, jewellery, collectibles, and more
+- **Responsive Design** — Optimized for desktop, tablet, and mobile experiences
 
-## ✨ Features
+## Features
 
-### User Management
+### Buyer Experience
 
-- **Flexible Registration**: Sign up as an individual buyer, professional buyer, or seller
-- **Authentication System**: Secure login with role-based access control
-- **Profile Management**: Complete user profile with business and personal information
-- **Document Verification**: ID and business document upload for sellers
+- Browse and search products with advanced filtering (category, price, location, condition)
+- Participate in timed and live auctions
+- Track bid history across active, won, and lost bids
+- Manage purchases through payment, shipping, and delivery stages
+- Personalized dashboard with stats and activity feed
 
-### Auction Capabilities
+### Seller Experience
 
-- **Timed Auctions**: Set duration-based bidding with countdown timers
-- **Live Auctions**: Real-time bidding sessions with instant updates
-- **Bid Management**: Place, track, and manage bids across multiple auctions
-- **Bid Sheets**: Comprehensive bid history and participant tracking
+- Multi-step lot creation wizard with image upload
+- Listing management with timed, live, sold, and draft tabs
+- Sales analytics with revenue charts and category breakdowns
+- Participant tracking for each listing
+- Messaging system for buyer inquiries
 
-### Product Features
+### Platform
 
-- **Lot Creation**: Intuitive multi-step process for creating auction lots
-- **Image Management**: Upload and manage product images
-- **Pricing Controls**: Set starting bids, reserves, and buy-now prices
-- **Category Support**: Fashion, electronics, collectibles, luxury items, and more
+- Secure multi-step registration with ID verification
+- Role-based navigation that adapts to buyer/seller mode
+- Conditional footer rendering based on context
+- How It Works educational page for new users
 
-### User Experience
+## Tech Stack
 
-- **Role Switching**: Seamlessly switch between buyer and seller modes
-- **Responsive Design**: Fully optimized for desktop, tablet, and mobile
-- **Interactive UI**: Modern animations and transitions
-- **Navigation**: Intuitive routing with conditional rendering based on user role
+| Layer | Technology |
+|---|---|
+| **Framework** | [Next.js 15.5](https://nextjs.org/) (App Router) |
+| **UI Library** | [React 19.1](https://reactjs.org/) |
+| **Language** | [TypeScript 5.x](https://www.typescriptlang.org/) |
+| **State Management** | [Redux Toolkit 2.9](https://redux-toolkit.js.org/) + [React Redux 9.2](https://react-redux.js.org/) |
+| **Styling** | [Tailwind CSS 4.x](https://tailwindcss.com/) |
+| **UI Components** | [shadcn/ui](https://ui.shadcn.com/) (New York style) + [Radix UI](https://www.radix-ui.com/) primitives |
+| **Charts** | [Recharts 3.7](https://recharts.org/) |
+| **Animations** | [Motion 12.x](https://motion.dev/) |
+| **Carousel** | [Embla Carousel 8.6](https://www.embla-carousel.com/) |
+| **Icons** | [Lucide React](https://lucide.dev/) + [React Icons](https://react-icons.github.io/react-icons/) |
+| **Utilities** | [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge) + [CVA](https://cva.style/) |
+| **Deployment** | [Vercel](https://vercel.com/) |
 
-## 🛠 Technology Stack
-
-### Frontend Framework
-
-- **[Next.js 15.5](https://nextjs.org/)** - React framework with server-side rendering and static generation
-- **[React 19.1](https://reactjs.org/)** - Component-based UI library
-- **[TypeScript 5.x](https://www.typescriptlang.org/)** - Static type checking
-
-### State Management
-
-- **[Redux Toolkit 2.9](https://redux-toolkit.js.org/)** - Predictable state container
-- **[React Redux 9.2](https://react-redux.js.org/)** - Official React bindings for Redux
-
-### UI & Styling
-
-- **[Tailwind CSS 4.x](https://tailwindcss.com/)** - Utility-first CSS framework
-- **[Radix UI](https://www.radix-ui.com/)** - Unstyled, accessible UI primitives
-- **[Shadcn UI](https://ui.shadcn.com/)** - Re-usable component library
-- **[Lucide React](https://lucide.dev/)** - Icon library
-- **[Embla Carousel](https://www.embla-carousel.com/)** - Lightweight carousel library
-- **[Motion](https://motion.dev/)** - Animation library
-
-### Additional Libraries
-
-- **[React Icons](https://react-icons.github.io/react-icons/)** - Icon collection
-- **[Class Variance Authority](https://cva.style/)** - CSS class variance management
-- **[clsx](https://github.com/lukeed/clsx)** & **[tailwind-merge](https://github.com/dcastil/tailwind-merge)** - Conditional class utilities
-
-### Development Tools
-
-- **[ESLint](https://eslint.org/)** - Code linting and quality
-- **[PostCSS](https://postcss.org/)** - CSS transformations
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
-- **Node.js**: Version 18.x or higher
-- **npm** or **yarn**: Package manager
-- **Git**: Version control
+- Node.js 18.x or higher
+- npm or yarn
 
 ### Installation
 
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/rahul3507/Gavellia_Client.git
-   cd Gavellia_Client
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
+```bash
+git clone https://github.com/rahul3507/Gavellia_Client.git
+cd Gavellia_Client
+npm install
+```
 
 ### Development
 
-Start the development server:
-
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-The application will be available at `http://localhost:3000`.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Build & Deployment
-
-**Build for production:**
+### Production Build
 
 ```bash
 npm run build
-# or
-yarn build
-```
-
-**Run production build locally:**
-
-```bash
 npm start
-# or
-yarn start
 ```
 
-**Linting:**
+### Linting
 
 ```bash
 npm run lint
-# or
-yarn lint
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-Gavellia_client/
-├── public/              # Static assets
-│   └── productImage/    # Product images
+Gavellia_Client/
+├── public/                          # Static assets
+│   └── productImage/                # Product images
 ├── src/
-│   ├── app/             # Next.js app router pages
-│   │   ├── create-lot/  # Lot creation flow
-│   │   ├── home/        # Buyer home page
-│   │   ├── products/    # Product listings and details
-│   │   └── seller-home/ # Seller dashboard
-│   ├── components/      # React components
-│   │   ├── common/      # Shared components (Navbar, Footer, etc.)
-│   │   ├── ui/          # Shadcn UI components
-│   │   ├── createLotComponents/   # Lot creation components
-│   │   ├── homeComponents/        # Home page components
-│   │   └── productsComponents/    # Product-related components
-│   ├── contexts/        # React contexts
-│   ├── data/            # Static data and mock data
-│   ├── lib/             # Utility functions
-│   ├── redux/           # Redux store and slices
-│   │   ├── api/         # API integration (RTK Query)
-│   │   └── feature/     # Redux slices
-│   └── types/           # TypeScript type definitions
-├── components.json      # Shadcn UI configuration
-├── next.config.ts       # Next.js configuration
-├── tailwind.config.js   # Tailwind CSS configuration
-└── tsconfig.json        # TypeScript configuration
+│   ├── app/                         # Next.js App Router
+│   │   ├── layout.tsx               # Root layout (fonts, providers, navbar, footer)
+│   │   ├── page.tsx                 # Root page (role-based routing)
+│   │   ├── globals.css              # Theme, CSS variables, Tailwind config
+│   │   ├── home/                    # Buyer home page
+│   │   ├── products/                # Product catalog
+│   │   │   ├── page.tsx             # Product listing with filters
+│   │   │   └── [title]/             # Product detail (dynamic route)
+│   │   │       └── live/            # Live auction page
+│   │   ├── overviews/               # Buyer dashboard
+│   │   ├── my-bids/                 # Bid management
+│   │   ├── purchases/               # Purchase tracking
+│   │   ├── messages/                # Messaging system
+│   │   ├── profile-settings/        # User settings
+│   │   ├── how-it-works/            # Informational page
+│   │   ├── (seller)/                # Seller route group (no URL prefix)
+│   │   │   ├── seller-home/         # Seller landing
+│   │   │   ├── overview/            # Seller dashboard
+│   │   │   ├── create-lot/          # Lot creation wizard
+│   │   │   ├── listing-management/  # Listing management
+│   │   │   └── sales-analytics/     # Revenue analytics
+│   │   └── api/                     # Server-side API routes
+│   │       ├── products/            # Product endpoints
+│   │       ├── overview/            # Buyer overview endpoint
+│   │       ├── my-bids/             # Bids endpoint
+│   │       ├── purchases/           # Purchases endpoint
+│   │       └── listings/            # Seller listings endpoint
+│   ├── components/                  # React components
+│   │   ├── ui/                      # shadcn/ui primitives (19 components)
+│   │   ├── common/                  # Shared components (Navbar, Footer, ProductCard)
+│   │   │   └── auth/                # Multi-step registration (12 form steps)
+│   │   ├── HomeComponents/          # Buyer home sections
+│   │   ├── ProductsPageComponents/  # Product catalog components
+│   │   ├── ProductDetailsPageComponents/    # Standard product detail
+│   │   ├── ProductDetailsLivePageComponents/ # Live auction detail
+│   │   ├── OverViewComponents/      # Buyer dashboard sections
+│   │   ├── MyBidsComponents/        # Bid management components
+│   │   ├── PurchasesComponents/     # Purchase tracking components
+│   │   ├── ProfileSettingComponents/ # Profile settings
+│   │   ├── HowItWorksPageComponents/ # How It Works page sections
+│   │   └── SellerAllComponents/     # Seller feature modules
+│   │       ├── SellerHomePageComponents/
+│   │       ├── OverviewComponents/
+│   │       ├── CreateLotComponents/
+│   │       ├── ListingManagementComponents/
+│   │       ├── SalesAnalyticsComponents/
+│   │       └── MessageInquiriesComponents/
+│   ├── redux/                       # State management
+│   │   ├── store.ts                 # Redux store configuration
+│   │   ├── Providers.tsx            # Redux provider wrapper
+│   │   ├── hooks.ts                 # Typed hooks (useAppDispatch, useAppSelector)
+│   │   └── feature/                 # Redux slices
+│   │       ├── userRoleSlice.ts     # Buyer/seller role state
+│   │       ├── productsSlice.ts     # Product listing & filters
+│   │       ├── overviewSlice.ts     # Buyer dashboard data
+│   │       ├── myBidsSlice.ts       # Bid tracking
+│   │       ├── purchasesSlice.ts    # Purchase tracking
+│   │       └── listingsSlice.ts     # Seller listing management
+│   ├── types/                       # TypeScript interfaces
+│   │   └── allTypes.ts              # All shared type definitions
+│   ├── data/                        # Static data
+│   │   └── products.json            # Product data source for API routes
+│   └── lib/                         # Utilities
+│       └── utils.ts                 # cn() class merge utility
+├── next.config.ts                   # Next.js configuration
+├── tailwind.config.js               # Tailwind CSS configuration
+├── tsconfig.json                    # TypeScript configuration
+├── components.json                  # shadcn/ui configuration
+└── eslint.config.mjs                # ESLint flat config
 ```
 
-## 👥 User Roles
+## Architecture
 
-### Individual Buyer
+### Data Flow
 
-- Browse and search product listings
-- Participate in auctions
-- Place bids on items
-- Track bid history
+```
+┌─────────────┐    ┌──────────────┐    ┌─────────────┐    ┌──────────────┐    ┌───────────┐
+│ products.json│───▶│ API Routes   │───▶│ Redux Store │───▶│  Components  │───▶│   UI      │
+│ (Static Data)│    │ (Next.js)    │    │ (RTK Slices)│    │  (React)     │    │ (Browser) │
+└─────────────┘    └──────────────┘    └─────────────┘    └──────────────┘    └───────────┘
+```
 
-### Professional Buyer
+### State Management
 
-- All individual buyer features
-- Business information management
-- Enhanced purchasing capabilities
+The application uses Redux Toolkit with 6 slices:
 
-### Seller
+| Slice | Responsibility |
+|---|---|
+| `userRole` | Manages buyer/seller role switching |
+| `products` | Product listing, filtering, sorting, and detail views |
+| `overview` | Buyer dashboard stats, inspired bids, live auctions, activity |
+| `myBids` | Active, won, and lost bid tracking with pagination |
+| `purchases` | Purchase status tracking (to-pay, to-ship, in-transit, completed) |
+| `listings` | Seller listing management with tab-based filtering |
 
-- Create and manage auction lots
-- Upload product images and details
-- Set pricing and auction parameters
-- Monitor active auctions and bids
-- Business verification and tax information
+### Component Architecture
 
-## 🔧 Core Functionality
+Components follow a modular pattern where each page has its own folder:
 
-### Authentication Flow
+- **Route Page** — Thin wrapper that imports a content component
+- **Content Component** — Handles layout and data fetching
+- **Feature Components** — Reusable UI sections (cards, lists, forms)
 
-Multi-step registration process including:
+### Role-Based Rendering
 
-- Email verification
-- Account type selection
-- Personal information
-- Address details
-- Business information (for sellers)
-- Government ID verification
-- Tax information
-- Document upload
+The root page (`/`) checks the Redux `userRole` state and renders either the buyer home or seller home. Users can switch roles via the navbar, which dynamically updates navigation links and available routes.
 
-### Lot Creation
+### API Layer
 
-Sellers can create auction lots through a guided process:
+All 6 API routes are server-side endpoints that read from `products.json` and transform data in-memory. They simulate a real backend with filtering, pagination, and sorting capabilities.
 
-1. **Lot Details**: Product information and description
-2. **Image Upload**: Multiple product images
-3. **Pricing & Auction Type**: Set starting bid, reserve, and auction format
-4. **Review & Publish**: Final review before going live
+## API Routes
 
-### Bidding System
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/products` | Paginated product listing with filters |
+| GET | `/api/products/[id]` | Single product detail with related items |
+| GET | `/api/overview` | Buyer dashboard data |
+| GET | `/api/my-bids` | Bid history by tab (active/won/lost) |
+| GET | `/api/purchases` | Purchase history by status |
+| GET | `/api/listings` | Seller listings by tab (timed/live/sold/draft) |
 
-- Real-time bid updates
-- Bid sheet with participant information
-- Automatic bid validation
-- Bid history tracking
-- Winner notification
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
+## Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
 
 ---
 
-**Built with ❤️ by the Gavellia Team**
+**Built with care by the Gavellia Team**
 
 For questions or support, please [open an issue](https://github.com/rahul3507/Gavellia_Client/issues).
