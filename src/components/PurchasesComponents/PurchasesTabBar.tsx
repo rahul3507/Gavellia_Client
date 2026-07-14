@@ -21,7 +21,7 @@ const tabs: { label: string; value: PurchaseTab }[] = [
   { label: "COMPLETED", value: "completed" },
 ];
 
-const PurchasesTabBar = ({ activeTab, onTabChange, tabCounts }: PurchasesTabBarProps) => {
+const PurchasesTabBar = ({ activeTab, onTabChange, tabCounts: _tabCounts }: PurchasesTabBarProps) => {
   return (
     <div className="flex gap-0 border border-gray-200 rounded-md overflow-hidden w-fit flex-wrap">
       {tabs.map((tab) => (

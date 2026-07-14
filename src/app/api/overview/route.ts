@@ -9,7 +9,6 @@ export async function GET() {
   const upcomingProducts = allProducts.filter((p) => p.action === "upcoming");
   const timedProducts = allProducts.filter((p) => p.action === "timed");
 
-  const totalBids = allProducts.reduce((sum, p) => sum + p.bids, 0);
   const totalSpent = allProducts
     .filter((p) => p.action === "timed")
     .reduce((sum, p) => sum + p.highestBid, 0);

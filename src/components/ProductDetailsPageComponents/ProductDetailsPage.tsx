@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, use } from "react";
+import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { fetchProductById } from "@/redux/feature/productsSlice";
 import ProductImageCarousel from "./ProductImageCarousel";
@@ -45,12 +46,12 @@ const ProductDetailsPage: React.FC<ProductDetailsProps> = ({ params }) => {
           <p className="text-gray-500 text-sm max-w-md">
             The product you are looking for does not exist or has been removed.
           </p>
-          <a
+          <Link
             href="/products"
             className="inline-block bg-primary text-white px-6 py-2 rounded-none text-sm hover:bg-primary/90 transition-colors"
           >
             BROWSE PRODUCTS
-          </a>
+          </Link>
         </div>
       </div>
     );
